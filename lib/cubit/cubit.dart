@@ -3,7 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:med_manage_app/cubit/states.dart';
+import 'package:med_manage_app/helper/dio_helper.dart';
 
+import '../models/department/department_home_model.dart';
 import '../modules/department/department_screen.dart';
 import '../modules/patients/patients_screen.dart';
 import '../modules/settings/settings_screen.dart';
@@ -22,7 +24,7 @@ class MedManageCubit extends Cubit<MedManageStates>
    SettingsScreen()
  ];
 
-  List <BottomNavigationBarItem> items = const
+  List <BottomNavigationBarItem> items =
   [
     BottomNavigationBarItem(
       icon: Icon(Icons.home,
@@ -48,6 +50,26 @@ class MedManageCubit extends Cubit<MedManageStates>
 
  }
 
+  late DepartmentHomeModel depHomeModel;
+ void getHomeDepData()
+ {
+   emit(MedManageLoadHomeDepDataState());
+   DioHelper.getData(
+       url: 'http://192.168.1.7:8000/api/indexDepartment',
+   ).then((value)
+   {
+     emit(MedManageSuccessHomeDepDataState());
+     depHomeModel= DepartmentHomeModel.fromJson(value.data);
+     print(depHomeModel.message);
+     print(depHomeModel.toString());
+
+   }).catchError((error)
+   {
+     emit(MedManageErrorHomeDepDataState());
+     print('err : ${error.toString()}');
+   });
+
+ }
 
 
 /*

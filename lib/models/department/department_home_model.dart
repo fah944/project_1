@@ -29,11 +29,11 @@ class DepHomeModelData
 
 class DepartmentModel
 {
-  int? id;
-  String? name;
-  String? image;
-  String? createdAt;
-  String? updatedAt;
+  late int id;
+  late String name;
+  late String image;
+  late String createdAt;
+  late String updatedAt;
 
   DepartmentModel.fromJson(Map<String,dynamic> json)
   {

@@ -4,7 +4,7 @@ class DioHelper
   static late Dio dio;
   static init()
   {
-    dio =Dio(
+    dio = Dio(
       BaseOptions(
         baseUrl: 'http://192.168.1.7:8000/api/',
         receiveDataWhenStatusError: true,

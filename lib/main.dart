@@ -4,6 +4,7 @@ import 'package:med_manage_app/styles/themes/themes.dart';
 
 import 'cubit/bloc_ob_server.dart';
 import 'cubit/cubit.dart';
+import 'helper/dio_helper.dart';
 import 'layout/med_manage_layout.dart';
 
 
@@ -11,6 +12,8 @@ import 'layout/med_manage_layout.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = MyBlocObserver();
+  DioHelper.init();
+
   runApp(const MedManageApp());
 }
 
@@ -22,7 +25,7 @@ class MedManageApp extends StatelessWidget {
     return MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (BuildContext context) => MedManageCubit(),
+            create: (BuildContext context) => MedManageCubit()..getHomeDepData(),
           ),
         ],
         child:  MaterialApp(
