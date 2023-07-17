@@ -17,15 +17,13 @@ class MedManageLayout extends StatelessWidget {
 
           return Scaffold(
             appBar: AppBar(
-              title: Text(
+              title: const Text(
                 'MedManage',
               ),
             ),
             body: cubit.bottomScreens[cubit.currentIndex],
             floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
             floatingActionButton: FloatingActionButton (
-
-
               onPressed: ()
               {
 
@@ -44,8 +42,6 @@ class MedManageLayout extends StatelessWidget {
                 cubit.changeBottom(index);
               },
               items:cubit.items,
-
-              
             ) ,
           );
         },
