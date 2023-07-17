@@ -29,12 +29,14 @@ class DepartmentData
 {
 int? id;
 String? name;
+String? image;
 String? createdAt;
 String ?updatedAt;
 
 DepartmentData({
 this.id,
 this.name,
+this.image,
 this.createdAt,
 this.updatedAt,
 });
@@ -44,6 +46,7 @@ DepartmentData.fromJson(Map <String,dynamic> json)
 {
 id = json['id'];
 name = json['name'];
+image = json['img'];
 createdAt = json['created_at'];
 updatedAt = json['updated_at'];
 }

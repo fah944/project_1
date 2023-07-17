@@ -18,12 +18,14 @@ class ItemOfDepartment
 {
   int? id;
   String? name;
+  String? image;
   String? created_at;
   String ?updated_at;
 
   ItemOfDepartment({
     this.id,
     this.name,
+    this.image,
     this.created_at,
     this.updated_at,
   });
@@ -33,6 +35,7 @@ class ItemOfDepartment
   {
     id = json['id'];
     name = json['name'];
+    image =json['img'];
     created_at = json['created_at'];
     updated_at = json['updated_at'];
   }
