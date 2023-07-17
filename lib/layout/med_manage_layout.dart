@@ -17,7 +17,7 @@ class MedManageLayout extends StatelessWidget {
 
           return Scaffold(
             appBar: AppBar(
-              title:const Text(
+              title: Text(
                 'MedManage',
               ),
             ),

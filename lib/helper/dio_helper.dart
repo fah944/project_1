@@ -15,7 +15,7 @@ class DioHelper
 
   static Future<Response> getData({
     required String url,
-    required Map<String,dynamic>? query,
+    Map<String,dynamic>? query,
     String? token ,
   }) async
   {
@@ -31,7 +31,7 @@ class DioHelper
 
   static Future<Response> postData({
     required String url,
-    required Map<String,dynamic>? data,
+    Map<String,dynamic>? data,
     Map<String,dynamic>? query,
     String? token ,
   }) async

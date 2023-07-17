@@ -1,4 +1,5 @@
-/*"success": true,
+/*
+"success": true,
 "message": "Department updated successfully.",
 "Department": {
 "id": 3,
@@ -22,22 +23,20 @@ Department = (json['Department'] != null ? DepartmentData.fromJson(json['Departm
 
 }
 
-
-
 }
 
 class DepartmentData
 {
 int? id;
 String? name;
-String? created_at;
-String ?updated_at;
+String? createdAt;
+String ?updatedAt;
 
 DepartmentData({
 this.id,
 this.name,
-this.created_at,
-this.updated_at,
+this.createdAt,
+this.updatedAt,
 });
 
 //named
@@ -45,7 +44,7 @@ DepartmentData.fromJson(Map <String,dynamic> json)
 {
 id = json['id'];
 name = json['name'];
-created_at = json['created_at'];
-updated_at = json['updated_at'];
+createdAt = json['created_at'];
+updatedAt = json['updated_at'];
 }
 }
