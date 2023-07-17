@@ -66,7 +66,7 @@ class MedManageCubit extends Cubit<MedManageStates>
    }).catchError((error)
    {
      emit(MedManageErrorHomeDepDataState());
-     print('err : ${error.toString()}');
+     print('err: ${error.toString()}');
    });
 
  }
