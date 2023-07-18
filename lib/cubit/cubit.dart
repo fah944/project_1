@@ -50,18 +50,20 @@ class MedManageCubit extends Cubit<MedManageStates>
 
  }
 
-  late DepartmentHomeModel depHomeModel;
+  late DepartmentHomeModel model;
  void getHomeDepData()
  {
    emit(MedManageLoadHomeDepDataState());
    DioHelper.getData(
-       url: 'http://192.168.1.7:8000/api/indexDepartment',
+       url: 'http://192.168.43.154:8000/api/indexDepartment',
    ).then((value)
    {
      emit(MedManageSuccessHomeDepDataState());
-     depHomeModel= DepartmentHomeModel.fromJson(value.data);
-     print(depHomeModel.message);
-     print(depHomeModel.toString());
+     model= DepartmentHomeModel.fromJson(value.data);
+
+     print(model.message);
+     print(model.token);
+     print(model.toString());
 
    }).catchError((error)
    {
