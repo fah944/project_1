@@ -109,9 +109,6 @@ Widget buildGridDepartment(DepartmentModel model) => Container(
                     const Spacer(),
                     IconButton(
                       onPressed: () {
-                        /*MedManageCubit.get(context).deleteDepartment(
-                        id: model.id
-                    );*/
                       },
                       icon: const Icon(
                         Icons.delete,
