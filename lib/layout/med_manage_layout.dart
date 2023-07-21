@@ -14,7 +14,6 @@ class MedManageLayout extends StatelessWidget {
         builder: (context, state) {
 
           var cubit = MedManageCubit.get(context);
-
           return Scaffold(
             appBar: AppBar(
               title: const Text(
