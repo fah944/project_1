@@ -12,8 +12,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = MyBlocObserver();
   DioHelper.init();
+  DioHelperG.init();
 
- // await CacheHelper.init();
+  // await CacheHelper.init();
  //token = CacheHelper.getData(key :'token');
   runApp(const MedManageApp());
 }
@@ -26,7 +27,7 @@ class MedManageApp extends StatelessWidget {
     return MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (BuildContext context) => MedManageCubit()..getHomeDepData(),
+            create: (BuildContext context) => MedManageCubit()..getHomeDepData()..indexSecretariaList()..indexPatientsList(),
           ),
         ],
         child:MaterialApp(
@@ -37,6 +38,8 @@ class MedManageApp extends StatelessWidget {
           darkTheme:darkTheme,//dark
 
           //themeMode: MedManageCubit.get(context).isDark? ThemeMode.dark : ThemeMode.light, //change between dark & light
+
+          themeMode: ThemeMode.light,
 
           home: const MedManageLayout(),
         ));

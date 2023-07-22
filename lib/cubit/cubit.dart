@@ -1,16 +1,26 @@
-
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:med_manage_app/cubit/states.dart';
 import 'package:med_manage_app/helper/dio_helper.dart';
 import 'package:med_manage_app/models/department/add_department_model.dart';
+
+import '../constant.dart';
 import '../helper/end_points.dart';
 import '../models/department/delete_department_model.dart';
 import '../models/department/index_department_model.dart';
 import '../models/department/update_department_model.dart';
+import '../models/patient/delete_patient_model.dart';
+import '../models/patient/index_patient_model.dart';
+import '../models/patient/view_patient_model.dart';
+import '../models/secretaria/delete_secretaria_model.dart';
+import '../models/secretaria/index_secretaria_model.dart';
+import '../models/secretaria/register_secretaria_model.dart';
+import '../models/secretaria/update_secretaria_model.dart';
+import '../models/secretaria/view_secretaria_model.dart';
 import '../modules/department/department_screen.dart';
 import '../modules/patients/patients_screen.dart';
+import '../modules/secretaria/secretaria_screen.dart';
 import '../modules/settings/settings_screen.dart';
 
 class MedManageCubit extends Cubit<MedManageStates>
@@ -162,6 +172,219 @@ class MedManageCubit extends Cubit<MedManageStates>
   }
 
 
+  //Secritary AND Patient*********************************************************************************************************************
+
+  late IndexSecretariaModel indexSecretariaModel;
+
+  void indexSecretariaList()
+  {
+    emit(MedManageLoadingSecretariaListState());
+    DioHelperG.getDataG(
+        url: 'indexSecretary',
+        query: null,
+        token: tokenG
+    ).then((value) {
+      indexSecretariaModel = IndexSecretariaModel.fromJson(value.data);
+      print(value.toString());
+      print(indexSecretariaModel.message);
+      print(indexSecretariaModel.secretary[0].user.firstName);
+      emit(MedManageSuccssesSecretariaListState());
+    }).catchError((error){
+      print(error.toString());
+      emit(MedManageErrorSecretariaListState());
+    });
+  }
+
+  late DeleteSecretariaModel deleteSecretariaModel;
+
+  void deleteSecretaria({
+    required int user_id,
+  })
+  {
+    emit(MedManageLoadingSecretariaProfDeleteState());
+    DioHelperG.postDataG(
+      url: 'deleteSecretary',
+      data: {
+        'user_id': user_id,
+      },
+      token: tokenG,
+    ).then((value) {
+      deleteSecretariaModel = DeleteSecretariaModel.fromJson(value.data);
+      print(value.data);
+      print(deleteSecretariaModel.success);
+      print(deleteSecretariaModel.message);
+      emit(MedManageSuccssesSecretariaProfDeleteState());
+      indexSecretariaList();
+    }).catchError((error) {
+      print(error.toString());
+      emit(MedManageErrorSecretariaProfDeleteState());
+    });
+  }
+
+  late ViewSecretariaModel viewSecretariaModel;
+
+  void viewSecretaria({
+    required int user_id,
+  })
+  {
+    emit(MedManageLoadingSecretariaProfState());
+    DioHelperG.postDataG(
+        url: 'viewSecretary',
+        data: {
+          'user_id': user_id,
+        },
+        token: tokenG
+    ).then((value) {
+      print(value.data);
+      viewSecretariaModel = ViewSecretariaModel.fromJson(value.data);
+      print(viewSecretariaModel.secretary?.department_id);
+      print(viewSecretariaModel.secretary?.user.first_name);
+      emit(MedManageSuccssesSecretariaProfState());
+    }).catchError((error) {
+      print(error.toString());
+      emit(MedManageErrorSecretariaProfState());
+    });
+  }
+
+  late UpdateSecretariaModel updateSecretariaModel;
+
+  void updateSecretaria({
+    required String? first_name,
+    required String? last_name,
+    required int? department_id,
+    required String? phone_num,
+    required int user_id,
+  })
+  {
+    emit(MedManageLoadingSecretariaProfState());
+    DioHelperG.postDataG(
+        url: 'updateSecretary',
+        data: {
+          'first_name': first_name,
+          'last_name': last_name,
+          'department_id': department_id,
+          'phone_num': phone_num,
+          'user_id': user_id,
+        },
+        token: tokenG
+    ).then((value) {
+      print(value.data);
+      print(value.data['message']);
+      updateSecretariaModel = UpdateSecretariaModel.fromJson(value.data);
+      print(updateSecretariaModel.success);
+      emit(MedManageSuccssesSecretariaProfEditState());
+    }).catchError((error) {
+      print(error.toString());
+      emit(MedManageErrorSecretariaProfEditState());
+    });
+  }
+
+  late RegisterSecretariaModel registerSecretariaModel;
+
+  void registerSecretaria({
+    required String first_name,
+    required String last_name,
+    required String phone_num,
+    required String email,
+    required String password,
+    required int department_id,
+  })
+  {
+    emit(MedManageLoadingSecretariaRegisterState());
+    DioHelperG.postDataG(
+        url: 'registerSecretary',
+        data: {
+          'first_name': first_name,
+          'last_name': last_name,
+          'phone_num': phone_num,
+          'email': email,
+          'password': password,
+          'department_id': department_id,
+        },
+        token: tokenG
+    ).then((value) {
+      print(value.data);
+      registerSecretariaModel = RegisterSecretariaModel.fromJson(value.data);
+      print(value.toString());
+      print(registerSecretariaModel.token);
+      print(registerSecretariaModel.role);
+      emit(MedManageSuccssesSecretariaRegisterState());
+    }).catchError((error) {
+      print(error.toString());
+      emit(MedManageErrorSecretariaRegisterState());
+    });
+  }
+
+  late IndexPatientModel indexPatientModel;
+
+  void indexPatientsList()
+  {
+    emit(MedManageLoadingPatientsListState());
+    DioHelperG.getDataG(
+        url: 'indexPatient',
+        query: null,
+        token: tokenG
+    ).then((value) {
+      indexPatientModel = IndexPatientModel.fromJson(value.data);
+      print(value.toString());
+      print(indexPatientModel!.patient[0].user.firstName);
+      emit(MedManageSuccssesPatientsListState());
+    }).catchError((error){
+      print(error.toString());
+      emit(MedManageErrorPatientsListState());
+    });
+  }
+
+  late DeletePatientModel deletePatientModel;
+
+  void deletePatient({
+    required int user_id,
+  })
+  {
+    emit(MedManageLoadingPatientsDeleteState());
+    DioHelperG.postDataG(
+      url: 'deletePatient',
+      data: {
+        'user_id': user_id,
+      },
+      token: tokenG,
+    ).then((value) {
+      deletePatientModel = DeletePatientModel.fromJson(value.data);
+      print(value.data);
+      print(deletePatientModel.success);
+      print(deletePatientModel.message);
+      emit(MedManageSuccssesPatientsDeleteState());
+      indexPatientsList();
+    }).catchError((error) {
+      print(error.toString());
+      emit(MedManageErrorPatientsDeleteState());
+    });
+  }
+
+  late ViewPatientModel viewPatientModel;
+
+  void viewPatient({
+    required int user_id,
+  })
+  {
+    emit(MedManageLoadingPatientsProfState());
+    DioHelperG.postDataG(
+        url: 'viewPatient',
+        data: {
+          'user_id': user_id,
+        },
+        token: tokenG
+    ).then((value) {
+      print(value.data);
+      viewPatientModel = ViewPatientModel.fromJson(value.data);
+      print(viewPatientModel.message);
+      print(viewPatientModel.patient.user.firstName);
+      emit(MedManageSuccssesPatientsProfState());
+    }).catchError((error) {
+      print(error.toString());
+      emit(MedManageErrorPatientsProfState());
+    });
+  }
 
 /*
   bool isDark = false;
