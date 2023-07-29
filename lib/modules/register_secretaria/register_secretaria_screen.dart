@@ -13,6 +13,12 @@ import '../../widgets/register_text_field.dart';
 class RegisterSecretaria extends StatelessWidget {
 
   var formKey = GlobalKey<FormState>();
+  var firstName = TextEditingController();
+  var lastName = TextEditingController();
+  var phoneNum = TextEditingController();
+  var email = TextEditingController();
+  var pass = TextEditingController();
+  var department = TextEditingController();
 
   RegisterSecretaria({Key? key}) : super(key: key);
 
@@ -23,19 +29,14 @@ class RegisterSecretaria extends StatelessWidget {
 
       },
       builder: (context, state) {
-        var firstName = TextEditingController();
-        var lastName = TextEditingController();
-        var phoneNum = TextEditingController();
-        var email = TextEditingController();
-        var pass = TextEditingController();
-        var deoartment = TextEditingController();
+
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(),
           body: ConditionalBuilder(
               condition: state is! MedManageLoadingSecretariaRegisterState,
               builder: (context) => Padding(
-                padding: EdgeInsetsDirectional.all(10.0),
+                padding: const EdgeInsetsDirectional.all(10.0),
                 child: SingleChildScrollView(
                   child: Form(
                     key: formKey,
@@ -93,10 +94,15 @@ class RegisterSecretaria extends StatelessWidget {
                           controller: pass,
                           keyboardType: TextInputType.visiblePassword,
                           validator: (value) {
-                            if (value!.length < 6 ?? true) {
+                            if (value!.length < 6) {
                               return 'the password must be at least 6 characters';
                             }
                             return null;
+                          },
+                          obscureText: MedManageCubit.get(context).isPassShow,
+                          suffixIcon: MedManageCubit.get(context).suffixIcon,
+                          onPressed: (){
+                            MedManageCubit.get(context).changePassVisibility();
                           },
                         ),
                         SizedBox(
@@ -105,8 +111,8 @@ class RegisterSecretaria extends StatelessWidget {
                         RegisterTextField(
                           lableText: 'Department',
                           icon: Icons.business_rounded,
-                          controller: deoartment,
-                          keyboardType: TextInputType.number,
+                          controller: department,
+                          keyboardType: TextInputType.text,
                         ),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * .05,
@@ -121,7 +127,7 @@ class RegisterSecretaria extends StatelessWidget {
                                 phone_num: phoneNum.text,
                                 email: email.text,
                                 password: pass.text,
-                                department_id: 1,
+                                department_name: department.text,
                               );
                               MedManageCubit.get(context).indexSecretariaList();
                               navigateAndReplacement(context, const MedManageLayout());
@@ -134,7 +140,11 @@ class RegisterSecretaria extends StatelessWidget {
                 ),
               ),
               fallback: (context) =>
-              const Center(child: CircularProgressIndicator(),)
+              Column(
+                 children: [
+                  const Center(child: CircularProgressIndicator()),
+                ],
+              )
           ),
         );
       },

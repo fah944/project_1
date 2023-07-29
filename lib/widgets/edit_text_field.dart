@@ -7,6 +7,9 @@ class EditTextField extends StatelessWidget {
   //final String initialValue;
   final String? Function(String?)? validator;
   final TextInputType? keyboardType;
+  final IconData? suffixIcon;
+  final bool? obscureText;
+  final Function? onPressed;
 
   const EditTextField({
     super.key,
@@ -15,6 +18,9 @@ class EditTextField extends StatelessWidget {
     //required this.initialValue,
     this.validator,
     required this.keyboardType,
+    this.suffixIcon,
+    this.obscureText,
+    this.onPressed,
   });
 
   @override
@@ -54,7 +60,9 @@ class EditTextField extends StatelessWidget {
           floatingLabelStyle: TextStyle(
             color: Colors.grey[400],
           ),
+          suffixIcon: suffixIcon != null ? IconButton(onPressed: (){ onPressed!();}, icon: Icon(suffixIcon, color: defaultColor,)) : null,
         ),
+        obscureText: obscureText ?? false,
         //initialValue: initialValue,
         style: const TextStyle(
           color: color5,

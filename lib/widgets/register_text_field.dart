@@ -10,6 +10,9 @@ class RegisterTextField extends StatelessWidget {
   final String lableText;
   final TextInputType keyboardType;
   final String? Function(String?)? validator;
+  final IconData? suffixIcon;
+  final bool? obscureText;
+  final Function? onPressed;
 
   const RegisterTextField({
     super.key,
@@ -18,6 +21,9 @@ class RegisterTextField extends StatelessWidget {
     required this.lableText,
     required this.keyboardType,
     this.validator,
+    this.suffixIcon,
+    this.obscureText,
+    this.onPressed,
   });
 
   @override
@@ -34,6 +40,11 @@ class RegisterTextField extends StatelessWidget {
             controller: controller,
             keyboardType: keyboardType,
             validator: validator,
+            suffixIcon: suffixIcon,
+            obscureText: obscureText != null ? obscureText! : false,
+            onPressed: (){
+              onPressed!();
+            },
           ),
         ),
       ],

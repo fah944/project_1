@@ -10,7 +10,7 @@ class EditSecretariaProfScreen extends StatelessWidget {
 
   final int? index;
 
-  EditSecretariaProfScreen({
+  const EditSecretariaProfScreen({
     super.key,
     this.index,
   });
@@ -22,20 +22,33 @@ class EditSecretariaProfScreen extends StatelessWidget {
 
       },
       builder: (context, state) {
-        return ConditionalBuilder(
-          condition: state is! MedManageLoadingSecretariaProfEditState,
-          builder: (context) => EditSecretariaProfItem(
-            model: MedManageCubit.get(context).viewSecretariaModel,
-            modelIn: MedManageCubit.get(context).indexSecretariaModel,
-            index: index,
-          ),
-          fallback: (context) => Container(
-            color: Colors.white,
-            child: const Center(
-              child: CircularProgressIndicator(),
+        if(state is MedManageErrorSecretariaProfEditState)
+        {
+          return const Center(
+            child: Text(
+              'There is some thing error',
+              style: TextStyle(
+                fontWeight: FontWeight.w400,
+              ),
             ),
-          ),
-        );
+          );
+        }else
+        {
+          return ConditionalBuilder(
+            condition: state is! MedManageLoadingSecretariaProfEditState,
+            builder: (context) => EditSecretariaProfItem(
+              model: MedManageCubit.get(context).viewSecretariaModel,
+              modelIn: MedManageCubit.get(context).indexSecretariaModel,
+              index: index,
+            ),
+            fallback: (context) => Container(
+              color: Colors.white,
+              child: const Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          );
+        }
       },
     );
   }

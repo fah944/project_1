@@ -30,7 +30,7 @@ class EditSecretariaProfItem extends StatelessWidget {
     var firstName = TextEditingController(text: model.secretary!.user.first_name);
     var lastName = TextEditingController(text: model.secretary!.user.last_name);
     var phoneNum = TextEditingController(text: model.secretary!.user.phone_num);
-    var dep = TextEditingController(text: '1');
+    var dep = TextEditingController(text: 'bone');
     return BlocConsumer<MedManageCubit,MedManageStates>(
       listener: (context, state)
       {
@@ -55,7 +55,7 @@ class EditSecretariaProfItem extends StatelessWidget {
                 ),
               ),
               onPressed: (){
-                navigateAndReplacement(context, SecretariaProfile());
+                navigateAndReplacement(context, const SecretariaProfile());
               },
             ),
             actions: [
@@ -70,16 +70,15 @@ class EditSecretariaProfItem extends StatelessWidget {
                 ),
                 onPressed: (){
                   if(formKey.currentState!.validate()){
-                    print('validate succsses');
                     MedManageCubit.get(context).updateSecretaria(
                       first_name: firstName.text,
                       last_name: lastName.text,
-                      department_id: int.parse(dep.text),
+                      department_name: dep.text,
                       phone_num: phoneNum.text,
-                      user_id: modelIn!.secretary[index!].userId,
+                      user_id: modelIn!.secretary.isEmpty ? 0 : modelIn!.secretary[index!].userId,
                     );
                     MedManageCubit.get(context).viewSecretaria(
-                      user_id: modelIn!.secretary[index!].userId,);
+                      user_id: modelIn!.secretary.isEmpty ? 0 : modelIn!.secretary[index!].userId,);
                     navigateAndReplacement(context, SecretariaProfile(index: index,));
                   }
                 },
@@ -136,7 +135,7 @@ class EditSecretariaProfItem extends StatelessWidget {
                     EditTextField(
                       lableText: 'Department',
                       //initialValue: 'Dental',
-                      keyboardType: TextInputType.number,
+                      keyboardType: TextInputType.text,
                       controller: dep,
                     ),
                   ],

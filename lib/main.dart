@@ -27,7 +27,7 @@ class MedManageApp extends StatelessWidget {
     return MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (BuildContext context) => MedManageCubit()..getHomeDepData()..indexSecretariaList()..indexPatientsList(),
+            create: (BuildContext context) => MedManageCubit()..getHomeDepData(),
           ),
         ],
         child:MaterialApp(

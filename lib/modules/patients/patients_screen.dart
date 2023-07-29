@@ -15,9 +15,25 @@ class PatientsScreen extends StatelessWidget {
 
       },
       builder: (context, state) {
-        return Scaffold(
-          body: PatientsListViewItem(context,profImage: 'assets/images/default_photo.jpg', model: MedManageCubit.get(context).indexPatientModel,),
-        );
+        if(state is MedManageErrorPatientsListState)
+        {
+          return const Center(
+            child: Text(
+              'There is some thing error',
+              style: TextStyle(
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          );
+        }if(state is MedManageLoadingPatientsListState)
+        {
+          return const Center(child: CircularProgressIndicator());
+        }else
+        {
+          return Scaffold(
+            body: PatientsListViewItem(context,profImage: 'assets/images/default_photo.jpg', model: MedManageCubit.get(context).indexPatientModel,),
+          );
+        }
       },
     );
   }

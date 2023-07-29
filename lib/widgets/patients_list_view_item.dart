@@ -122,7 +122,22 @@ class PatientsListViewItem extends StatelessWidget {
               separatorBuilder: (context, index) => myDivider(),
               itemCount: model.patient.length,
             )
-                : const Center(),
+                : Container(
+              width: double.infinity,
+              padding: const EdgeInsetsDirectional.all(45.0),
+              child: const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'No patient to show',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
+              ),
+            ),
             fallback: (context) => const Center(child: CircularProgressIndicator(),)
         );
       },

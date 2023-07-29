@@ -60,7 +60,9 @@ class SecretariaProfile extends StatelessWidget {
                 ),
                 child: IconButton(
                   onPressed: (){
-                    navigateTo(context, EditSecretariaProfScreen(index: index,));
+                    if(state is! MedManageErrorSecretariaProfState){
+                      navigateTo(context, EditSecretariaProfScreen(index: index,));
+                    }
                   },
                   icon: const Icon(
                     Icons.edit,
@@ -71,20 +73,33 @@ class SecretariaProfile extends StatelessWidget {
               ),
             ],
           ),
-          body: Container(
-            padding: const EdgeInsetsDirectional.only(
-              start: 25.0,
-              end: 25.0,
-              top: 25.0,
-              bottom: 10.0,
-            ),
-            width: double.infinity,
-            child: ConditionalBuilder(
-                condition: state is! MedManageLoadingSecretariaProfState,
-                builder: (context) => SecretariaProfileItem(model: MedManageCubit.get(context).viewSecretariaModel,),
-                fallback: (context) => const Center(child: CircularProgressIndicator(),)
-            ),
-          ),
+          body: ConditionalBuilder(
+              condition: state is! MedManageLoadingSecretariaProfState,
+              builder: (context) {
+                return state is MedManageErrorSecretariaProfState ? const Center(
+                  child: Text(
+                    'There is some thing error',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                )
+                    : Container(
+                  padding: const EdgeInsetsDirectional.only(
+                    start: 25.0,
+                    end: 25.0,
+                    top: 25.0,
+                    bottom: 10.0,
+                  ),
+                  width: double.infinity,
+                  child: ConditionalBuilder(
+                      condition: state is! MedManageLoadingSecretariaProfState,
+                      builder: (context) => SecretariaProfileItem(model: MedManageCubit.get(context).viewSecretariaModel,),
+                      fallback: (context) => const Center(child: CircularProgressIndicator(),)
+                  ),
+                );
+              },
+              fallback: (context) => const Center(child: CircularProgressIndicator()),),
         );
       },
     );

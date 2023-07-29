@@ -33,7 +33,8 @@ class MedManageCubit extends Cubit<MedManageStates>
  List<Widget> bottomScreens =
  [
    DepartmentScreen(),
-   PatientsScreen(),
+   const PatientsScreen(),
+   const SecretariaScreen(),
    SettingsScreen()
  ];
 
@@ -44,10 +45,15 @@ class MedManageCubit extends Cubit<MedManageStates>
       size: 25.0,),
       label: 'Home',
     ),
-    BottomNavigationBarItem(
+    const BottomNavigationBarItem(
       icon: Icon(Icons.person,
       size: 25.0,),
       label: 'Patients',
+    ),
+    const BottomNavigationBarItem(
+      icon: Icon(Icons.manage_accounts,
+        size: 25.0,),
+      label: 'Secretary',
     ),
     BottomNavigationBarItem(
       icon: Icon(Icons.settings,
@@ -60,9 +66,24 @@ class MedManageCubit extends Cubit<MedManageStates>
  {
    currentIndex = index;
    emit(MedManageChangeBottomNavState());
-
+   if(index == 1)
+   {
+     indexPatientsList();
+   }
+   if(index == 2)
+   {
+     indexSecretariaList();
+   }
  }
 
+ IconData suffixIcon = Icons.visibility;
+ bool isPassShow = false;
+
+ void changePassVisibility(){
+   isPassShow = !isPassShow;
+   suffixIcon = isPassShow ? Icons.visibility_off : Icons.visibility;
+   emit(MedManageChangePassVisibilityState());
+ }
 
 
   late DepartmentHomeModel departmentHomeModel;
@@ -251,7 +272,7 @@ class MedManageCubit extends Cubit<MedManageStates>
   void updateSecretaria({
     required String? first_name,
     required String? last_name,
-    required int? department_id,
+    required String? department_name,
     required String? phone_num,
     required int user_id,
   })
@@ -262,7 +283,7 @@ class MedManageCubit extends Cubit<MedManageStates>
         data: {
           'first_name': first_name,
           'last_name': last_name,
-          'department_id': department_id,
+          'department_name': department_name,
           'phone_num': phone_num,
           'user_id': user_id,
         },
@@ -287,7 +308,7 @@ class MedManageCubit extends Cubit<MedManageStates>
     required String phone_num,
     required String email,
     required String password,
-    required int department_id,
+    required String department_name,
   })
   {
     emit(MedManageLoadingSecretariaRegisterState());
@@ -299,7 +320,7 @@ class MedManageCubit extends Cubit<MedManageStates>
           'phone_num': phone_num,
           'email': email,
           'password': password,
-          'department_id': department_id,
+          'department_name': department_name,
         },
         token: tokenG
     ).then((value) {
@@ -327,7 +348,7 @@ class MedManageCubit extends Cubit<MedManageStates>
     ).then((value) {
       indexPatientModel = IndexPatientModel.fromJson(value.data);
       print(value.toString());
-      print(indexPatientModel!.patient[0].user.firstName);
+      print(indexPatientModel.patient[0].user.firstName);
       emit(MedManageSuccssesPatientsListState());
     }).catchError((error){
       print(error.toString());

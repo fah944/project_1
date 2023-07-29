@@ -4,7 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../cubit/cubit.dart';
 import '../../cubit/states.dart';
 import '../../styles/colors/colors.dart';
+import '../../widgets/component.dart';
 import '../../widgets/secretaria_list_view_item.dart';
+import '../register_secretaria/register_secretaria_screen.dart';
 
 class SecretariaScreen extends StatelessWidget {
   const SecretariaScreen({Key? key}) : super(key: key);
@@ -16,31 +18,47 @@ class SecretariaScreen extends StatelessWidget {
 
       },
       builder: (context, state) {
-        return Scaffold(
-          appBar: AppBar(
-            elevation: 1.0,
-            backgroundColor: Colors.white,
-            leading: IconButton(
-              icon: const Icon(
-                Icons.arrow_back_ios_new,
-                color: color5,
-              ),
-              onPressed: (){
-                //navigateAndReplacement(context, const MedManageLayout());
+        if(state is MedManageErrorSecretariaListState)
+        {
+          return Scaffold(
+            floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+            floatingActionButton: FloatingActionButton (
+              onPressed: ()
+              {
+                navigateAndReplacement(context, RegisterSecretaria());
               },
+              child:const Icon(
+                Icons.add,
+                color: defaultColor,),
             ),
-            title: const Text(
-              'Secretary',
-              style: TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.w500,
-                color: defaultColor,
-                letterSpacing: .3,
+            body: const Center(
+              child: Text(
+                'There is some thing error',
+                style: TextStyle(
+                  fontWeight: FontWeight.w400,
+                ),
               ),
             ),
-          ),
-          body: SecretariaListViewItem(context,profImage: 'assets/images/default_photo.jpg', model: MedManageCubit.get(context).indexSecretariaModel,),
-        );
+          );
+        }if(state is MedManageLoadingSecretariaListState)
+        {
+          return const Center(child: CircularProgressIndicator());
+        }else
+        {
+          return Scaffold(
+            floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+            floatingActionButton: FloatingActionButton (
+              onPressed: ()
+              {
+                navigateAndReplacement(context, RegisterSecretaria());
+              },
+              child:const Icon(
+                Icons.add,
+                color: defaultColor,),
+            ),
+            body: SecretariaListViewItem(context,profImage: 'assets/images/default_photo.jpg', model: MedManageCubit.get(context).indexSecretariaModel,),
+          );
+        }
       },
     );
   }

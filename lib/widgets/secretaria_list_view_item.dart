@@ -34,127 +34,109 @@ class SecretariaListViewItem extends StatelessWidget {
         return ConditionalBuilder(
           condition: state is! MedManageLoadingSecretariaListState,
           builder: (context) => model.secretary.isNotEmpty ?
-            ListView.separated(
-              itemBuilder: (context, index) =>
-                GestureDetector(
-                  onTap: () {
-                    MedManageCubit.get(context).viewSecretaria(
-                      user_id: model.secretary[index].userId,
-                    );
-                    navigateTo(context, SecretariaProfile(index: index,),);
-                  },
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * .14,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadiusDirectional.all(Radius.circular(10.0)),),
-                    child: Padding(
-                      padding: const EdgeInsetsDirectional.only(
-                        top: 15.0,
-                        end: 8.0,
-                        bottom: 15.0,
-                      ),
-                      child: Row(
-                        children: [
-                          CustomeImage(
-                            image: 'assets/images/undraw_Male_avatar_g98d (1).png',
-                            width: MediaQuery.of(context).size.height * .13,
-                            height: MediaQuery.of(context).size.height * .13,
-                            borderRadius: BorderRadius.circular(40),
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsetsDirectional.only(
-                                top: 15.0,
-                                bottom: 0.0,
-                              ),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      model.secretary[0].user.firstName,
-                                      style: const TextStyle(
-                                        color: defaultColor,
-                                        fontSize: 17.0,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
+          ListView.separated(
+            itemBuilder: (context, index) =>
+              GestureDetector(
+                onTap: () {
+                  MedManageCubit.get(context).viewSecretaria(
+                    user_id: model.secretary[index < 0 ? 0 : index].userId,
+                  );
+                  navigateTo(context, SecretariaProfile(index: index < 0 ? 0 : index,),);
+                },
+                child: Container(
+                  height: MediaQuery.of(context).size.height * .14,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadiusDirectional.all(Radius.circular(10.0)),),
+                  child: Padding(
+                    padding: const EdgeInsetsDirectional.only(
+                      top: 15.0,
+                      end: 8.0,
+                      bottom: 15.0,
+                    ),
+                    child: Row(
+                      children: [
+                        CustomeImage(
+                          image: 'assets/images/undraw_Male_avatar_g98d (1).png',
+                          width: MediaQuery.of(context).size.height * .13,
+                          height: MediaQuery.of(context).size.height * .13,
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsetsDirectional.only(
+                              top: 15.0,
+                              bottom: 0.0,
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    model.secretary[index < 0 ? 0 : index].user.firstName,
+                                    style: const TextStyle(
+                                      color: defaultColor,
+                                      fontSize: 17.0,
+                                      fontWeight: FontWeight.w500,
                                     ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                  Expanded(
-                                    child: Text(
-                                      model.secretary[0].user.phoneNum,
-                                      style: TextStyle(
-                                          color: Colors.grey[400],
-                                          fontSize: 13.0,
-                                          fontWeight: FontWeight.w400
-                                      ),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    model.secretary[index < 0 ? 0 : index].user.phoneNum,
+                                    style: TextStyle(
+                                        color: Colors.grey[400],
+                                        fontSize: 13.0,
+                                        fontWeight: FontWeight.w400
                                     ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
-                          IconButton(
-                            onPressed: () {
-                              MedManageCubit.get(context).deleteSecretaria(
-                                  user_id: model.secretary[index].userId,
-                              );
-                            },
-                            icon: const Icon(
-                              Icons.delete,
-                              color: color5,
-                              size: 35.0,
-                            ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            MedManageCubit.get(context).deleteSecretaria(
+                                user_id: model.secretary[index < 0 ? 0 : index].userId,
+                            );
+                          },
+                          icon: const Icon(
+                            Icons.delete,
+                            color: color5,
+                            size: 35.0,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-              separatorBuilder: (context, index) => myDivider(),
-              itemCount: 1,
-            )
-            : Container(
-              width: double.infinity,
-              padding: const EdgeInsetsDirectional.all(45.0),
-              child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.end,
+              ),
+            separatorBuilder: (context, index) => myDivider(),
+            itemCount: model.secretary.length,
+          )
+          : Container(
+            width: double.infinity,
+            padding: const EdgeInsetsDirectional.all(45.0),
+              child: const Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Material(
-                  color: Colors.white,
-                  elevation: 10.0,
-                  shadowColor: Colors.grey.shade100,
-                  borderRadius: BorderRadiusDirectional.all(Radius.circular(30.0)),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * .14,
-                    height: MediaQuery.of(context).size.height * .07,
-                    decoration: BoxDecoration(
-
-                    ),
-                    child: Center(
-                      child: IconButton(
-                      onPressed: () {
-                        navigateAndReplacement(context, RegisterSecretaria());
-                      },
-                      icon: Icon(
-                        Icons.add,
-                        color: defaultColor,
-                        size: 29.0,
-                      )),
-                    ),
+                Text(
+                  'No secretary to show',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w400,
                   ),
-                )
+                ),
               ],
-          ),
             ),
+          ),
           fallback: (context) => const Center(child: CircularProgressIndicator(),)
         );
       },
