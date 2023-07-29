@@ -29,7 +29,7 @@ class SecretariaProfileItem extends StatelessWidget {
         ),
         DefaultTextInfo(
           caption: 'First Name',
-          text: model!.secretary!.user.first_name,
+          text: model!.secretary!.user.firstName,
           icon: Icons.person,
         ),
         SizedBox(
@@ -37,7 +37,7 @@ class SecretariaProfileItem extends StatelessWidget {
         ),
         DefaultTextInfo(
           caption: 'Last Name',
-          text: model!.secretary!.user.last_name,
+          text: model!.secretary!.user.lastName,
           icon: Icons.person,
         ),
         SizedBox(
@@ -45,7 +45,7 @@ class SecretariaProfileItem extends StatelessWidget {
         ),
         DefaultTextInfo(
           caption: 'Phone Number',
-          text: model!.secretary!.user.phone_num,
+          text: model!.secretary!.user.phoneNum,
           icon: Icons.call,
         ),
         SizedBox(

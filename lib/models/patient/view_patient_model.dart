@@ -41,6 +41,7 @@ class PatientModel {
   late final String gender;
   late final String birthDate;
   late final int userId;
+  late final int patientWallet;
   late final String createdAt;
   late final String updatedAt;
   late final UserModel user;
@@ -52,6 +53,7 @@ class PatientModel {
     gender = json['gender'];
     birthDate = json['birth_date'];
     userId = json['user_id'];
+    patientWallet = json['patient_wallet'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     user = UserModel.fromJson(json['user']);

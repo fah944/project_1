@@ -258,8 +258,8 @@ class MedManageCubit extends Cubit<MedManageStates>
     ).then((value) {
       print(value.data);
       viewSecretariaModel = ViewSecretariaModel.fromJson(value.data);
-      print(viewSecretariaModel.secretary?.department_id);
-      print(viewSecretariaModel.secretary?.user.first_name);
+      print(viewSecretariaModel.secretary?.departmentId);
+      print(viewSecretariaModel.secretary?.user.firstName);
       emit(MedManageSuccssesSecretariaProfState());
     }).catchError((error) {
       print(error.toString());

@@ -27,9 +27,9 @@ class EditSecretariaProfItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var firstName = TextEditingController(text: model.secretary!.user.first_name);
-    var lastName = TextEditingController(text: model.secretary!.user.last_name);
-    var phoneNum = TextEditingController(text: model.secretary!.user.phone_num);
+    var firstName = TextEditingController(text: model.secretary!.user.firstName);
+    var lastName = TextEditingController(text: model.secretary!.user.lastName);
+    var phoneNum = TextEditingController(text: model.secretary!.user.phoneNum);
     var dep = TextEditingController(text: 'bone');
     return BlocConsumer<MedManageCubit,MedManageStates>(
       listener: (context, state)
