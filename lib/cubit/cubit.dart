@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:med_manage_app/cubit/states.dart';
 import 'package:med_manage_app/helper/dio_helper.dart';
 import 'package:med_manage_app/models/department/add_department_model.dart';
@@ -85,62 +88,50 @@ class MedManageCubit extends Cubit<MedManageStates>
    emit(MedManageChangePassVisibilityState());
  }
 
-
   late DepartmentHomeModel departmentHomeModel;
-
   void getHomeDepData()
- {
-   emit(MedManageLoadHomeDepDataState());
+  {
+    emit(MedManageLoadHomeDepDataState());
 
-     DioHelper.getData(
-         url: INDEX_DEPARTMENT,
-         token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzIiwianRpIjoiMjA1NTJkMzE3ZDQyMzBjMjhjYTI1NGQzNjk4NzU0MDI4NWQzNjM0YzI0MzA0NGRmMzA0NzVlYTY1NjBiNjUxMTEyZjAzY2YyMjQ3Y2RlMzUiLCJpYXQiOjE2ODk4NTc0NTcuNTE1Njk3LCJuYmYiOjE2ODk4NTc0NTcuNTE1NzA2LCJleHAiOjE3MjE0Nzk4NTcuNDg4NDk4LCJzdWIiOiIyMSIsInNjb3BlcyI6W119.qz57UmimCCCF0Gb76I0e5yO8vUjR_DO5g4u92tS9WJIhmfkUZPsDgGjn6CnVakX7zIPIUqIwFcRJHjIlzaAMbxQCIWpEvL978Lv5EUNjnrn8jZUIubsUaQ3S504aGLnjqIXsEouyHI94yvlFt0VlewdGlbaJ6SW1Bv3aD0w8SvgFhvbKkITdDGUGt1X_7x4GWiaoyTaP0I6hPKiJHqD3MxEaKiFMT_obKP6BEBAcaXvY-2AYbIH4JenEydfiQE2lOSmv2zxrF7vmv7COk_kF2wDwZ08OhXMyPeJ9fEjFDhQ2bJ-3NVH9zkCTQQSyVMlzc0KEV3mUNKBn667gPHQKftH2QGo3FEqzfdwS_B4EzVeL4e1_wJ5raBFygFlOKiIRl9wpu-5cRL213oS3FxcJnky8KPsbdZtl-fPo63s17SzJKyItV0F0b9pt3C9hDYzXoLbWu9g_R5qVePVtjHlsVI15zk0LjOClf6WBJ0xrQ5vkptAQQf2cdg1_kp3qrQslGHe4qPLce9aF6mx7hixougUhFuFZzGlstVN8eLowIYnR5BKBtAaz8maQWnfhRMP9gg0jHeUXxT8JYOgBYYCl8Qfci3bc5fsrMNRtLh_BzyIDEh5cja7K3LV1v_nfdTiCUlp0i9K0MiKZWvQkgjOuXx3NLYZ70WDdVnM_SLkQByE',
+    DioHelper.getData(
+        url: INDEX_DEPARTMENT,
+        token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzIiwianRpIjoiNjhmNWQ2NTE5OGQ5YWRiMTkzYWEzNWUwNGNmMDhkYzg5MjYzYWJiYmFmNThiYTQ2ZmY4MzIwYTA2ODQyNDFhMjFmZGI4NjNkZjYzNGRjZGIiLCJpYXQiOjE2OTA1MTA1MDEuNTY3MzAyLCJuYmYiOjE2OTA1MTA1MDEuNTY3MzEyLCJleHAiOjE3MjIxMzI5MDEuNTQwMzk4LCJzdWIiOiI2Iiwic2NvcGVzIjpbXX0.Wdfou0Q6gbbC8cEGG17RGVRRgvp8_pEFPAnCBTPtWtVwjqf8IhZdg-bxi1NsSUVchaAISNcDvZLwKEu3qINSBltojP-CNRMBNxkyAfzHn_LPA0G3OHrEn463fJ0uoAamzE21p5MxzrTpUTfVO_fcomN1a6HgkK1VIXpQ7xSixz2z2HLeCsWzqzAlIhoHrQyPsiwkhfUyZ0bchmMEOD5XWbBpvUl2pKB4wP15s8PKoMdRiE_AYx9PQfmU_0zI-Q3TX96z7eDe41Twb-bLAQeFYvwyOcEp29Bg9DDsTBp93xMsJFAn4_4wp74Mr-fLT2SiijvIAD5tJ6i46fS46VHW7iudn674r-ospXKFFYMDZQH-xOzdfX3lS3Fffae8hyap3sG_TnYxd_fZx34ZDGrqVL3pfAT4BtDl-J-682XhLRpTAktjFIeEFOBjHGJIBA8zcaGc3Stif_IueN2fBhcl5NER0fLMM4zQQEyN5PEMbWgWGUQYbRYFmCl4CWi4PPMZQB-F5WKauJa_rV82BXSlse9At-1JuEYiOH6dyPRrtFALokCM7ULte3dHvslIX7WXbId-i1KgzSuG-5-WGuTZKlKcY1uHr4hTIACjmzpsT9XThvL6Dyk2mOJ9Y7tePxd0wv6HWcxTtzvsJtMfovaHSEjnypC3pJ0yeyfFverpGOY').then((value)
+    {
+      departmentHomeModel = DepartmentHomeModel.fromJson(value.data);
+      print(departmentHomeModel.Department![0].img);
+      emit(MedManageSuccessHomeDepDataState());
+    }
+    ).catchError((error)
+    {
+      emit(MedManageErrorHomeDepDataState(error.toString()));
+      print('err: ${error.toString()}');
+    });
 
-   ).then((value)
-   {
-   //  print(value.data);
-
-     departmentHomeModel = DepartmentHomeModel.fromJson(value.data);
-     print(departmentHomeModel.Department.toString());
-    // print(departmentHomeModel.Department![0].name);
-     emit(MedManageSuccessHomeDepDataState());
-   }
-   ).catchError((error)
-   {
-     emit(MedManageErrorHomeDepDataState(error.toString()));
-     print('err: ${error.toString()}');
-   });
-
- }
-
-
- late AddDepartmentModel addDepartmentModel;
+  }
+  late AddDepartmentModel addDepartmentModel;
   void addDepartment({
     required String name,
-    required String img,
+    //required String img,
   })
   {
     DioHelper.postData(
         url: ADD_DEPARTMENT,
-        token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzIiwianRpIjoiMjA1NTJkMzE3ZDQyMzBjMjhjYTI1NGQzNjk4NzU0MDI4NWQzNjM0YzI0MzA0NGRmMzA0NzVlYTY1NjBiNjUxMTEyZjAzY2YyMjQ3Y2RlMzUiLCJpYXQiOjE2ODk4NTc0NTcuNTE1Njk3LCJuYmYiOjE2ODk4NTc0NTcuNTE1NzA2LCJleHAiOjE3MjE0Nzk4NTcuNDg4NDk4LCJzdWIiOiIyMSIsInNjb3BlcyI6W119.qz57UmimCCCF0Gb76I0e5yO8vUjR_DO5g4u92tS9WJIhmfkUZPsDgGjn6CnVakX7zIPIUqIwFcRJHjIlzaAMbxQCIWpEvL978Lv5EUNjnrn8jZUIubsUaQ3S504aGLnjqIXsEouyHI94yvlFt0VlewdGlbaJ6SW1Bv3aD0w8SvgFhvbKkITdDGUGt1X_7x4GWiaoyTaP0I6hPKiJHqD3MxEaKiFMT_obKP6BEBAcaXvY-2AYbIH4JenEydfiQE2lOSmv2zxrF7vmv7COk_kF2wDwZ08OhXMyPeJ9fEjFDhQ2bJ-3NVH9zkCTQQSyVMlzc0KEV3mUNKBn667gPHQKftH2QGo3FEqzfdwS_B4EzVeL4e1_wJ5raBFygFlOKiIRl9wpu-5cRL213oS3FxcJnky8KPsbdZtl-fPo63s17SzJKyItV0F0b9pt3C9hDYzXoLbWu9g_R5qVePVtjHlsVI15zk0LjOClf6WBJ0xrQ5vkptAQQf2cdg1_kp3qrQslGHe4qPLce9aF6mx7hixougUhFuFZzGlstVN8eLowIYnR5BKBtAaz8maQWnfhRMP9gg0jHeUXxT8JYOgBYYCl8Qfci3bc5fsrMNRtLh_BzyIDEh5cja7K3LV1v_nfdTiCUlp0i9K0MiKZWvQkgjOuXx3NLYZ70WDdVnM_SLkQByE',
-        data:
-        {
-          'name':name,
-          'img':img,
-        }
+        token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzIiwianRpIjoiNjhmNWQ2NTE5OGQ5YWRiMTkzYWEzNWUwNGNmMDhkYzg5MjYzYWJiYmFmNThiYTQ2ZmY4MzIwYTA2ODQyNDFhMjFmZGI4NjNkZjYzNGRjZGIiLCJpYXQiOjE2OTA1MTA1MDEuNTY3MzAyLCJuYmYiOjE2OTA1MTA1MDEuNTY3MzEyLCJleHAiOjE3MjIxMzI5MDEuNTQwMzk4LCJzdWIiOiI2Iiwic2NvcGVzIjpbXX0.Wdfou0Q6gbbC8cEGG17RGVRRgvp8_pEFPAnCBTPtWtVwjqf8IhZdg-bxi1NsSUVchaAISNcDvZLwKEu3qINSBltojP-CNRMBNxkyAfzHn_LPA0G3OHrEn463fJ0uoAamzE21p5MxzrTpUTfVO_fcomN1a6HgkK1VIXpQ7xSixz2z2HLeCsWzqzAlIhoHrQyPsiwkhfUyZ0bchmMEOD5XWbBpvUl2pKB4wP15s8PKoMdRiE_AYx9PQfmU_0zI-Q3TX96z7eDe41Twb-bLAQeFYvwyOcEp29Bg9DDsTBp93xMsJFAn4_4wp74Mr-fLT2SiijvIAD5tJ6i46fS46VHW7iudn674r-ospXKFFYMDZQH-xOzdfX3lS3Fffae8hyap3sG_TnYxd_fZx34ZDGrqVL3pfAT4BtDl-J-682XhLRpTAktjFIeEFOBjHGJIBA8zcaGc3Stif_IueN2fBhcl5NER0fLMM4zQQEyN5PEMbWgWGUQYbRYFmCl4CWi4PPMZQB-F5WKauJa_rV82BXSlse9At-1JuEYiOH6dyPRrtFALokCM7ULte3dHvslIX7WXbId-i1KgzSuG-5-WGuTZKlKcY1uHr4hTIACjmzpsT9XThvL6Dyk2mOJ9Y7tePxd0wv6HWcxTtzvsJtMfovaHSEjnypC3pJ0yeyfFverpGOY',data:
+    {
+      'name':name,
+      //'img':img,
+    }
     ).then((value)
     {
 
       addDepartmentModel = AddDepartmentModel.fromJson(value.data);
-      emit(MedManageAddSuccessState());
+      emit(MedManageAddDepartmentSuccessState());
     }).catchError((error)
     {
-      emit(MedManageAddErrorState());
+      emit(MedManageAddDepartmentErrorState());
     });
 
   }
-
-
   late DeleteDepartmentModel deleteDepartmentModel;
   void deleteDepartment({
     required int id,
@@ -148,25 +139,23 @@ class MedManageCubit extends Cubit<MedManageStates>
   {
     DioHelper.postData(
         url: DELETE_DEPARTMENT,
-        token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzIiwianRpIjoiMjA1NTJkMzE3ZDQyMzBjMjhjYTI1NGQzNjk4NzU0MDI4NWQzNjM0YzI0MzA0NGRmMzA0NzVlYTY1NjBiNjUxMTEyZjAzY2YyMjQ3Y2RlMzUiLCJpYXQiOjE2ODk4NTc0NTcuNTE1Njk3LCJuYmYiOjE2ODk4NTc0NTcuNTE1NzA2LCJleHAiOjE3MjE0Nzk4NTcuNDg4NDk4LCJzdWIiOiIyMSIsInNjb3BlcyI6W119.qz57UmimCCCF0Gb76I0e5yO8vUjR_DO5g4u92tS9WJIhmfkUZPsDgGjn6CnVakX7zIPIUqIwFcRJHjIlzaAMbxQCIWpEvL978Lv5EUNjnrn8jZUIubsUaQ3S504aGLnjqIXsEouyHI94yvlFt0VlewdGlbaJ6SW1Bv3aD0w8SvgFhvbKkITdDGUGt1X_7x4GWiaoyTaP0I6hPKiJHqD3MxEaKiFMT_obKP6BEBAcaXvY-2AYbIH4JenEydfiQE2lOSmv2zxrF7vmv7COk_kF2wDwZ08OhXMyPeJ9fEjFDhQ2bJ-3NVH9zkCTQQSyVMlzc0KEV3mUNKBn667gPHQKftH2QGo3FEqzfdwS_B4EzVeL4e1_wJ5raBFygFlOKiIRl9wpu-5cRL213oS3FxcJnky8KPsbdZtl-fPo63s17SzJKyItV0F0b9pt3C9hDYzXoLbWu9g_R5qVePVtjHlsVI15zk0LjOClf6WBJ0xrQ5vkptAQQf2cdg1_kp3qrQslGHe4qPLce9aF6mx7hixougUhFuFZzGlstVN8eLowIYnR5BKBtAaz8maQWnfhRMP9gg0jHeUXxT8JYOgBYYCl8Qfci3bc5fsrMNRtLh_BzyIDEh5cja7K3LV1v_nfdTiCUlp0i9K0MiKZWvQkgjOuXx3NLYZ70WDdVnM_SLkQByE',
+        token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzIiwianRpIjoiN2Q3ODgxNzQxNDkzODJmMjc1MTVkNzhlMzk4YWYyYjY4YzM5OGJhZmMwYThkYjNlMmExOWFhNmU4ZjM4NjVhODM4ODE3OWYyYmFmN2QwNjEiLCJpYXQiOjE2OTA1MDg5NDMuODQyNzY0LCJuYmYiOjE2OTA1MDg5NDMuODQyNzY3LCJleHAiOjE3MjIxMzEzNDMuNzMxMDY4LCJzdWIiOiI2Iiwic2NvcGVzIjpbXX0.feSKOdfyFQYHfvqQxvN88nf4_49WdbK0_jbHQ3bJ1E8cirq5JPPwSDU9hoykmvP3H6MHb4qnKIpESoK9r0owoPvjGVjDitg-wA2yS1WRUgPa1ZtYeRTL7OlbmjuzEY0js8LrGBDcBy5gHZGD6meq1Qto88Mfv8HVFVcn1q3ebmrMkzN6g1q_XA2Clq3r3y0zq3D2fDhtPfArXPhK6H2XsM_pDkdDpTZIcb6oO0XT-zIzJePnoo8BnLz1oFxcUIEjvK8668gCBSja1bEMUy31UFxlSTpT4yvkRj8DvoFfJ6g0QShgMLtITL1YzQ5qEuR_ZroRQvKzsjgbldaepKeH2nSZmMWuPv6L1l84p-k6v3KjMCzMVbocbUcUDoxn2N5urcrdEA-gseY5Tm8QpGBSZwrlo7FjOIRbo_4GhTa9GHCDMYi_EWXXvzIQvOwFS1DOc2TNO4Ul9NFwIpcRHOmLyvN6kDn5Ra9YRnoGTC1NeN8wm1i53J9RzIGjfhXYD2OIEv-iLCU90_SRlz7vRKN4xCrVSaSTnnUUIdXzigXwEHoY7eiyhvsj2jplU7JPh2U4g7asHox0oAYw1IdT6cWnGtngCj1N8bkv2-E6fvLQILprFSAXs8j7F8qD2n-Jp8-NiH7_ybl1SdDlmfZ1lIx3EJbOSLvnnfgRgYwPPcdAcP8',
         data:
         {
           'id':id,
         }
     ).then((value)
     {
-
       deleteDepartmentModel = DeleteDepartmentModel.fromJson(value.data);
-      emit(MedManageDeleteSuccessState());
+      emit(MedManageDeleteDepartmentSuccessState());
+      getHomeDepData();
     }).catchError((error)
     {
-      emit(MedManageDeleteErrorState());
+      emit(MedManageDeleteDepartmentErrorState());
     });
 
   }
 
-
-  late UpdateDepartmentModel updateDepartmentModel;
   void updateDepartment({
     required int id,
     required String name,
@@ -174,23 +163,42 @@ class MedManageCubit extends Cubit<MedManageStates>
   {
     DioHelper.postData(
         url: UPDATE_DEPARTMENT,
-        token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzIiwianRpIjoiMjA1NTJkMzE3ZDQyMzBjMjhjYTI1NGQzNjk4NzU0MDI4NWQzNjM0YzI0MzA0NGRmMzA0NzVlYTY1NjBiNjUxMTEyZjAzY2YyMjQ3Y2RlMzUiLCJpYXQiOjE2ODk4NTc0NTcuNTE1Njk3LCJuYmYiOjE2ODk4NTc0NTcuNTE1NzA2LCJleHAiOjE3MjE0Nzk4NTcuNDg4NDk4LCJzdWIiOiIyMSIsInNjb3BlcyI6W119.qz57UmimCCCF0Gb76I0e5yO8vUjR_DO5g4u92tS9WJIhmfkUZPsDgGjn6CnVakX7zIPIUqIwFcRJHjIlzaAMbxQCIWpEvL978Lv5EUNjnrn8jZUIubsUaQ3S504aGLnjqIXsEouyHI94yvlFt0VlewdGlbaJ6SW1Bv3aD0w8SvgFhvbKkITdDGUGt1X_7x4GWiaoyTaP0I6hPKiJHqD3MxEaKiFMT_obKP6BEBAcaXvY-2AYbIH4JenEydfiQE2lOSmv2zxrF7vmv7COk_kF2wDwZ08OhXMyPeJ9fEjFDhQ2bJ-3NVH9zkCTQQSyVMlzc0KEV3mUNKBn667gPHQKftH2QGo3FEqzfdwS_B4EzVeL4e1_wJ5raBFygFlOKiIRl9wpu-5cRL213oS3FxcJnky8KPsbdZtl-fPo63s17SzJKyItV0F0b9pt3C9hDYzXoLbWu9g_R5qVePVtjHlsVI15zk0LjOClf6WBJ0xrQ5vkptAQQf2cdg1_kp3qrQslGHe4qPLce9aF6mx7hixougUhFuFZzGlstVN8eLowIYnR5BKBtAaz8maQWnfhRMP9gg0jHeUXxT8JYOgBYYCl8Qfci3bc5fsrMNRtLh_BzyIDEh5cja7K3LV1v_nfdTiCUlp0i9K0MiKZWvQkgjOuXx3NLYZ70WDdVnM_SLkQByE',
-        data:
-        {
-          'id': id,
-          'name':name,
-        }
+        token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzIiwianRpIjoiNjhmNWQ2NTE5OGQ5YWRiMTkzYWEzNWUwNGNmMDhkYzg5MjYzYWJiYmFmNThiYTQ2ZmY4MzIwYTA2ODQyNDFhMjFmZGI4NjNkZjYzNGRjZGIiLCJpYXQiOjE2OTA1MTA1MDEuNTY3MzAyLCJuYmYiOjE2OTA1MTA1MDEuNTY3MzEyLCJleHAiOjE3MjIxMzI5MDEuNTQwMzk4LCJzdWIiOiI2Iiwic2NvcGVzIjpbXX0.Wdfou0Q6gbbC8cEGG17RGVRRgvp8_pEFPAnCBTPtWtVwjqf8IhZdg-bxi1NsSUVchaAISNcDvZLwKEu3qINSBltojP-CNRMBNxkyAfzHn_LPA0G3OHrEn463fJ0uoAamzE21p5MxzrTpUTfVO_fcomN1a6HgkK1VIXpQ7xSixz2z2HLeCsWzqzAlIhoHrQyPsiwkhfUyZ0bchmMEOD5XWbBpvUl2pKB4wP15s8PKoMdRiE_AYx9PQfmU_0zI-Q3TX96z7eDe41Twb-bLAQeFYvwyOcEp29Bg9DDsTBp93xMsJFAn4_4wp74Mr-fLT2SiijvIAD5tJ6i46fS46VHW7iudn674r-ospXKFFYMDZQH-xOzdfX3lS3Fffae8hyap3sG_TnYxd_fZx34ZDGrqVL3pfAT4BtDl-J-682XhLRpTAktjFIeEFOBjHGJIBA8zcaGc3Stif_IueN2fBhcl5NER0fLMM4zQQEyN5PEMbWgWGUQYbRYFmCl4CWi4PPMZQB-F5WKauJa_rV82BXSlse9At-1JuEYiOH6dyPRrtFALokCM7ULte3dHvslIX7WXbId-i1KgzSuG-5-WGuTZKlKcY1uHr4hTIACjmzpsT9XThvL6Dyk2mOJ9Y7tePxd0wv6HWcxTtzvsJtMfovaHSEjnypC3pJ0yeyfFverpGOY',data:
+    {
+      'id': id,
+      'name':name,
+    }
     ).then((value)
     {
-
-      updateDepartmentModel = UpdateDepartmentModel.fromJson(value.data);
-      emit(MedManageUpdateSuccessState());
+      departmentHomeModel = DepartmentHomeModel.fromJson(value.data);
+      emit(MedManageUpdateDepartmentSuccessState());
+      getHomeDepData();
     }).catchError((error)
     {
-      emit(MedManageUpdateErrorState());
+      emit(MedManageUpdateDepartmentErrorState());
     });
 
   }
+
+  File? departmentImage;
+  final picker = ImagePicker();
+
+  Future<void> getImage() async
+  {
+    final pickedFile= await picker.pickImage(source: ImageSource.gallery);
+
+    if(pickedFile != null)
+    {
+      departmentImage =File(pickedFile.path);
+      emit(MedManageDepImagePickedSuccessState());
+    }else
+    {
+      print('no image selected.');
+      emit(MedManageDepImagePickedErrorState());
+    }
+    //uploadImage(departmentImage!);
+  }
+
 
 
   //Secritary AND Patient*********************************************************************************************************************

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:med_manage_app/cubit/states.dart';
-
 import '../cubit/cubit.dart';
-import '../styles/colors/colors.dart';
 
 class MedManageLayout extends StatelessWidget {
   const MedManageLayout({super.key});
@@ -21,16 +19,7 @@ class MedManageLayout extends StatelessWidget {
               ),
             ),
             body: cubit.bottomScreens[cubit.currentIndex],
-            floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
-            floatingActionButton: FloatingActionButton (
-              onPressed: ()
-              {
 
-              },
-              child:const Icon(
-                Icons.add,
-              color: defaultColor,),
-            ),
             bottomNavigationBar:BottomNavigationBar(
 
               currentIndex: cubit.currentIndex,
