@@ -97,7 +97,7 @@ class EditDepartmentScreen extends StatelessWidget {
                                   const Image(
                                     image: AssetImage('assets/images/undraw_Female_avatar_efig (1).png'),
                                     // image: departmentImage == null ? AssetImage('assets/images/undraw_About_me_re_82bv (1).png'): FileImage(departmentImage!),
-                                    // image:NetworkImage('uploads/FKvIhfwnSp6Lt97HyLXYzPUxD8hnEm44Fjr8u3Hl.png') ,
+                                    // image:NetworkImage('http://192.168.1.10:8000/upload/${model.img}') ,
                                     //uploads/${model!.Department![index].img}
                                     //image: (departmentImage == null) ? FileImage(departmentImage!) as ImageProvider : AssetImage('assets/images/undraw_Female_avatar_efig (1).png'),
                                     width: double.infinity,

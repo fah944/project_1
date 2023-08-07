@@ -293,9 +293,9 @@ Widget buildGridDepartment(
               ),
             ],
           ),
-          const Image(
-            image: AssetImage('assets/images/undraw_Female_avatar_efig (1).png'),
-            //NetworkImage(model.img, scale: 10.0),
+           Image(
+            image: //AssetImage('assets/images/undraw_Female_avatar_efig (1).png'),
+            NetworkImage('http://192.168.1.10:8000/upload/${model.img}', scale: 10.0),
             width: double.infinity,
             height: 170.0,
             fit: BoxFit.cover,
