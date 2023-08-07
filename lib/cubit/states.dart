@@ -21,15 +21,19 @@ class MedManageErrorHomeDepDataState extends MedManageStates
 }
 
 
-class MedManageAddSuccessState extends MedManageStates{}
-class MedManageAddErrorState extends MedManageStates{}
+class MedManageLoadingAddDepartmentState extends MedManageStates{}
+class MedManageAddDepartmentSuccessState extends MedManageStates{}
+class MedManageAddDepartmentErrorState extends MedManageStates{}
 
+class MedManageDeleteDepartmentSuccessState extends MedManageStates{}
+class MedManageDeleteDepartmentErrorState extends MedManageStates{}
 
-class MedManageDeleteSuccessState extends MedManageStates{}
-class MedManageDeleteErrorState extends MedManageStates{}
+class MedManageLoadingUpdateDepartmentState extends MedManageStates{}
+class MedManageUpdateDepartmentSuccessState extends MedManageStates{}
+class MedManageUpdateDepartmentErrorState extends MedManageStates{}
 
-class MedManageUpdateSuccessState extends MedManageStates{}
-class MedManageUpdateErrorState extends MedManageStates{}
+class MedManageDepImagePickedSuccessState extends MedManageStates{}
+class MedManageDepImagePickedErrorState extends MedManageStates{}
 
 //Secritary AND Patient*********************************************************************************************************************
 

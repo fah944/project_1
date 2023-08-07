@@ -39,7 +39,7 @@ void navigateAndReplacement(context,Widget)=>Navigator.pushAndRemoveUntil(
       (Route<dynamic> route) => false,//الغي احط فولس
 );
 
-Widget defTextButton({required Function function,required String text })=>TextButton(//Register now
+Widget defTextButton({required Function function,required String text, required Color color })=>TextButton(//Register now
   onPressed: (){
     function();
   },
