@@ -32,6 +32,9 @@ class MedManageCubit extends Cubit<MedManageStates>
   MedManageCubit() : super(MedManageInitialState());
 
  static MedManageCubit get(context) =>BlocProvider.of(context);
+
+
+
  int currentIndex = 0;
  List<Widget> bottomScreens =
  [
@@ -95,10 +98,11 @@ class MedManageCubit extends Cubit<MedManageStates>
 
     DioHelper.getData(
         url: INDEX_DEPARTMENT,
-        token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzIiwianRpIjoiNjhmNWQ2NTE5OGQ5YWRiMTkzYWEzNWUwNGNmMDhkYzg5MjYzYWJiYmFmNThiYTQ2ZmY4MzIwYTA2ODQyNDFhMjFmZGI4NjNkZjYzNGRjZGIiLCJpYXQiOjE2OTA1MTA1MDEuNTY3MzAyLCJuYmYiOjE2OTA1MTA1MDEuNTY3MzEyLCJleHAiOjE3MjIxMzI5MDEuNTQwMzk4LCJzdWIiOiI2Iiwic2NvcGVzIjpbXX0.Wdfou0Q6gbbC8cEGG17RGVRRgvp8_pEFPAnCBTPtWtVwjqf8IhZdg-bxi1NsSUVchaAISNcDvZLwKEu3qINSBltojP-CNRMBNxkyAfzHn_LPA0G3OHrEn463fJ0uoAamzE21p5MxzrTpUTfVO_fcomN1a6HgkK1VIXpQ7xSixz2z2HLeCsWzqzAlIhoHrQyPsiwkhfUyZ0bchmMEOD5XWbBpvUl2pKB4wP15s8PKoMdRiE_AYx9PQfmU_0zI-Q3TX96z7eDe41Twb-bLAQeFYvwyOcEp29Bg9DDsTBp93xMsJFAn4_4wp74Mr-fLT2SiijvIAD5tJ6i46fS46VHW7iudn674r-ospXKFFYMDZQH-xOzdfX3lS3Fffae8hyap3sG_TnYxd_fZx34ZDGrqVL3pfAT4BtDl-J-682XhLRpTAktjFIeEFOBjHGJIBA8zcaGc3Stif_IueN2fBhcl5NER0fLMM4zQQEyN5PEMbWgWGUQYbRYFmCl4CWi4PPMZQB-F5WKauJa_rV82BXSlse9At-1JuEYiOH6dyPRrtFALokCM7ULte3dHvslIX7WXbId-i1KgzSuG-5-WGuTZKlKcY1uHr4hTIACjmzpsT9XThvL6Dyk2mOJ9Y7tePxd0wv6HWcxTtzvsJtMfovaHSEjnypC3pJ0yeyfFverpGOY').then((value)
+        token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzIiwianRpIjoiMDc4NjFiOGM4MTViZTgwMDg5MDc3YjlhMWQxY2U4OGU5ODgyNTY5NjcyMjY3NWFkMWQyMDBjNWEyZWY4Mzk2ZDIzMDZlZmVhZWY5MWExZDciLCJpYXQiOjE2OTE0Mjk4MTQuNzkxMDc0LCJuYmYiOjE2OTE0Mjk4MTQuNzkxMDgsImV4cCI6MTcyMzA1MjIxNC41NDczOTMsInN1YiI6IjciLCJzY29wZXMiOltdfQ.Bjb42xZgQlkPX1PkiAxQXQNY70Hu-QU_68UZOadheT2huDaQFJYeo2ksh4Sh35XZnL7qbQhX1qyq6smzd7EFMcZ-thfR1FHmpxc_ADvQZDBcPAj1UKRqsR6o9L-AK6BUSylxdlC8anXDW7BtdAfSDhzH4CKUmQHZ3ZIbHRiaW3Ufu2qKjwqzG5kf-V6bFqXASnXqADNWpIcruHWMNJuE2LIPQbY8JPgksWPKU9IhgvIQB0xZC4gPOneCn3Jvyhzgqj8ZFqblOVLOQj09BEkZJ1C4E4ord4HDG2_-nyeGSlPr53dE3Al-_u_4-_cgtPYLsv4-rDwSYBFZywX1w5qj8WTger6UAmUfTJAU0egYQW-1OQh6X7dqU_pxkDLaUm5FbJcQe2wNckgYl6Fj5W-Ua3IN4_B32CS3dmb6_P1BDmefH5nfcQxLdsQ5weHum5ZfWc_1y6cEmneViK9m1KMbtueKNxPRmGhmc6Cv-AxG0rla88J7MckVoNu6oz40u8UJe9eOUbXrPXrimKdiIGBlrPOY7DvwJ5poDrAlNdnjjzoO4wHzgE5Rj48oFHYEZH_cEdLzJKOML_myIv5fTY5BagC7BvZ1xYc89V2P4OZgxG1D0AaIueoMwg3_-yZAm7lQo_GZ-_POtj_HYVljqWY1TvvSIy1FRKQznVVNFvDv8ZY',
+    ).then((value)
     {
       departmentHomeModel = DepartmentHomeModel.fromJson(value.data);
-      print(departmentHomeModel.Department![0].img);
+      print(departmentHomeModel.Department![1].img);
       emit(MedManageSuccessHomeDepDataState());
     }
     ).catchError((error)
@@ -108,6 +112,7 @@ class MedManageCubit extends Cubit<MedManageStates>
     });
 
   }
+
   late AddDepartmentModel addDepartmentModel;
   void addDepartment({
     required String name,
@@ -116,7 +121,8 @@ class MedManageCubit extends Cubit<MedManageStates>
   {
     DioHelper.postData(
         url: ADD_DEPARTMENT,
-        token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzIiwianRpIjoiNjhmNWQ2NTE5OGQ5YWRiMTkzYWEzNWUwNGNmMDhkYzg5MjYzYWJiYmFmNThiYTQ2ZmY4MzIwYTA2ODQyNDFhMjFmZGI4NjNkZjYzNGRjZGIiLCJpYXQiOjE2OTA1MTA1MDEuNTY3MzAyLCJuYmYiOjE2OTA1MTA1MDEuNTY3MzEyLCJleHAiOjE3MjIxMzI5MDEuNTQwMzk4LCJzdWIiOiI2Iiwic2NvcGVzIjpbXX0.Wdfou0Q6gbbC8cEGG17RGVRRgvp8_pEFPAnCBTPtWtVwjqf8IhZdg-bxi1NsSUVchaAISNcDvZLwKEu3qINSBltojP-CNRMBNxkyAfzHn_LPA0G3OHrEn463fJ0uoAamzE21p5MxzrTpUTfVO_fcomN1a6HgkK1VIXpQ7xSixz2z2HLeCsWzqzAlIhoHrQyPsiwkhfUyZ0bchmMEOD5XWbBpvUl2pKB4wP15s8PKoMdRiE_AYx9PQfmU_0zI-Q3TX96z7eDe41Twb-bLAQeFYvwyOcEp29Bg9DDsTBp93xMsJFAn4_4wp74Mr-fLT2SiijvIAD5tJ6i46fS46VHW7iudn674r-ospXKFFYMDZQH-xOzdfX3lS3Fffae8hyap3sG_TnYxd_fZx34ZDGrqVL3pfAT4BtDl-J-682XhLRpTAktjFIeEFOBjHGJIBA8zcaGc3Stif_IueN2fBhcl5NER0fLMM4zQQEyN5PEMbWgWGUQYbRYFmCl4CWi4PPMZQB-F5WKauJa_rV82BXSlse9At-1JuEYiOH6dyPRrtFALokCM7ULte3dHvslIX7WXbId-i1KgzSuG-5-WGuTZKlKcY1uHr4hTIACjmzpsT9XThvL6Dyk2mOJ9Y7tePxd0wv6HWcxTtzvsJtMfovaHSEjnypC3pJ0yeyfFverpGOY',data:
+        token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzIiwianRpIjoiMDc4NjFiOGM4MTViZTgwMDg5MDc3YjlhMWQxY2U4OGU5ODgyNTY5NjcyMjY3NWFkMWQyMDBjNWEyZWY4Mzk2ZDIzMDZlZmVhZWY5MWExZDciLCJpYXQiOjE2OTE0Mjk4MTQuNzkxMDc0LCJuYmYiOjE2OTE0Mjk4MTQuNzkxMDgsImV4cCI6MTcyMzA1MjIxNC41NDczOTMsInN1YiI6IjciLCJzY29wZXMiOltdfQ.Bjb42xZgQlkPX1PkiAxQXQNY70Hu-QU_68UZOadheT2huDaQFJYeo2ksh4Sh35XZnL7qbQhX1qyq6smzd7EFMcZ-thfR1FHmpxc_ADvQZDBcPAj1UKRqsR6o9L-AK6BUSylxdlC8anXDW7BtdAfSDhzH4CKUmQHZ3ZIbHRiaW3Ufu2qKjwqzG5kf-V6bFqXASnXqADNWpIcruHWMNJuE2LIPQbY8JPgksWPKU9IhgvIQB0xZC4gPOneCn3Jvyhzgqj8ZFqblOVLOQj09BEkZJ1C4E4ord4HDG2_-nyeGSlPr53dE3Al-_u_4-_cgtPYLsv4-rDwSYBFZywX1w5qj8WTger6UAmUfTJAU0egYQW-1OQh6X7dqU_pxkDLaUm5FbJcQe2wNckgYl6Fj5W-Ua3IN4_B32CS3dmb6_P1BDmefH5nfcQxLdsQ5weHum5ZfWc_1y6cEmneViK9m1KMbtueKNxPRmGhmc6Cv-AxG0rla88J7MckVoNu6oz40u8UJe9eOUbXrPXrimKdiIGBlrPOY7DvwJ5poDrAlNdnjjzoO4wHzgE5Rj48oFHYEZH_cEdLzJKOML_myIv5fTY5BagC7BvZ1xYc89V2P4OZgxG1D0AaIueoMwg3_-yZAm7lQo_GZ-_POtj_HYVljqWY1TvvSIy1FRKQznVVNFvDv8ZY',
+        data:
     {
       'name':name,
       //'img':img,
@@ -139,7 +145,7 @@ class MedManageCubit extends Cubit<MedManageStates>
   {
     DioHelper.postData(
         url: DELETE_DEPARTMENT,
-        token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzIiwianRpIjoiN2Q3ODgxNzQxNDkzODJmMjc1MTVkNzhlMzk4YWYyYjY4YzM5OGJhZmMwYThkYjNlMmExOWFhNmU4ZjM4NjVhODM4ODE3OWYyYmFmN2QwNjEiLCJpYXQiOjE2OTA1MDg5NDMuODQyNzY0LCJuYmYiOjE2OTA1MDg5NDMuODQyNzY3LCJleHAiOjE3MjIxMzEzNDMuNzMxMDY4LCJzdWIiOiI2Iiwic2NvcGVzIjpbXX0.feSKOdfyFQYHfvqQxvN88nf4_49WdbK0_jbHQ3bJ1E8cirq5JPPwSDU9hoykmvP3H6MHb4qnKIpESoK9r0owoPvjGVjDitg-wA2yS1WRUgPa1ZtYeRTL7OlbmjuzEY0js8LrGBDcBy5gHZGD6meq1Qto88Mfv8HVFVcn1q3ebmrMkzN6g1q_XA2Clq3r3y0zq3D2fDhtPfArXPhK6H2XsM_pDkdDpTZIcb6oO0XT-zIzJePnoo8BnLz1oFxcUIEjvK8668gCBSja1bEMUy31UFxlSTpT4yvkRj8DvoFfJ6g0QShgMLtITL1YzQ5qEuR_ZroRQvKzsjgbldaepKeH2nSZmMWuPv6L1l84p-k6v3KjMCzMVbocbUcUDoxn2N5urcrdEA-gseY5Tm8QpGBSZwrlo7FjOIRbo_4GhTa9GHCDMYi_EWXXvzIQvOwFS1DOc2TNO4Ul9NFwIpcRHOmLyvN6kDn5Ra9YRnoGTC1NeN8wm1i53J9RzIGjfhXYD2OIEv-iLCU90_SRlz7vRKN4xCrVSaSTnnUUIdXzigXwEHoY7eiyhvsj2jplU7JPh2U4g7asHox0oAYw1IdT6cWnGtngCj1N8bkv2-E6fvLQILprFSAXs8j7F8qD2n-Jp8-NiH7_ybl1SdDlmfZ1lIx3EJbOSLvnnfgRgYwPPcdAcP8',
+        token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzIiwianRpIjoiMDc4NjFiOGM4MTViZTgwMDg5MDc3YjlhMWQxY2U4OGU5ODgyNTY5NjcyMjY3NWFkMWQyMDBjNWEyZWY4Mzk2ZDIzMDZlZmVhZWY5MWExZDciLCJpYXQiOjE2OTE0Mjk4MTQuNzkxMDc0LCJuYmYiOjE2OTE0Mjk4MTQuNzkxMDgsImV4cCI6MTcyMzA1MjIxNC41NDczOTMsInN1YiI6IjciLCJzY29wZXMiOltdfQ.Bjb42xZgQlkPX1PkiAxQXQNY70Hu-QU_68UZOadheT2huDaQFJYeo2ksh4Sh35XZnL7qbQhX1qyq6smzd7EFMcZ-thfR1FHmpxc_ADvQZDBcPAj1UKRqsR6o9L-AK6BUSylxdlC8anXDW7BtdAfSDhzH4CKUmQHZ3ZIbHRiaW3Ufu2qKjwqzG5kf-V6bFqXASnXqADNWpIcruHWMNJuE2LIPQbY8JPgksWPKU9IhgvIQB0xZC4gPOneCn3Jvyhzgqj8ZFqblOVLOQj09BEkZJ1C4E4ord4HDG2_-nyeGSlPr53dE3Al-_u_4-_cgtPYLsv4-rDwSYBFZywX1w5qj8WTger6UAmUfTJAU0egYQW-1OQh6X7dqU_pxkDLaUm5FbJcQe2wNckgYl6Fj5W-Ua3IN4_B32CS3dmb6_P1BDmefH5nfcQxLdsQ5weHum5ZfWc_1y6cEmneViK9m1KMbtueKNxPRmGhmc6Cv-AxG0rla88J7MckVoNu6oz40u8UJe9eOUbXrPXrimKdiIGBlrPOY7DvwJ5poDrAlNdnjjzoO4wHzgE5Rj48oFHYEZH_cEdLzJKOML_myIv5fTY5BagC7BvZ1xYc89V2P4OZgxG1D0AaIueoMwg3_-yZAm7lQo_GZ-_POtj_HYVljqWY1TvvSIy1FRKQznVVNFvDv8ZY',
         data:
         {
           'id':id,
@@ -163,7 +169,8 @@ class MedManageCubit extends Cubit<MedManageStates>
   {
     DioHelper.postData(
         url: UPDATE_DEPARTMENT,
-        token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzIiwianRpIjoiNjhmNWQ2NTE5OGQ5YWRiMTkzYWEzNWUwNGNmMDhkYzg5MjYzYWJiYmFmNThiYTQ2ZmY4MzIwYTA2ODQyNDFhMjFmZGI4NjNkZjYzNGRjZGIiLCJpYXQiOjE2OTA1MTA1MDEuNTY3MzAyLCJuYmYiOjE2OTA1MTA1MDEuNTY3MzEyLCJleHAiOjE3MjIxMzI5MDEuNTQwMzk4LCJzdWIiOiI2Iiwic2NvcGVzIjpbXX0.Wdfou0Q6gbbC8cEGG17RGVRRgvp8_pEFPAnCBTPtWtVwjqf8IhZdg-bxi1NsSUVchaAISNcDvZLwKEu3qINSBltojP-CNRMBNxkyAfzHn_LPA0G3OHrEn463fJ0uoAamzE21p5MxzrTpUTfVO_fcomN1a6HgkK1VIXpQ7xSixz2z2HLeCsWzqzAlIhoHrQyPsiwkhfUyZ0bchmMEOD5XWbBpvUl2pKB4wP15s8PKoMdRiE_AYx9PQfmU_0zI-Q3TX96z7eDe41Twb-bLAQeFYvwyOcEp29Bg9DDsTBp93xMsJFAn4_4wp74Mr-fLT2SiijvIAD5tJ6i46fS46VHW7iudn674r-ospXKFFYMDZQH-xOzdfX3lS3Fffae8hyap3sG_TnYxd_fZx34ZDGrqVL3pfAT4BtDl-J-682XhLRpTAktjFIeEFOBjHGJIBA8zcaGc3Stif_IueN2fBhcl5NER0fLMM4zQQEyN5PEMbWgWGUQYbRYFmCl4CWi4PPMZQB-F5WKauJa_rV82BXSlse9At-1JuEYiOH6dyPRrtFALokCM7ULte3dHvslIX7WXbId-i1KgzSuG-5-WGuTZKlKcY1uHr4hTIACjmzpsT9XThvL6Dyk2mOJ9Y7tePxd0wv6HWcxTtzvsJtMfovaHSEjnypC3pJ0yeyfFverpGOY',data:
+        token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzIiwianRpIjoiMDc4NjFiOGM4MTViZTgwMDg5MDc3YjlhMWQxY2U4OGU5ODgyNTY5NjcyMjY3NWFkMWQyMDBjNWEyZWY4Mzk2ZDIzMDZlZmVhZWY5MWExZDciLCJpYXQiOjE2OTE0Mjk4MTQuNzkxMDc0LCJuYmYiOjE2OTE0Mjk4MTQuNzkxMDgsImV4cCI6MTcyMzA1MjIxNC41NDczOTMsInN1YiI6IjciLCJzY29wZXMiOltdfQ.Bjb42xZgQlkPX1PkiAxQXQNY70Hu-QU_68UZOadheT2huDaQFJYeo2ksh4Sh35XZnL7qbQhX1qyq6smzd7EFMcZ-thfR1FHmpxc_ADvQZDBcPAj1UKRqsR6o9L-AK6BUSylxdlC8anXDW7BtdAfSDhzH4CKUmQHZ3ZIbHRiaW3Ufu2qKjwqzG5kf-V6bFqXASnXqADNWpIcruHWMNJuE2LIPQbY8JPgksWPKU9IhgvIQB0xZC4gPOneCn3Jvyhzgqj8ZFqblOVLOQj09BEkZJ1C4E4ord4HDG2_-nyeGSlPr53dE3Al-_u_4-_cgtPYLsv4-rDwSYBFZywX1w5qj8WTger6UAmUfTJAU0egYQW-1OQh6X7dqU_pxkDLaUm5FbJcQe2wNckgYl6Fj5W-Ua3IN4_B32CS3dmb6_P1BDmefH5nfcQxLdsQ5weHum5ZfWc_1y6cEmneViK9m1KMbtueKNxPRmGhmc6Cv-AxG0rla88J7MckVoNu6oz40u8UJe9eOUbXrPXrimKdiIGBlrPOY7DvwJ5poDrAlNdnjjzoO4wHzgE5Rj48oFHYEZH_cEdLzJKOML_myIv5fTY5BagC7BvZ1xYc89V2P4OZgxG1D0AaIueoMwg3_-yZAm7lQo_GZ-_POtj_HYVljqWY1TvvSIy1FRKQznVVNFvDv8ZY',
+        data:
     {
       'id': id,
       'name':name,
@@ -266,8 +273,8 @@ class MedManageCubit extends Cubit<MedManageStates>
     ).then((value) {
       print(value.data);
       viewSecretariaModel = ViewSecretariaModel.fromJson(value.data);
-      print(viewSecretariaModel.secretary?.departmentId);
-      print(viewSecretariaModel.secretary?.user.firstName);
+      //print(viewSecretariaModel.secretary?.departmentId);
+      //print(viewSecretariaModel.secretary?.user.firstName);
       emit(MedManageSuccssesSecretariaProfState());
     }).catchError((error) {
       print(error.toString());
@@ -297,8 +304,8 @@ class MedManageCubit extends Cubit<MedManageStates>
         },
         token: tokenG
     ).then((value) {
-      print(value.data);
-      print(value.data['message']);
+      //print(value.data);
+     // print(value.data['message']);
       updateSecretariaModel = UpdateSecretariaModel.fromJson(value.data);
       print(updateSecretariaModel.success);
       emit(MedManageSuccssesSecretariaProfEditState());
@@ -334,9 +341,9 @@ class MedManageCubit extends Cubit<MedManageStates>
     ).then((value) {
       print(value.data);
       registerSecretariaModel = RegisterSecretariaModel.fromJson(value.data);
-      print(value.toString());
-      print(registerSecretariaModel.token);
-      print(registerSecretariaModel.role);
+      // print(value.toString());
+      // print(registerSecretariaModel.token);
+     // print(registerSecretariaModel.role);
       emit(MedManageSuccssesSecretariaRegisterState());
     }).catchError((error) {
       print(error.toString());
@@ -355,8 +362,8 @@ class MedManageCubit extends Cubit<MedManageStates>
         token: tokenG
     ).then((value) {
       indexPatientModel = IndexPatientModel.fromJson(value.data);
-      print(value.toString());
-      print(indexPatientModel.patient[0].user.firstName);
+      //print(value.toString());
+      //print(indexPatientModel.patient[0].user.firstName);
       emit(MedManageSuccssesPatientsListState());
     }).catchError((error){
       print(error.toString());
@@ -379,9 +386,9 @@ class MedManageCubit extends Cubit<MedManageStates>
       token: tokenG,
     ).then((value) {
       deletePatientModel = DeletePatientModel.fromJson(value.data);
-      print(value.data);
-      print(deletePatientModel.success);
-      print(deletePatientModel.message);
+     // print(value.data);
+     // print(deletePatientModel.success);
+      // print(deletePatientModel.message);
       emit(MedManageSuccssesPatientsDeleteState());
       indexPatientsList();
     }).catchError((error) {
@@ -406,8 +413,8 @@ class MedManageCubit extends Cubit<MedManageStates>
     ).then((value) {
       print(value.data);
       viewPatientModel = ViewPatientModel.fromJson(value.data);
-      print(viewPatientModel.message);
-      print(viewPatientModel.patient.user.firstName);
+     // print(viewPatientModel.message);
+     // print(viewPatientModel.patient.user.firstName);
       emit(MedManageSuccssesPatientsProfState());
     }).catchError((error) {
       print(error.toString());
