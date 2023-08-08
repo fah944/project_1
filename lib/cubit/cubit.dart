@@ -191,11 +191,6 @@ class MedManageCubit extends Cubit<MedManageStates>
     });
 
   }
-
- // final XFile? pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
-
-
-
  // File? departmentImage;
   var departmentImage;
   final picker = ImagePicker();
@@ -251,7 +246,7 @@ class MedManageCubit extends Cubit<MedManageStates>
       );
     }
   }
-  
+
   //Secritary AND Patient*********************************************************************************************************************
 
   late IndexSecretariaModel indexSecretariaModel;
