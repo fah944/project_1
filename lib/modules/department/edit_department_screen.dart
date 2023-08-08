@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:med_manage_app/cubit/cubit.dart';
 import 'package:med_manage_app/cubit/states.dart';
+import 'package:med_manage_app/helper/end_points.dart';
 import 'package:med_manage_app/styles/colors/colors.dart';
 import 'package:med_manage_app/widgets/component.dart';
 
@@ -35,10 +36,7 @@ class EditDepartmentScreen extends StatelessWidget {
         builder: (context, state)
         {
           nameController.text = model!.Department![index].name;
-          //var updateDepartmentModel  =  MedManageCubit.get(context).updateDepartmentModel;
-          //MedManageCubit cubit =  MedManageCubit.get(context);
-          //var departmentImage  =  MedManageCubit.get(context).departmentImage;
-
+          var departmentImage  =  MedManageCubit.get(context).departmentImage;
           return Scaffold(
             appBar: AppBar(
               title: const Text(
@@ -54,18 +52,23 @@ class EditDepartmentScreen extends StatelessWidget {
                     builder: (context)=> defTextButton(
                       text:'update' ,
                       color: color4,
-
                       function: ()
                       {
-                        // MedManageCubit.get(context).uploadImage(departmentImage!);
 
                         if(formKey.currentState!.validate())
                         {
                           MedManageCubit.get(context).updateDepartment(
                             id:model!.Department![index].id,
                             name: nameController.text,
-                            // name: model!.Department![index].name,
                           );
+                           /* MedManageCubit.get(context).postWithImage(
+                              body:
+                              {
+                                'img':model!.Department![index].img,
+                              } ,
+                              imagePath:'http://192.168.1.10:8000/upload/${model!.Department![index].img}' ,
+                              endPoint: UPDATE_DEPARTMENT,
+                              token:MedManageCubit.tokenOfAdmin,);*/
                           MedManageCubit.get(context).getHomeDepData();
                           navigateAndReplacement(context,MedManageLayout());
                         }
@@ -94,12 +97,8 @@ class EditDepartmentScreen extends StatelessWidget {
                                 alignment: AlignmentDirectional.topEnd,
                                 children:
                                 [
-                                  const Image(
-                                    image: AssetImage('assets/images/undraw_Female_avatar_efig (1).png'),
-                                    // image: departmentImage == null ? AssetImage('assets/images/undraw_About_me_re_82bv (1).png'): FileImage(departmentImage!),
-                                    // image:NetworkImage('http://192.168.1.10:8000/upload/${model.img}') ,
-                                    //uploads/${model!.Department![index].img}
-                                    //image: (departmentImage == null) ? FileImage(departmentImage!) as ImageProvider : AssetImage('assets/images/undraw_Female_avatar_efig (1).png'),
+                                   Image(
+                                    image: departmentImage == null ? NetworkImage('http://192.168.1.10:8000/upload/${model!.Department![index].img}', scale: 10.0) : FileImage(departmentImage)as ImageProvider,
                                     width: double.infinity,
                                     height: 170.0,
                                     fit: BoxFit.contain,

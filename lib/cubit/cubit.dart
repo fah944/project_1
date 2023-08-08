@@ -1,5 +1,7 @@
+import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
-
+import 'package:http/http.dart' as http;
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,12 +9,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:med_manage_app/cubit/states.dart';
 import 'package:med_manage_app/helper/dio_helper.dart';
 import 'package:med_manage_app/models/department/add_department_model.dart';
-
 import '../constant.dart';
 import '../helper/end_points.dart';
 import '../models/department/delete_department_model.dart';
 import '../models/department/index_department_model.dart';
-import '../models/department/update_department_model.dart';
 import '../models/patient/delete_patient_model.dart';
 import '../models/patient/index_patient_model.dart';
 import '../models/patient/view_patient_model.dart';
@@ -32,8 +32,8 @@ class MedManageCubit extends Cubit<MedManageStates>
   MedManageCubit() : super(MedManageInitialState());
 
  static MedManageCubit get(context) =>BlocProvider.of(context);
-
-
+ static String tokenOfAdmin ='eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzIiwianRpIjoiZmY0ZWMxZThhZDljNmY4ZmVmYzNlYzgxOWIxZjQ2OTM3NWI4OWQ1ZTc1NmJlYjBlZTNlNmM1Zjg3OTQ5NjhhMjc5MDE0YzQ5MTY5ZjkxYjEiLCJpYXQiOjE2OTE0NzM1MzYuNTc0ODI1LCJuYmYiOjE2OTE0NzM1MzYuNTc0ODMsImV4cCI6MTcyMzA5NTkzNi41NTc4OTUsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.xoJ-WhdrIJVGrWYmU7PlHbuC6sGs59LWw3vuwD-ywlS-xX2U2pDV27zNy1bLinaAk771W9wFyKFG4fACmmdsXfr3oshVrdWI7Rs4tfpHmtR5lAQ6aohIQJg9qeeWEUOWzWcI9R9L2Kv_q6UWV_eGyne2_zJCy728rMP2k3Vw_UYdv4SgfJhErmfia9MNJzb3d48SZRYyqGFIB61uXLG33trOCYOvO_oKnyxpGls5mNZ0Ep6I-3yYPFwlM9YDcX4BTVWVvx1c8Tje6cbLBdXy_MaQAsf8SHdra7XEK6Zb8TJhLjnwuEwbQL8RBNtxi_PPIG0hYDaczUKZXaO3iDmvwQKTnqMZsYI9H1SddXuJOJgnc9Ppzl-4NXLxJTWjwYjVuQxne3t0DAqNaZoC_0E5ut8K5HZ0pd3A4UyOZL2E0gojkMQXaoY9YKfueCQlhTHZ3aYT7Gawgc_2_X9ujGNQNsDa-1rvQSJLE40-1xwITVTS5pq-Tm945rHZibhWxfq0Wt0sZ4kpmS9RULTt3hKpbgDfgQSqroXBMFkWINSQ1_FF4aLTjc1_mxADp1qOauYDPY34zdGB0UhCzatPdMNVWu7nG_paMcmQIKVMdg2JkKyH4jMVV40rAB9yqLjeyVKe9z3u0v58XxLJGg9uvk7bdB_XoFTz4JDp7gHBadJqLgA';
+  static String baseUrl ='http://192.168.1.10:8000/api/';
 
  int currentIndex = 0;
  List<Widget> bottomScreens =
@@ -98,7 +98,7 @@ class MedManageCubit extends Cubit<MedManageStates>
 
     DioHelper.getData(
         url: INDEX_DEPARTMENT,
-        token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzIiwianRpIjoiMDc4NjFiOGM4MTViZTgwMDg5MDc3YjlhMWQxY2U4OGU5ODgyNTY5NjcyMjY3NWFkMWQyMDBjNWEyZWY4Mzk2ZDIzMDZlZmVhZWY5MWExZDciLCJpYXQiOjE2OTE0Mjk4MTQuNzkxMDc0LCJuYmYiOjE2OTE0Mjk4MTQuNzkxMDgsImV4cCI6MTcyMzA1MjIxNC41NDczOTMsInN1YiI6IjciLCJzY29wZXMiOltdfQ.Bjb42xZgQlkPX1PkiAxQXQNY70Hu-QU_68UZOadheT2huDaQFJYeo2ksh4Sh35XZnL7qbQhX1qyq6smzd7EFMcZ-thfR1FHmpxc_ADvQZDBcPAj1UKRqsR6o9L-AK6BUSylxdlC8anXDW7BtdAfSDhzH4CKUmQHZ3ZIbHRiaW3Ufu2qKjwqzG5kf-V6bFqXASnXqADNWpIcruHWMNJuE2LIPQbY8JPgksWPKU9IhgvIQB0xZC4gPOneCn3Jvyhzgqj8ZFqblOVLOQj09BEkZJ1C4E4ord4HDG2_-nyeGSlPr53dE3Al-_u_4-_cgtPYLsv4-rDwSYBFZywX1w5qj8WTger6UAmUfTJAU0egYQW-1OQh6X7dqU_pxkDLaUm5FbJcQe2wNckgYl6Fj5W-Ua3IN4_B32CS3dmb6_P1BDmefH5nfcQxLdsQ5weHum5ZfWc_1y6cEmneViK9m1KMbtueKNxPRmGhmc6Cv-AxG0rla88J7MckVoNu6oz40u8UJe9eOUbXrPXrimKdiIGBlrPOY7DvwJ5poDrAlNdnjjzoO4wHzgE5Rj48oFHYEZH_cEdLzJKOML_myIv5fTY5BagC7BvZ1xYc89V2P4OZgxG1D0AaIueoMwg3_-yZAm7lQo_GZ-_POtj_HYVljqWY1TvvSIy1FRKQznVVNFvDv8ZY',
+        token:tokenOfAdmin,
     ).then((value)
     {
       departmentHomeModel = DepartmentHomeModel.fromJson(value.data);
@@ -121,7 +121,7 @@ class MedManageCubit extends Cubit<MedManageStates>
   {
     DioHelper.postData(
         url: ADD_DEPARTMENT,
-        token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzIiwianRpIjoiMDc4NjFiOGM4MTViZTgwMDg5MDc3YjlhMWQxY2U4OGU5ODgyNTY5NjcyMjY3NWFkMWQyMDBjNWEyZWY4Mzk2ZDIzMDZlZmVhZWY5MWExZDciLCJpYXQiOjE2OTE0Mjk4MTQuNzkxMDc0LCJuYmYiOjE2OTE0Mjk4MTQuNzkxMDgsImV4cCI6MTcyMzA1MjIxNC41NDczOTMsInN1YiI6IjciLCJzY29wZXMiOltdfQ.Bjb42xZgQlkPX1PkiAxQXQNY70Hu-QU_68UZOadheT2huDaQFJYeo2ksh4Sh35XZnL7qbQhX1qyq6smzd7EFMcZ-thfR1FHmpxc_ADvQZDBcPAj1UKRqsR6o9L-AK6BUSylxdlC8anXDW7BtdAfSDhzH4CKUmQHZ3ZIbHRiaW3Ufu2qKjwqzG5kf-V6bFqXASnXqADNWpIcruHWMNJuE2LIPQbY8JPgksWPKU9IhgvIQB0xZC4gPOneCn3Jvyhzgqj8ZFqblOVLOQj09BEkZJ1C4E4ord4HDG2_-nyeGSlPr53dE3Al-_u_4-_cgtPYLsv4-rDwSYBFZywX1w5qj8WTger6UAmUfTJAU0egYQW-1OQh6X7dqU_pxkDLaUm5FbJcQe2wNckgYl6Fj5W-Ua3IN4_B32CS3dmb6_P1BDmefH5nfcQxLdsQ5weHum5ZfWc_1y6cEmneViK9m1KMbtueKNxPRmGhmc6Cv-AxG0rla88J7MckVoNu6oz40u8UJe9eOUbXrPXrimKdiIGBlrPOY7DvwJ5poDrAlNdnjjzoO4wHzgE5Rj48oFHYEZH_cEdLzJKOML_myIv5fTY5BagC7BvZ1xYc89V2P4OZgxG1D0AaIueoMwg3_-yZAm7lQo_GZ-_POtj_HYVljqWY1TvvSIy1FRKQznVVNFvDv8ZY',
+        token:tokenOfAdmin,
         data:
     {
       'name':name,
@@ -145,7 +145,7 @@ class MedManageCubit extends Cubit<MedManageStates>
   {
     DioHelper.postData(
         url: DELETE_DEPARTMENT,
-        token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzIiwianRpIjoiMDc4NjFiOGM4MTViZTgwMDg5MDc3YjlhMWQxY2U4OGU5ODgyNTY5NjcyMjY3NWFkMWQyMDBjNWEyZWY4Mzk2ZDIzMDZlZmVhZWY5MWExZDciLCJpYXQiOjE2OTE0Mjk4MTQuNzkxMDc0LCJuYmYiOjE2OTE0Mjk4MTQuNzkxMDgsImV4cCI6MTcyMzA1MjIxNC41NDczOTMsInN1YiI6IjciLCJzY29wZXMiOltdfQ.Bjb42xZgQlkPX1PkiAxQXQNY70Hu-QU_68UZOadheT2huDaQFJYeo2ksh4Sh35XZnL7qbQhX1qyq6smzd7EFMcZ-thfR1FHmpxc_ADvQZDBcPAj1UKRqsR6o9L-AK6BUSylxdlC8anXDW7BtdAfSDhzH4CKUmQHZ3ZIbHRiaW3Ufu2qKjwqzG5kf-V6bFqXASnXqADNWpIcruHWMNJuE2LIPQbY8JPgksWPKU9IhgvIQB0xZC4gPOneCn3Jvyhzgqj8ZFqblOVLOQj09BEkZJ1C4E4ord4HDG2_-nyeGSlPr53dE3Al-_u_4-_cgtPYLsv4-rDwSYBFZywX1w5qj8WTger6UAmUfTJAU0egYQW-1OQh6X7dqU_pxkDLaUm5FbJcQe2wNckgYl6Fj5W-Ua3IN4_B32CS3dmb6_P1BDmefH5nfcQxLdsQ5weHum5ZfWc_1y6cEmneViK9m1KMbtueKNxPRmGhmc6Cv-AxG0rla88J7MckVoNu6oz40u8UJe9eOUbXrPXrimKdiIGBlrPOY7DvwJ5poDrAlNdnjjzoO4wHzgE5Rj48oFHYEZH_cEdLzJKOML_myIv5fTY5BagC7BvZ1xYc89V2P4OZgxG1D0AaIueoMwg3_-yZAm7lQo_GZ-_POtj_HYVljqWY1TvvSIy1FRKQznVVNFvDv8ZY',
+        token:tokenOfAdmin,
         data:
         {
           'id':id,
@@ -169,7 +169,7 @@ class MedManageCubit extends Cubit<MedManageStates>
   {
     DioHelper.postData(
         url: UPDATE_DEPARTMENT,
-        token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzIiwianRpIjoiMDc4NjFiOGM4MTViZTgwMDg5MDc3YjlhMWQxY2U4OGU5ODgyNTY5NjcyMjY3NWFkMWQyMDBjNWEyZWY4Mzk2ZDIzMDZlZmVhZWY5MWExZDciLCJpYXQiOjE2OTE0Mjk4MTQuNzkxMDc0LCJuYmYiOjE2OTE0Mjk4MTQuNzkxMDgsImV4cCI6MTcyMzA1MjIxNC41NDczOTMsInN1YiI6IjciLCJzY29wZXMiOltdfQ.Bjb42xZgQlkPX1PkiAxQXQNY70Hu-QU_68UZOadheT2huDaQFJYeo2ksh4Sh35XZnL7qbQhX1qyq6smzd7EFMcZ-thfR1FHmpxc_ADvQZDBcPAj1UKRqsR6o9L-AK6BUSylxdlC8anXDW7BtdAfSDhzH4CKUmQHZ3ZIbHRiaW3Ufu2qKjwqzG5kf-V6bFqXASnXqADNWpIcruHWMNJuE2LIPQbY8JPgksWPKU9IhgvIQB0xZC4gPOneCn3Jvyhzgqj8ZFqblOVLOQj09BEkZJ1C4E4ord4HDG2_-nyeGSlPr53dE3Al-_u_4-_cgtPYLsv4-rDwSYBFZywX1w5qj8WTger6UAmUfTJAU0egYQW-1OQh6X7dqU_pxkDLaUm5FbJcQe2wNckgYl6Fj5W-Ua3IN4_B32CS3dmb6_P1BDmefH5nfcQxLdsQ5weHum5ZfWc_1y6cEmneViK9m1KMbtueKNxPRmGhmc6Cv-AxG0rla88J7MckVoNu6oz40u8UJe9eOUbXrPXrimKdiIGBlrPOY7DvwJ5poDrAlNdnjjzoO4wHzgE5Rj48oFHYEZH_cEdLzJKOML_myIv5fTY5BagC7BvZ1xYc89V2P4OZgxG1D0AaIueoMwg3_-yZAm7lQo_GZ-_POtj_HYVljqWY1TvvSIy1FRKQznVVNFvDv8ZY',
+        token:tokenOfAdmin,
         data:
     {
       'id': id,
@@ -206,7 +206,40 @@ class MedManageCubit extends Cubit<MedManageStates>
     //uploadImage(departmentImage!);
   }
 
+   Future<dynamic> postWithImage({
+    required String endPoint,
+    required Map<String, String> body,
+    @required String? imagePath,
+    @required String? token,
+  }) async {
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.parse('$baseUrl$endPoint'),
+    );
+    request.fields.addAll(body);
+    if (imagePath != null) {
+      request.files.add(await http.MultipartFile.fromPath('img', imagePath));
+    }
+    request.headers.addAll(
+      {
+        'Accept': 'application/json',
+        if (token != null) 'Authorization': 'Bearer $token',
+      },
+    );
+    http.StreamedResponse response = await request.send();
 
+    http.Response r = await http.Response.fromStream(response);
+
+    if (r.statusCode == 200) {
+      Map<String, dynamic> data = jsonDecode(r.body);
+      log('HTTP POSTIMAGE Data: $data');
+      return data;
+    } else {
+      throw Exception(
+        'there is an error with status code ${r.statusCode} and with body : ${r.body}',
+      );
+    }
+  }
 
   //Secritary AND Patient*********************************************************************************************************************
 
