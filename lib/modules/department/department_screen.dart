@@ -16,6 +16,10 @@ class DepartmentScreen extends StatelessWidget {
   var alignKey = GlobalKey<ScaffoldState>();
   var nameController = TextEditingController();
 */
+
+ final int index;
+  DepartmentScreen({required this.index});
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<MedManageCubit, MedManageStates>(
@@ -49,7 +53,7 @@ class DepartmentScreen extends StatelessWidget {
                     child: IconButton(
                       onPressed: () {
                         // int index;
-                        navigateTo(context, AddDepartmentScreen());
+                        navigateTo(context, AddDepartmentScreen(model:cubit.departmentHomeModel ,index: index,));
 
                         /* showModalBottomSheet(
                           context: context,

@@ -1,25 +1,31 @@
+import 'dart:io';
+
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:med_manage_app/cubit/cubit.dart';
 import 'package:med_manage_app/cubit/states.dart';
 import 'package:med_manage_app/layout/med_manage_layout.dart';
+import 'package:med_manage_app/models/department/index_department_model.dart';
 import 'package:med_manage_app/styles/colors/colors.dart';
 import 'package:med_manage_app/widgets/component.dart';
+
+import '../../helper/end_points.dart';
 
 class AddDepartmentScreen extends StatelessWidget {
 
 
   var formKey = GlobalKey<FormState>();
 
-  /*final DepartmentHomeModel? model;
+  final DepartmentHomeModel? model;
   final int index;
 
   AddDepartmentScreen({
     required this.model,
     required this.index,
-  });*/
+  });
   var nameController = TextEditingController();
+
 
 
   @override
@@ -28,8 +34,9 @@ class AddDepartmentScreen extends StatelessWidget {
         builder: (context, state)
         {
           //nameController.text = model!.Department![index].name;
-          //MedManageCubit cubit =  MedManageCubit.get(context);
-          //var departmentImage  =  MedManageCubit.get(context).departmentImage;
+          MedManageCubit cubit =  MedManageCubit.get(context);
+          var departmentImage  =  MedManageCubit.get(context).departmentImage;
+
 
           return Scaffold(
             appBar: AppBar(
@@ -46,17 +53,21 @@ class AddDepartmentScreen extends StatelessWidget {
                     builder: (context)=> defTextButton(
                       text:'add' ,
                       color: color4,
-
                       function: ()
                       {
                         if(formKey.currentState!.validate())
                         {
-                          /* print('validate is done');
-                          MedManageCubit.get(context).addDepartment(
-                           img :model!.Department![index].img,
-                            name: model!.Department![index].name,
-                          );*/
+                            MedManageCubit.get(context).postWithImage(
+                              body:
+                              {
+                                'name': nameController.text,
+                              } ,
+                              imagePath:'${departmentImage}' ,
+                              endPoint: ADD_DEPARTMENT,
+                              token:MedManageCubit.tokenOfAdmin,);
+
                           MedManageCubit.get(context).getHomeDepData();
+
                           navigateAndReplacement(context,MedManageLayout());
                         }
                       },
@@ -84,15 +95,13 @@ class AddDepartmentScreen extends StatelessWidget {
                                 alignment: AlignmentDirectional.topEnd,
                                 children:
                                 [
-                                  Image(
-                                    image: AssetImage('assets/images/undraw_Female_avatar_efig (1).png'),
-                                    // image: departmentImage == null ? AssetImage('assets/images/undraw_About_me_re_82bv (1).png'): FileImage(departmentImage!),
-
-                                    // image: departmentImage == null ? FileImage(departmentImage!) as ImageProvider : AssetImage('assets/images/undraw_Female_avatar_efig (1).png'),
+                                  Container(
                                     width: double.infinity,
                                     height: 170.0,
-                                    fit: BoxFit.contain,
-                                  ),
+                                    child:departmentImage == null ? Image(
+                                      image: NetworkImage('http://192.168.1.10:8000/upload/${model!.Department![index].img}', scale: 10.0),
+                                    ) :  Image.file(File('${departmentImage}').absolute,
+                                        fit: BoxFit.cover,), ),
                                   CircleAvatar(
                                     backgroundColor: defaultColor,
                                     radius: 18.0,

@@ -97,7 +97,7 @@ class EditDepartmentScreen extends StatelessWidget {
                                 alignment: AlignmentDirectional.topEnd,
                                 children:
                                 [
-                                   Image(
+                                  Image(
                                     image: departmentImage == null ? NetworkImage('http://192.168.1.10:8000/upload/${model!.Department![index].img}', scale: 10.0) : FileImage(departmentImage)as ImageProvider,
                                     width: double.infinity,
                                     height: 170.0,

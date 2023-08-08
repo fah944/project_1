@@ -36,9 +36,12 @@ class MedManageCubit extends Cubit<MedManageStates>
   static String baseUrl ='http://192.168.1.10:8000/api/';
 
  int currentIndex = 0;
+ static int index = 0 ;
+
  List<Widget> bottomScreens =
  [
-   DepartmentScreen(),
+   DepartmentScreen(
+     index: index,),
    const PatientsScreen(),
    const SecretariaScreen(),
    SettingsScreen()
@@ -102,7 +105,7 @@ class MedManageCubit extends Cubit<MedManageStates>
     ).then((value)
     {
       departmentHomeModel = DepartmentHomeModel.fromJson(value.data);
-      print(departmentHomeModel.Department![1].img);
+      //print(departmentHomeModel.Department![1].img);
       emit(MedManageSuccessHomeDepDataState());
     }
     ).catchError((error)
@@ -116,7 +119,8 @@ class MedManageCubit extends Cubit<MedManageStates>
   late AddDepartmentModel addDepartmentModel;
   void addDepartment({
     required String name,
-    //required String img,
+    required String img,
+
   })
   {
     DioHelper.postData(
@@ -125,13 +129,14 @@ class MedManageCubit extends Cubit<MedManageStates>
         data:
     {
       'name':name,
-      //'img':img,
+      'img':img,
     }
     ).then((value)
     {
 
       addDepartmentModel = AddDepartmentModel.fromJson(value.data);
       emit(MedManageAddDepartmentSuccessState());
+      getHomeDepData();
     }).catchError((error)
     {
       emit(MedManageAddDepartmentErrorState());
@@ -187,23 +192,28 @@ class MedManageCubit extends Cubit<MedManageStates>
 
   }
 
-  File? departmentImage;
-  final picker = ImagePicker();
+ // final XFile? pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
 
+
+
+ // File? departmentImage;
+  var departmentImage;
+  final picker = ImagePicker();
   Future<void> getImage() async
   {
-    final pickedFile= await picker.pickImage(source: ImageSource.gallery);
-
+    final pickedFile = await picker.pickImage(
+        source: ImageSource.gallery, imageQuality: 80,);
     if(pickedFile != null)
     {
-      departmentImage =File(pickedFile.path);
+     departmentImage = pickedFile.path ;
+          //File(pickedFile.path);
+     print(departmentImage.toString());
       emit(MedManageDepImagePickedSuccessState());
     }else
     {
       print('no image selected.');
       emit(MedManageDepImagePickedErrorState());
     }
-    //uploadImage(departmentImage!);
   }
 
    Future<dynamic> postWithImage({
@@ -233,6 +243,7 @@ class MedManageCubit extends Cubit<MedManageStates>
     if (r.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(r.body);
       log('HTTP POSTIMAGE Data: $data');
+      getHomeDepData();
       return data;
     } else {
       throw Exception(
@@ -240,7 +251,7 @@ class MedManageCubit extends Cubit<MedManageStates>
       );
     }
   }
-
+  
   //Secritary AND Patient*********************************************************************************************************************
 
   late IndexSecretariaModel indexSecretariaModel;
