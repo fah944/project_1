@@ -21,27 +21,37 @@ class DepartmentScreen extends StatelessWidget {
     return BlocConsumer<MedManageCubit, MedManageStates>(
       builder: (context, state) {
         MedManageCubit cubit = MedManageCubit.get(context);
-        return Align(
-          //key: alignKey,
-          child: Stack(
-            children: [
-              ConditionalBuilder(
-                  condition: state is! MedManageLoadHomeDepDataState,
-                  builder: (context) => departmentBuilder(cubit.departmentHomeModel, context),
-                  fallback: (context) => const Center(
-                    child: CircularProgressIndicator(),
-                  )),
-              Padding(
-                padding: const EdgeInsets.only(left: 300, top: 450),
-                child: CircleAvatar(
-                  backgroundColor: color5,
-                  radius: 22.0,
-                  child: IconButton(
-                    onPressed: () {
-                      // int index;
-                      navigateTo(context, AddDepartmentScreen());
+        if(state is MedManageErrorHomeDepDataState)
+        {
+          return const Center(
+            child: Text('Error Occurred '),
+          );
+        }
+        if(state is MedManageLoadHomeDepDataState)
+        {
+          return const Center(child: CircularProgressIndicator(),);
+        }else{
+          return Align(
+            //key: alignKey,
+            child: Stack(
+              children: [
+                ConditionalBuilder(
+                    condition: state is! MedManageLoadHomeDepDataState,
+                    builder: (context) => departmentBuilder(cubit.departmentHomeModel, context),
+                    fallback: (context) => const Center(
+                      child: CircularProgressIndicator(),
+                    )),
+                Padding(
+                  padding: const EdgeInsets.only(left: 300, top: 450),
+                  child: CircleAvatar(
+                    backgroundColor: color5,
+                    radius: 22.0,
+                    child: IconButton(
+                      onPressed: () {
+                        // int index;
+                        navigateTo(context, AddDepartmentScreen());
 
-                      /* showModalBottomSheet(
+                        /* showModalBottomSheet(
                           context: context,
                           builder: (BuildContext context)
                           {
@@ -121,8 +131,7 @@ class DepartmentScreen extends StatelessWidget {
                             );
                           });*/
 
-
-                      /*  if (cubit.isBottomSheetShown)
+                        /*  if (cubit.isBottomSheetShown)
                       {
 
                         //cubit.addDepartment(
@@ -223,23 +232,28 @@ class DepartmentScreen extends StatelessWidget {
                         );
                         cubit.isBottomSheetShown = false;
                       }*/
-                    },
-                    icon: const Icon(
-                      Icons.add,
-                      color: Colors.white,
-                      size: 22.0,
+                      },
+                      icon: const Icon(
+                        Icons.add,
+                        color: Colors.white,
+                        size: 22.0,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        );
+              ],
+            ),
+          );
+        }
       },
       listener: (context, state) {},
     );
   }
 }
+
+
+
+
 
 Widget departmentBuilder(DepartmentHomeModel model, BuildContext context) =>
     SingleChildScrollView(
