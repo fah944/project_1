@@ -3,18 +3,16 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:med_manage_app/constant.dart';
 import 'package:med_manage_app/cubit/cubit.dart';
 import 'package:med_manage_app/cubit/states.dart';
-import 'package:med_manage_app/helper/end_points.dart';
 import 'package:med_manage_app/styles/colors/colors.dart';
 import 'package:med_manage_app/widgets/component.dart';
 
 import '../../layout/med_manage_layout.dart';
 import '../../models/department/index_department_model.dart';
 
-
 class EditDepartmentScreen extends StatelessWidget {
-
   var scaffoldKey = GlobalKey<ScaffoldState>();
   var formKey = GlobalKey<FormState>();
 
@@ -22,21 +20,18 @@ class EditDepartmentScreen extends StatelessWidget {
   final int index;
 
   EditDepartmentScreen({
+    super.key,
     required this.model,
     required this.index,
   });
   var nameController = TextEditingController();
 
-
   @override
   Widget build(BuildContext context) {
-
-
-    return BlocConsumer<MedManageCubit,MedManageStates>(
-        builder: (context, state)
-        {
+    return BlocConsumer<MedManageCubit, MedManageStates>(
+        builder: (context, state) {
           nameController.text = model!.Department![index].name;
-          var departmentImage  =  MedManageCubit.get(context).departmentImage;
+          var departmentImage = MedManageCubit.get(context).departmentImage;
           return Scaffold(
             appBar: AppBar(
               title: const Text(
@@ -49,19 +44,16 @@ class EditDepartmentScreen extends StatelessWidget {
               actions: [
                 ConditionalBuilder(
                     condition: state is! MedManageLoadingUpdateDepartmentState,
-                    builder: (context)=> defTextButton(
-                      text:'update' ,
-                      color: color4,
-                      function: ()
-                      {
-
-                        if(formKey.currentState!.validate())
-                        {
-                          MedManageCubit.get(context).updateDepartment(
-                            id:model!.Department![index].id,
-                            name: nameController.text,
-                          );
-                           /* MedManageCubit.get(context).postWithImage(
+                    builder: (context) => defTextButton(
+                          text: 'update',
+                          color: color4,
+                          function: () {
+                            if (formKey.currentState!.validate()) {
+                              MedManageCubit.get(context).updateDepartment(
+                                id: model!.Department![index].id,
+                                name: nameController.text,
+                              );
+                              /* MedManageCubit.get(context).postWithImage(
                               body:
                               {
                                 'img':model!.Department![index].img,
@@ -69,23 +61,25 @@ class EditDepartmentScreen extends StatelessWidget {
                               imagePath:'http://192.168.1.10:8000/upload/${model!.Department![index].img}' ,
                               endPoint: UPDATE_DEPARTMENT,
                               token:MedManageCubit.tokenOfAdmin,);*/
-                          MedManageCubit.get(context).getHomeDepData();
-                          navigateAndReplacement(context,MedManageLayout());
-                        }
-                      },
-                    ),
-                    fallback: (context)=> const Center(
-                      child:CircularProgressIndicator() ,
-                    )),
-                const SizedBox(width: 10.0,),
+                              MedManageCubit.get(context).getHomeDepData();
+                              navigateAndReplacement(
+                                  context, const MedManageLayout());
+                            }
+                          },
+                        ),
+                    fallback: (context) => const Center(
+                          child: CircularProgressIndicator(),
+                        )),
+                const SizedBox(
+                  width: 10.0,
+                ),
               ],
             ),
-            body:Padding(
-              padding:const EdgeInsets.all(25.0),
-              child:  SingleChildScrollView(
+            body: Padding(
+              padding: const EdgeInsets.all(25.0),
+              child: SingleChildScrollView(
                 child: Column(
-                  children:
-                  [
+                  children: [
                     Container(
                       color: Colors.white,
                       child: Form(
@@ -93,12 +87,16 @@ class EditDepartmentScreen extends StatelessWidget {
                         child: Column(
                           children: [
                             Align(
-                              child:Stack(
+                              child: Stack(
                                 alignment: AlignmentDirectional.topEnd,
-                                children:
-                                [
+                                children: [
                                   Image(
-                                    image: departmentImage == null ? NetworkImage('http://192.168.1.10:8000/upload/${model!.Department![index].img}', scale: 10.0) : FileImage(departmentImage)as ImageProvider,
+                                    image: departmentImage == null
+                                        ? NetworkImage(
+                                            'http://$ipAddress:8000/upload/${model!.Department![index].img}',
+                                            scale: 10.0)
+                                        : FileImage(departmentImage)
+                                            as ImageProvider,
                                     width: double.infinity,
                                     height: 170.0,
                                     fit: BoxFit.contain,
@@ -106,16 +104,16 @@ class EditDepartmentScreen extends StatelessWidget {
                                   CircleAvatar(
                                     backgroundColor: defaultColor,
                                     radius: 18.0,
-                                    child:IconButton(
-                                      onPressed: ()
-                                      {
+                                    child: IconButton(
+                                      onPressed: () {
                                         MedManageCubit.get(context).getImage();
                                       },
-                                      icon:const Icon(
+                                      icon: const Icon(
                                         Icons.camera_alt,
                                         color: Colors.white,
                                         size: 20.0,
-                                      ),),
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -139,12 +137,8 @@ class EditDepartmentScreen extends StatelessWidget {
                                   color: Colors.grey,
                                 ),
                               ),
-                              onFieldSubmitted: (String value)
-                              {
-
-                              },
-                              onChanged: (String value)
-                              {
+                              onFieldSubmitted: (String value) {},
+                              onChanged: (String value) {
                                 print(value);
                               },
                               validator: (value) {
@@ -180,7 +174,6 @@ class EditDepartmentScreen extends StatelessWidget {
                                 ),
                               ],
                             ),
-
                           ],
                         ),
                       ),
@@ -191,7 +184,6 @@ class EditDepartmentScreen extends StatelessWidget {
             ),
           );
         },
-        listener: (context ,state){}
-    );
+        listener: (context, state) {});
   }
 }
