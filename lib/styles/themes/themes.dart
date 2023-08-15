@@ -4,23 +4,23 @@ import 'package:hexcolor/hexcolor.dart';
 
 import '../colors/colors.dart';
 
-ThemeData darkTheme =  ThemeData(
+ThemeData darkTheme = ThemeData(
   scaffoldBackgroundColor: HexColor('333739'),
-  primarySwatch:Colors.grey,
-  appBarTheme:  AppBarTheme(
+  primarySwatch: Colors.grey,
+  appBarTheme: AppBarTheme(
     titleSpacing: 20.0,
     elevation: 0.0,
     backgroundColor: HexColor('333739'),
     //  backwardsCompatibility: false,
-    systemOverlayStyle:  SystemUiOverlayStyle(
+    systemOverlayStyle: SystemUiOverlayStyle(
       statusBarColor: HexColor('333739'),
       statusBarIconBrightness: Brightness.light,
     ),
 
-    titleTextStyle: TextStyle(
+    titleTextStyle: const TextStyle(
       color: Colors.white,
     ),
-    iconTheme: IconThemeData(
+    iconTheme: const IconThemeData(
       color: Colors.white,
     ),
   ),
@@ -31,7 +31,7 @@ ThemeData darkTheme =  ThemeData(
     unselectedItemColor: Colors.grey,
     elevation: 20.0,
   ),
-  textTheme:const TextTheme(
+  textTheme: const TextTheme(
     bodyLarge: TextStyle(
       fontSize: 18.0,
       fontWeight: FontWeight.w600,
@@ -41,10 +41,10 @@ ThemeData darkTheme =  ThemeData(
 );
 
 ThemeData lightTheme = ThemeData(
-  primarySwatch:Colors.grey,
+  useMaterial3: true,
+  primarySwatch: Colors.grey,
   scaffoldBackgroundColor: Colors.white,
-
-  appBarTheme:  AppBarTheme(
+  appBarTheme: AppBarTheme(
     titleSpacing: 20.0,
     elevation: 0.0,
     backgroundColor: Colors.white,
@@ -54,23 +54,17 @@ ThemeData lightTheme = ThemeData(
       statusBarIconBrightness: Brightness.dark,
     ),
     titleTextStyle: const TextStyle(
-      color: defaultColor,
-      fontSize: 18.0,
-      fontWeight: FontWeight.w500
-    ),
+        color: defaultColor, fontSize: 18.0, fontWeight: FontWeight.w500),
     iconTheme: IconThemeData(
       color: Colors.grey[600],
     ),
   ),
-   floatingActionButtonTheme: FloatingActionButtonThemeData(
-
-       elevation:10.0,
-       backgroundColor: color1,
-       iconSize: 27.0,
-
-
-   ),
-  bottomNavigationBarTheme:  BottomNavigationBarThemeData(
+  floatingActionButtonTheme: const FloatingActionButtonThemeData(
+    elevation: 10.0,
+    backgroundColor: color1,
+    iconSize: 27.0,
+  ),
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
     type: BottomNavigationBarType.fixed,
     selectedItemColor: defaultColor,
     unselectedItemColor: Colors.grey[600],
