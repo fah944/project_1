@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:med_manage_app/constant.dart';
 import 'package:med_manage_app/cubit/cubit.dart';
 import 'package:med_manage_app/cubit/states.dart';
+import 'package:med_manage_app/helper/end_points.dart';
 import 'package:med_manage_app/styles/colors/colors.dart';
 import 'package:med_manage_app/widgets/component.dart';
 
@@ -15,7 +16,6 @@ import '../../models/department/index_department_model.dart';
 class EditDepartmentScreen extends StatelessWidget {
   var scaffoldKey = GlobalKey<ScaffoldState>();
   var formKey = GlobalKey<FormState>();
-
   final DepartmentHomeModel? model;
   final int index;
 
@@ -45,31 +45,36 @@ class EditDepartmentScreen extends StatelessWidget {
                 ConditionalBuilder(
                     condition: state is! MedManageLoadingUpdateDepartmentState,
                     builder: (context) => defTextButton(
-                          text: 'update',
-                          color: color4,
-                          function: () {
-                            if (formKey.currentState!.validate()) {
-                              MedManageCubit.get(context).updateDepartment(
-                                id: model!.Department![index].id,
-                                name: nameController.text,
-                              );
-                              /* MedManageCubit.get(context).postWithImage(
-                              body:
-                              {
-                                'img':model!.Department![index].img,
-                              } ,
-                              imagePath:'http://192.168.1.10:8000/upload/${model!.Department![index].img}' ,
-                              endPoint: UPDATE_DEPARTMENT,
-                              token:MedManageCubit.tokenOfAdmin,);*/
-                              MedManageCubit.get(context).getHomeDepData();
-                              navigateAndReplacement(
-                                  context, const MedManageLayout());
-                            }
-                          },
-                        ),
+                      text: 'update',
+                      color: color4,
+                      function: () {
+                        if (formKey.currentState!.validate())
+                        {
+                         /* MedManageCubit.get(context).updateWithImage(
+                            endPoint: UPDATE_DEPARTMENT,
+                            body:
+                            {
+                              'id': '${model!.Department![index].id}',
+                              'name': nameController.text,
+
+                            },
+                            imagePath:'$departmentImage' ,
+                            token: MedManageCubit.tokenOfAdmin,
+                          );*/
+                            MedManageCubit.get(context).updateDepartment(
+                            id: model!.Department![index].id,
+                            name: nameController.text,
+
+                          );
+                          MedManageCubit.get(context).getHomeDepData();
+                          navigateAndReplacement(
+                              context, const MedManageLayout());
+                        }
+                      },
+                    ),
                     fallback: (context) => const Center(
-                          child: CircularProgressIndicator(),
-                        )),
+                      child: CircularProgressIndicator(),
+                    )),
                 const SizedBox(
                   width: 10.0,
                 ),
@@ -93,16 +98,14 @@ class EditDepartmentScreen extends StatelessWidget {
                                   Image(
                                     image: departmentImage == null
                                         ? NetworkImage(
-                                            'http://$ipAddress:8000/upload/${model!.Department![index].img}',
-                                            scale: 10.0)
-                                        : departmentImage
-                                            // : FileImage(departmentImage)
-                                            as ImageProvider,
+                                        'http://$ipAddress:8000/upload/${model!.Department![index].img}',
+                                        scale: 10.0)
+                                        : FileImage(departmentImage) as ImageProvider,
                                     width: double.infinity,
                                     height: 170.0,
                                     fit: BoxFit.contain,
                                   ),
-                                  CircleAvatar(
+                                 /* CircleAvatar(
                                     backgroundColor: defaultColor,
                                     radius: 18.0,
                                     child: IconButton(
@@ -115,7 +118,7 @@ class EditDepartmentScreen extends StatelessWidget {
                                         size: 20.0,
                                       ),
                                     ),
-                                  ),
+                                  ),*/
                                 ],
                               ),
                             ),

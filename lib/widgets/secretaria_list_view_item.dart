@@ -32,7 +32,7 @@ class SecretariaListViewItem extends StatelessWidget {
       },
       builder: (context, state) {
         return ConditionalBuilder(
-          condition: state is! MedManageLoadingSecretariaListState,
+          condition: state is! IndexSecretariaListLoadingState,
           builder: (context) => model.secretary.isNotEmpty ?
           ListView.separated(
             itemBuilder: (context, index) =>

@@ -13,7 +13,7 @@ class PatientsScreen extends StatelessWidget {
     return BlocConsumer<MedManageCubit, MedManageStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        if (state is MedManageErrorPatientsListState) {
+        if (state is IndexPatientListErrorState) {
           return const Center(
             child: Text(
               'There is some thing error',
@@ -23,7 +23,7 @@ class PatientsScreen extends StatelessWidget {
             ),
           );
         }
-        if (state is MedManageLoadingPatientsListState) {
+        if (state is IndexPatientListLoadingState) {
           return const Center(child: CircularProgressIndicator());
         } else {
           return PatientsListViewItem(

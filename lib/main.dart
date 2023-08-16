@@ -19,8 +19,6 @@ void main() async {
   DioHelper.init();
   DioHelperG.init();
 
-  // await CacheHelper.init();
-  //token = CacheHelper.getData(key :'token');
   runApp(const MedManageApp());
 }
 

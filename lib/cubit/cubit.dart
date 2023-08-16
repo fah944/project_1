@@ -18,6 +18,7 @@ import '../models/patient/delete_patient_model.dart';
 import '../models/patient/index_patient_model.dart';
 import '../models/patient/view_patient_model.dart';
 import '../models/secretaria/delete_secretaria_model.dart';
+import '../models/secretaria/index_departments_model.dart';
 import '../models/secretaria/index_secretaria_model.dart';
 import '../models/secretaria/register_secretaria_model.dart';
 import '../models/secretaria/update_secretaria_model.dart';
@@ -39,15 +40,14 @@ class MedManageCubit extends Cubit<MedManageStates> {
   static int index = 0;
 
   List<Widget> bottomScreens = [
-    DepartmentScreen(
-      index: index,
-    ),
+    DepartmentScreen(),
     const PatientsScreen(),
     const SecretariaScreen(),
     DoctorsView(token: CacheHelper.getData(key: 'Token')),
   ];
 
-  List<BottomNavigationBarItem> items = [
+  List<BottomNavigationBarItem> items =
+  [
     const BottomNavigationBarItem(
       icon: Icon(
         Icons.home,
@@ -81,7 +81,10 @@ class MedManageCubit extends Cubit<MedManageStates> {
   void changeBottom(int index) {
     currentIndex = index;
     emit(MedManageChangeBottomNavState());
-    if (index == 1) {
+
+    if (index == 0) {
+     getHomeDepData();
+    }if (index == 1) {
       indexPatientsList();
     }
     if (index == 2) {
@@ -147,21 +150,7 @@ class MedManageCubit extends Cubit<MedManageStates> {
     });
   }
 
-  void updateDepartment({
-    required int id,
-    required String name,
-  }) {
-    DioHelper.postData(url: UPDATE_DEPARTMENT, token: tokenOfAdmin, data: {
-      'id': id,
-      'name': name,
-    }).then((value) {
-      departmentHomeModel = DepartmentHomeModel.fromJson(value.data);
-      emit(MedManageUpdateDepartmentSuccessState());
-      getHomeDepData();
-    }).catchError((error) {
-      emit(MedManageUpdateDepartmentErrorState());
-    });
-  }
+
 
   // File? departmentImage;
   var departmentImage;
@@ -218,22 +207,83 @@ class MedManageCubit extends Cubit<MedManageStates> {
     }
   }
 
+  Future<dynamic> updateWithImage({
+    required String endPoint,
+    required Map<String, String> body,
+    @required String? imagePath,
+    @required String? token,
+  }) async {
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.parse('$baseUrl$endPoint'),
+    );
+    request.fields.addAll(body);
+    if (imagePath != null) {
+      request.files.add(await http.MultipartFile.fromPath('img', imagePath));
+    }
+    request.headers.addAll(
+      {
+        'Accept': 'application/json',
+        if (token != null) 'Authorization': 'Bearer $token',
+      },
+    );
+    http.StreamedResponse response = await request.send();
+
+    http.Response r = await http.Response.fromStream(response);
+
+    if (r.statusCode == 200) {
+      Map<String, dynamic> data = jsonDecode(r.body);
+      log('HTTP POSTIMAGE Data: $data');
+      getHomeDepData();
+      return data;
+    } else {
+      throw Exception(
+        'there is an error with status code ${r.statusCode} and with body : ${r.body}',
+      );
+    }
+  }
+
+
+
+  void updateDepartment({
+    required int id,
+    required String name,
+  }) {
+    DioHelper.postData(url: UPDATE_DEPARTMENT, token: tokenOfAdmin, data: {
+      'id': id,
+      'name': name,
+    }).then((value) {
+      departmentHomeModel = DepartmentHomeModel.fromJson(value.data);
+      emit(MedManageUpdateDepartmentSuccessState());
+      getHomeDepData();
+    }).catchError((error) {
+      emit(MedManageUpdateDepartmentErrorState());
+    });
+  }
+
+
+
   //Secritary AND Patient*********************************************************************************************************************
+
+  List<String> consult = ['Medical', 'Psychological', 'Economic'];
+
+  String? selectedConsult = 'Medical';
 
   late IndexSecretariaModel indexSecretariaModel;
 
   void indexSecretariaList() {
-    emit(MedManageLoadingSecretariaListState());
+    emit(IndexSecretariaListLoadingState());
     DioHelperG.getDataG(url: 'indexSecretary', query: null, token: tokenG)
         .then((value) {
+
       indexSecretariaModel = IndexSecretariaModel.fromJson(value.data);
       print(value.toString());
       print(indexSecretariaModel.message);
       print(indexSecretariaModel.secretary[0].user.firstName);
-      emit(MedManageSuccssesSecretariaListState());
+      emit(IndexSecretariaListSuccssesState());
     }).catchError((error) {
       print(error.toString());
-      emit(MedManageErrorSecretariaListState());
+      emit(IndexSecretariaListErrorState());
     });
   }
 
@@ -242,7 +292,7 @@ class MedManageCubit extends Cubit<MedManageStates> {
   void deleteSecretaria({
     required int user_id,
   }) {
-    emit(MedManageLoadingSecretariaProfDeleteState());
+    emit(SecretariaDeleteLoadingState());
     DioHelperG.postDataG(
       url: 'deleteSecretary',
       data: {
@@ -254,11 +304,11 @@ class MedManageCubit extends Cubit<MedManageStates> {
       print(value.data);
       print(deleteSecretariaModel.success);
       print(deleteSecretariaModel.message);
-      emit(MedManageSuccssesSecretariaProfDeleteState());
+      emit(SecretariaDeleteSuccssesState());
       indexSecretariaList();
     }).catchError((error) {
       print(error.toString());
-      emit(MedManageErrorSecretariaProfDeleteState());
+      emit(SecretariaDeleteErrorState());
     });
   }
 
@@ -267,7 +317,7 @@ class MedManageCubit extends Cubit<MedManageStates> {
   void viewSecretaria({
     required int user_id,
   }) {
-    emit(MedManageLoadingSecretariaProfState());
+    emit(SecretariaProfLoadingState());
     DioHelperG.postDataG(
             url: 'viewSecretary',
             data: {
@@ -279,10 +329,10 @@ class MedManageCubit extends Cubit<MedManageStates> {
       viewSecretariaModel = ViewSecretariaModel.fromJson(value.data);
       //print(viewSecretariaModel.secretary?.departmentId);
       //print(viewSecretariaModel.secretary?.user.firstName);
-      emit(MedManageSuccssesSecretariaProfState());
+      emit(SecretariaProfSuccssesState());
     }).catchError((error) {
       print(error.toString());
-      emit(MedManageErrorSecretariaProfState());
+      emit(SecretariaProfErrorState());
     });
   }
 
@@ -295,7 +345,7 @@ class MedManageCubit extends Cubit<MedManageStates> {
     required String? phone_num,
     required int user_id,
   }) {
-    emit(MedManageLoadingSecretariaProfState());
+    emit(SecretariaProfLoadingState());
     DioHelperG.postDataG(
             url: 'updateSecretary',
             data: {
@@ -311,10 +361,10 @@ class MedManageCubit extends Cubit<MedManageStates> {
       // print(value.data['message']);
       updateSecretariaModel = UpdateSecretariaModel.fromJson(value.data);
       print(updateSecretariaModel.success);
-      emit(MedManageSuccssesSecretariaProfEditState());
+      emit(SecretariaProfEditSuccssesState());
     }).catchError((error) {
       print(error.toString());
-      emit(MedManageErrorSecretariaProfEditState());
+      emit(SecretariaProfEditErrorState());
     });
   }
 
@@ -328,7 +378,7 @@ class MedManageCubit extends Cubit<MedManageStates> {
     required String password,
     required String department_name,
   }) {
-    emit(MedManageLoadingSecretariaRegisterState());
+    emit(SecretariaRegisterLoadingState());
     DioHelperG.postDataG(
             url: 'registerSecretary',
             data: {
@@ -346,17 +396,17 @@ class MedManageCubit extends Cubit<MedManageStates> {
       // print(value.toString());
       // print(registerSecretariaModel.token);
       // print(registerSecretariaModel.role);
-      emit(MedManageSuccssesSecretariaRegisterState());
+      emit(SecretariaRegisterSuccssesState());
     }).catchError((error) {
       print(error.toString());
-      emit(MedManageErrorSecretariaRegisterState());
+      emit(SecretariaRegisterErrorState());
     });
   }
 
   late IndexPatientModel indexPatientModel;
 
   void indexPatientsList() {
-    emit(MedManageLoadingPatientsListState());
+    emit(IndexPatientListLoadingState());
     DioHelperG.getDataG(url: 'indexPatient', query: null, token: tokenG)
         .then((value) {
       indexPatientModel = IndexPatientModel.fromJson(value.data);
@@ -365,7 +415,7 @@ class MedManageCubit extends Cubit<MedManageStates> {
       emit(MedManageSuccssesPatientsListState());
     }).catchError((error) {
       print(error.toString());
-      emit(MedManageErrorPatientsListState());
+      emit(IndexPatientListErrorState());
     });
   }
 
@@ -374,7 +424,7 @@ class MedManageCubit extends Cubit<MedManageStates> {
   void deletePatient({
     required int user_id,
   }) {
-    emit(MedManageLoadingPatientsDeleteState());
+    emit(PatientDeleteLoadingState());
     DioHelperG.postDataG(
       url: 'deletePatient',
       data: {
@@ -386,11 +436,11 @@ class MedManageCubit extends Cubit<MedManageStates> {
       // print(value.data);
       // print(deletePatientModel.success);
       // print(deletePatientModel.message);
-      emit(MedManageSuccssesPatientsDeleteState());
+      emit(PatientDeleteSuccssesState());
       indexPatientsList();
     }).catchError((error) {
       print(error.toString());
-      emit(MedManageErrorPatientsDeleteState());
+      emit(PatientDeleteErrorState());
     });
   }
 
@@ -399,7 +449,7 @@ class MedManageCubit extends Cubit<MedManageStates> {
   void viewPatient({
     required int user_id,
   }) {
-    emit(MedManageLoadingPatientsProfState());
+    emit(PatientProfLoadingState());
     DioHelperG.postDataG(
             url: 'viewPatient',
             data: {
@@ -411,10 +461,30 @@ class MedManageCubit extends Cubit<MedManageStates> {
       viewPatientModel = ViewPatientModel.fromJson(value.data);
       // print(viewPatientModel.message);
       // print(viewPatientModel.patient.user.firstName);
-      emit(MedManageSuccssesPatientsProfState());
+      emit(PatientProfSuccssesState());
     }).catchError((error) {
       print(error.toString());
-      emit(MedManageErrorPatientsProfState());
+      emit(PatientProfErrorState());
+    });
+  }
+
+  late IndexDepartmentModel indexDepartmentModel;
+
+  void indexDepartment()
+  {
+    emit(IndexDepartmentListLoadingState());
+    DioHelperG.getDataG(
+        url: 'indexDepartment',
+        query: null,
+        token: tokenG
+    ).then((value) {
+      indexDepartmentModel = IndexDepartmentModel.fromJson(value.data);
+      print(value.toString());
+      print(indexDepartmentModel.department[0].name);
+      emit(IndexDepartmentListSuccssesState());
+    }).catchError((error){
+      print(error.toString());
+      emit(IndexDepartmentListErrorState());
     });
   }
 

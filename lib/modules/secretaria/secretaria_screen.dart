@@ -16,7 +16,7 @@ class SecretariaScreen extends StatelessWidget {
     return BlocConsumer<MedManageCubit, MedManageStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        if (state is MedManageErrorSecretariaListState) {
+        if (state is IndexSecretariaListErrorState) {
           return Scaffold(
             // floatingActionButtonLocation:
             //     FloatingActionButtonLocation.miniEndFloat,
