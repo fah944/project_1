@@ -40,14 +40,15 @@ class MedManageCubit extends Cubit<MedManageStates> {
 
   List<Widget> bottomScreens = [
     DepartmentScreen(
-      index: index,
+     // index: index,
     ),
     const PatientsScreen(),
     const SecretariaScreen(),
     DoctorsView(token: CacheHelper.getData(key: 'Token')),
   ];
 
-  List<BottomNavigationBarItem> items = [
+  List<BottomNavigationBarItem> items =
+  [
     const BottomNavigationBarItem(
       icon: Icon(
         Icons.home,
@@ -81,7 +82,10 @@ class MedManageCubit extends Cubit<MedManageStates> {
   void changeBottom(int index) {
     currentIndex = index;
     emit(MedManageChangeBottomNavState());
-    if (index == 1) {
+
+    if (index == 0) {
+     getHomeDepData();
+    }if (index == 1) {
       indexPatientsList();
     }
     if (index == 2) {

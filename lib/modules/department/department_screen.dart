@@ -1,3 +1,4 @@
+
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,18 +9,14 @@ import 'package:med_manage_app/cubit/states.dart';
 import 'package:med_manage_app/models/department/index_department_model.dart';
 import 'package:med_manage_app/modules/department/add_department_screen.dart';
 import 'package:med_manage_app/styles/colors/colors.dart';
-
 import '../../widgets/component.dart';
 import 'edit_department_screen.dart';
 
 class DepartmentScreen extends StatelessWidget {
-  /*var formKey = GlobalKey<FormState>();
-  var alignKey = GlobalKey<ScaffoldState>();
-  var nameController = TextEditingController();
-*/
 
-  final int index;
-  const DepartmentScreen({super.key, required this.index});
+
+  const DepartmentScreen({super.key,
+   });
 
   @override
   Widget build(BuildContext context) {
@@ -36,17 +33,26 @@ class DepartmentScreen extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         } else {
-          return ConditionalBuilder(
-            condition: state is! MedManageLoadHomeDepDataState,
-            builder: (context) => departmentBuilder(
-              cubit.departmentHomeModel,
-              context,
-              cubit,
-            ),
-            fallback: (context) => const Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
+          if(cubit.departmentHomeModel.Department!.isEmpty)
+          {
+            return  const Center(
+              child: Text(
+                'Please add a department',
+              ),
+            );
+
+          }
+          else{
+            return  ConditionalBuilder(
+                condition: state is! MedManageLoadHomeDepDataState,
+                builder: (context) =>
+                    departmentBuilder(cubit.departmentHomeModel, context),
+                fallback: (context) => const Center(
+                  child: CircularProgressIndicator(),
+                ));
+
+          }
+
         }
       },
       listener: (context, state) {},
@@ -54,49 +60,42 @@ class DepartmentScreen extends StatelessWidget {
   }
 }
 
-Widget departmentBuilder(DepartmentHomeModel model, BuildContext context,
-        MedManageCubit cubit) =>
-    RefreshIndicator(
-      onRefresh: () {
-        Future<void> refresh() async {
-          cubit.getHomeDepData();
-        }
-
-        return refresh();
-      },
-      child: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Container(
-          padding: const EdgeInsets.all(3.7),
-          margin: const EdgeInsets.all(8),
-          // color: Colors.grey[300],
-          child: GridView.count(
-            clipBehavior: Clip.none,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            crossAxisCount: 2,
-            mainAxisSpacing: 3.7,
-            crossAxisSpacing: 3.7,
-            childAspectRatio: 1 / 1.80,
-            children: List.generate(
-              model.Department!.length,
-              (index) =>
-                  buildGridDepartment(model.Department![index], context, index),
-            ),
-          ),
+Widget departmentBuilder(DepartmentHomeModel model, BuildContext context) =>
+    SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      child: Container(
+        padding: const EdgeInsets.all(3.7),
+        color: Colors.grey[300],
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            GridView.count(
+                clipBehavior: Clip.none,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                crossAxisCount: 2,
+                mainAxisSpacing: 3.7,
+                crossAxisSpacing: 3.7,
+                childAspectRatio: 1 / 1.70,
+                children: List.generate(
+                    model.Department!.length,
+                        (index) => buildGridDepartment(
+                        model.Department![index], context, index))),
+          ],
         ),
       ),
     );
 
 Widget buildGridDepartment(
-        DepartmentModel model, BuildContext context, int index) =>
-    Card(
+    DepartmentModel model, BuildContext context, int index) =>
+    Container(
       color: Colors.white,
       child: Column(
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            //mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              const Spacer(),
               IconButton(
                 onPressed: () {
                   navigateTo(
@@ -108,16 +107,17 @@ Widget buildGridDepartment(
                       ));
                 },
                 icon: const Icon(
-                  Icons.arrow_forward_ios,
-                  size: 12.0,
+                  Icons.arrow_forward_ios_outlined,
+                  size: 14.0,
+                  color: Colors.black,
                 ),
               ),
             ],
           ),
           Image(
             image: //AssetImage('assets/images/undraw_Female_avatar_efig (1).png'),
-                NetworkImage('http://$ipAddress:8000/upload/${model.img}',
-                    scale: 10.0),
+            NetworkImage('http://$ipAddress:8000/upload/${model.img}',
+                scale: 10.0),
             width: double.infinity,
             height: 170.0,
             fit: BoxFit.cover,
@@ -129,12 +129,11 @@ Widget buildGridDepartment(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                // 'Department name',
                 model.name,
-                maxLines: 2,
+                maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
-                    color: defaultColor, fontSize: 12.0, height: 1),
+                    color: defaultColor, fontSize: 14.0, height: 1,fontWeight: FontWeight.w500),
               ),
             ],
           ),
@@ -146,7 +145,6 @@ Widget buildGridDepartment(
                 Row(
                   children: [
                     Text(
-                      //'date of create',
                       DateFormat.yMMMd()
                           .format(DateTime.parse((model.created_at))),
                       maxLines: 2,
@@ -165,6 +163,7 @@ Widget buildGridDepartment(
                       icon: const Icon(
                         Icons.delete,
                         size: 18.0,
+                        color: Colors.black,
                       ),
                     ),
                   ],
