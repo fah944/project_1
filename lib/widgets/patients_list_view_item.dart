@@ -27,7 +27,7 @@ class PatientsListViewItem extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         return ConditionalBuilder(
-            condition: state is! MedManageLoadingPatientsListState,
+            condition: state is! IndexPatientListLoadingState,
             builder: (context) => model.patient.isNotEmpty
                 ? ListView.separated(
                     itemBuilder: (context, index) => GestureDetector(

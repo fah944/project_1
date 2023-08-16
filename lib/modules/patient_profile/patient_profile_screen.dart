@@ -28,7 +28,7 @@ class PatientProfileScreen extends StatelessWidget {
 
       },
       builder: (context, state) {
-        if(state is MedManageErrorPatientsProfState)
+        if(state is PatientProfErrorState)
         {
           return const Center(
             child: Text(
@@ -74,7 +74,7 @@ class PatientProfileScreen extends StatelessWidget {
                 ),
                 width: double.infinity,
                 child: ConditionalBuilder(
-                    condition: state is! MedManageLoadingPatientsProfState,
+                    condition: state is! PatientProfLoadingState,
                     builder: (context) => PatientProfileItem(model: MedManageCubit.get(context).viewPatientModel,),
                     fallback: (context) => const Center(child: CircularProgressIndicator(),)
                 ),

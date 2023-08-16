@@ -22,7 +22,7 @@ class EditSecretariaProfScreen extends StatelessWidget {
 
       },
       builder: (context, state) {
-        if(state is MedManageErrorSecretariaProfEditState)
+        if(state is SecretariaProfEditErrorState)
         {
           return const Center(
             child: Text(
@@ -35,7 +35,7 @@ class EditSecretariaProfScreen extends StatelessWidget {
         }else
         {
           return ConditionalBuilder(
-            condition: state is! MedManageLoadingSecretariaProfEditState,
+            condition: state is! SecretariaProfEditLoadingState,
             builder: (context) => EditSecretariaProfItem(
               model: MedManageCubit.get(context).viewSecretariaModel,
               modelIn: MedManageCubit.get(context).indexSecretariaModel,
