@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:med_manage_app/constant.dart';
 import 'package:med_manage_app/cubit/cubit.dart';
 import 'package:med_manage_app/cubit/states.dart';
+import 'package:med_manage_app/helper/end_points.dart';
 import 'package:med_manage_app/styles/colors/colors.dart';
 import 'package:med_manage_app/widgets/component.dart';
 
@@ -49,9 +50,21 @@ class EditDepartmentScreen extends StatelessWidget {
                       function: () {
                         if (formKey.currentState!.validate())
                         {
-                          MedManageCubit.get(context).updateDepartment(
+                         /* MedManageCubit.get(context).updateWithImage(
+                            endPoint: UPDATE_DEPARTMENT,
+                            body:
+                            {
+                              'id': '${model!.Department![index].id}',
+                              'name': nameController.text,
+
+                            },
+                            imagePath:'$departmentImage' ,
+                            token: MedManageCubit.tokenOfAdmin,
+                          );*/
+                            MedManageCubit.get(context).updateDepartment(
                             id: model!.Department![index].id,
                             name: nameController.text,
+
                           );
                           MedManageCubit.get(context).getHomeDepData();
                           navigateAndReplacement(
@@ -87,13 +100,12 @@ class EditDepartmentScreen extends StatelessWidget {
                                         ? NetworkImage(
                                         'http://$ipAddress:8000/upload/${model!.Department![index].img}',
                                         scale: 10.0)
-                                        : FileImage(departmentImage)
-                                    as ImageProvider,
+                                        : FileImage(departmentImage) as ImageProvider,
                                     width: double.infinity,
                                     height: 170.0,
                                     fit: BoxFit.contain,
                                   ),
-                                  CircleAvatar(
+                                 /* CircleAvatar(
                                     backgroundColor: defaultColor,
                                     radius: 18.0,
                                     child: IconButton(
@@ -106,7 +118,7 @@ class EditDepartmentScreen extends StatelessWidget {
                                         size: 20.0,
                                       ),
                                     ),
-                                  ),
+                                  ),*/
                                 ],
                               ),
                             ),
