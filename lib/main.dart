@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:med_manage_app/core/utils/app_router.dart';
 import 'package:med_manage_app/layout/med_manage_layout.dart';
 import 'package:med_manage_app/modules/doctors_screen/doctors_screen.dart';
+import 'package:med_manage_app/modules/login_screen/login_screen.dart';
 import 'package:med_manage_app/styles/themes/themes.dart';
 import 'core/api/services/local/cache_helper.dart';
 import 'cubit/bloc_ob_server.dart';
@@ -47,11 +48,10 @@ class MedManageApp extends StatelessWidget {
 
             themeMode: ThemeMode.light,
 
-            home: MedManageLayout(),
-            // DoctorsView(token: CacheHelper.getData(key: 'Token')),
-            // CacheHelper.getData(key: 'Token') == null
-            //     ? const LoginView()
-            //     : const MedManageLayout(),
+            home: CacheHelper.getData(key: 'Token') == null
+                ? const LoginView()
+                : const MedManageLayout(),
+            // Do
             routes: AppRouter.router,
           );
         },

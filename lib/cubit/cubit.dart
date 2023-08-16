@@ -1,17 +1,15 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:awesome_icons/awesome_icons.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:med_manage_app/core/api/services/local/cache_helper.dart';
 import 'package:med_manage_app/cubit/states.dart';
-import 'package:med_manage_app/helper/dio_helper.dart';
-import 'package:med_manage_app/models/department/add_department_model.dart';
-import 'package:med_manage_app/modules/doctors_screen/doctors_screen.dart';
 import '../constant.dart';
+import '../core/api/services/local/cache_helper.dart';
+import '../helper/dio_helper.dart';
 import '../helper/end_points.dart';
+import '../models/department/add_department_model.dart';
 import '../models/department/delete_department_model.dart';
 import '../models/department/index_department_model.dart';
 import '../models/patient/delete_patient_model.dart';
@@ -24,9 +22,10 @@ import '../models/secretaria/register_secretaria_model.dart';
 import '../models/secretaria/update_secretaria_model.dart';
 import '../models/secretaria/view_secretaria_model.dart';
 import '../modules/department/department_screen.dart';
+import '../modules/doctors_screen/doctors_screen.dart';
 import '../modules/patients/patients_screen.dart';
 import '../modules/secretaria/secretaria_screen.dart';
-import '../modules/settings/settings_screen.dart';
+import 'package:http/http.dart' as http;
 
 class MedManageCubit extends Cubit<MedManageStates> {
   MedManageCubit() : super(MedManageInitialState());
@@ -40,14 +39,13 @@ class MedManageCubit extends Cubit<MedManageStates> {
   static int index = 0;
 
   List<Widget> bottomScreens = [
-    DepartmentScreen(),
+    const DepartmentScreen(),
     const PatientsScreen(),
     const SecretariaScreen(),
     DoctorsView(token: CacheHelper.getData(key: 'Token')),
   ];
 
-  List<BottomNavigationBarItem> items =
-  [
+  List<BottomNavigationBarItem> items = [
     const BottomNavigationBarItem(
       icon: Icon(
         Icons.home,
@@ -83,8 +81,9 @@ class MedManageCubit extends Cubit<MedManageStates> {
     emit(MedManageChangeBottomNavState());
 
     if (index == 0) {
-     getHomeDepData();
-    }if (index == 1) {
+      getHomeDepData();
+    }
+    if (index == 1) {
       indexPatientsList();
     }
     if (index == 2) {
@@ -149,8 +148,6 @@ class MedManageCubit extends Cubit<MedManageStates> {
       emit(MedManageDeleteDepartmentErrorState());
     });
   }
-
-
 
   // File? departmentImage;
   var departmentImage;
@@ -243,8 +240,6 @@ class MedManageCubit extends Cubit<MedManageStates> {
     }
   }
 
-
-
   void updateDepartment({
     required int id,
     required String name,
@@ -261,8 +256,6 @@ class MedManageCubit extends Cubit<MedManageStates> {
     });
   }
 
-
-
   //Secritary AND Patient*********************************************************************************************************************
 
   List<String> consult = ['Medical', 'Psychological', 'Economic'];
@@ -275,7 +268,6 @@ class MedManageCubit extends Cubit<MedManageStates> {
     emit(IndexSecretariaListLoadingState());
     DioHelperG.getDataG(url: 'indexSecretary', query: null, token: tokenG)
         .then((value) {
-
       indexSecretariaModel = IndexSecretariaModel.fromJson(value.data);
       print(value.toString());
       print(indexSecretariaModel.message);
@@ -470,19 +462,15 @@ class MedManageCubit extends Cubit<MedManageStates> {
 
   late IndexDepartmentModel indexDepartmentModel;
 
-  void indexDepartment()
-  {
+  void indexDepartment() {
     emit(IndexDepartmentListLoadingState());
-    DioHelperG.getDataG(
-        url: 'indexDepartment',
-        query: null,
-        token: tokenG
-    ).then((value) {
+    DioHelperG.getDataG(url: 'indexDepartment', query: null, token: tokenG)
+        .then((value) {
       indexDepartmentModel = IndexDepartmentModel.fromJson(value.data);
       print(value.toString());
       print(indexDepartmentModel.department[0].name);
       emit(IndexDepartmentListSuccssesState());
-    }).catchError((error){
+    }).catchError((error) {
       print(error.toString());
       emit(IndexDepartmentListErrorState());
     });
