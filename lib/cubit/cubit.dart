@@ -39,9 +39,7 @@ class MedManageCubit extends Cubit<MedManageStates> {
   static int index = 0;
 
   List<Widget> bottomScreens = [
-    DepartmentScreen(
-     // index: index,
-    ),
+    DepartmentScreen(),
     const PatientsScreen(),
     const SecretariaScreen(),
     DoctorsView(token: CacheHelper.getData(key: 'Token')),
@@ -151,21 +149,7 @@ class MedManageCubit extends Cubit<MedManageStates> {
     });
   }
 
-  void updateDepartment({
-    required int id,
-    required String name,
-  }) {
-    DioHelper.postData(url: UPDATE_DEPARTMENT, token: tokenOfAdmin, data: {
-      'id': id,
-      'name': name,
-    }).then((value) {
-      departmentHomeModel = DepartmentHomeModel.fromJson(value.data);
-      emit(MedManageUpdateDepartmentSuccessState());
-      getHomeDepData();
-    }).catchError((error) {
-      emit(MedManageUpdateDepartmentErrorState());
-    });
-  }
+
 
   // File? departmentImage;
   var departmentImage;
@@ -221,6 +205,62 @@ class MedManageCubit extends Cubit<MedManageStates> {
       );
     }
   }
+
+  Future<dynamic> updateWithImage({
+    required String endPoint,
+    required Map<String, String> body,
+    @required String? imagePath,
+    @required String? token,
+  }) async {
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.parse('$baseUrl$endPoint'),
+    );
+    request.fields.addAll(body);
+    if (imagePath != null) {
+      request.files.add(await http.MultipartFile.fromPath('img', imagePath));
+    }
+    request.headers.addAll(
+      {
+        'Accept': 'application/json',
+        if (token != null) 'Authorization': 'Bearer $token',
+      },
+    );
+    http.StreamedResponse response = await request.send();
+
+    http.Response r = await http.Response.fromStream(response);
+
+    if (r.statusCode == 200) {
+      Map<String, dynamic> data = jsonDecode(r.body);
+      log('HTTP POSTIMAGE Data: $data');
+      getHomeDepData();
+      return data;
+    } else {
+      throw Exception(
+        'there is an error with status code ${r.statusCode} and with body : ${r.body}',
+      );
+    }
+  }
+
+
+
+  void updateDepartment({
+    required int id,
+    required String name,
+  }) {
+    DioHelper.postData(url: UPDATE_DEPARTMENT, token: tokenOfAdmin, data: {
+      'id': id,
+      'name': name,
+    }).then((value) {
+      departmentHomeModel = DepartmentHomeModel.fromJson(value.data);
+      emit(MedManageUpdateDepartmentSuccessState());
+      getHomeDepData();
+    }).catchError((error) {
+      emit(MedManageUpdateDepartmentErrorState());
+    });
+  }
+
+
 
   //Secritary AND Patient*********************************************************************************************************************
 
