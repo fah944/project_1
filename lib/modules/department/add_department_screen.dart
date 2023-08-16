@@ -1,42 +1,30 @@
 import 'dart:io';
-
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:med_manage_app/cubit/cubit.dart';
 import 'package:med_manage_app/cubit/states.dart';
 import 'package:med_manage_app/layout/med_manage_layout.dart';
 import 'package:med_manage_app/models/department/index_department_model.dart';
 import 'package:med_manage_app/styles/colors/colors.dart';
 import 'package:med_manage_app/widgets/component.dart';
-
 import '../../helper/end_points.dart';
-
 class AddDepartmentScreen extends StatelessWidget {
-
-
   var formKey = GlobalKey<FormState>();
-
   final DepartmentHomeModel? model;
-  final int index;
-
   AddDepartmentScreen({
+    super.key,
     required this.model,
-    required this.index,
   });
   var nameController = TextEditingController();
 
-
-
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<MedManageCubit,MedManageStates>(
-        builder: (context, state)
-        {
-          //nameController.text = model!.Department![index].name;
-          MedManageCubit cubit =  MedManageCubit.get(context);
-          var departmentImage  =  MedManageCubit.get(context).departmentImage;
-
+    return BlocConsumer<MedManageCubit, MedManageStates>(
+        builder: (context, state) {
+          MedManageCubit cubit = MedManageCubit.get(context);
+          var departmentImage = MedManageCubit.get(context).departmentImage;
 
           return Scaffold(
             appBar: AppBar(
@@ -50,40 +38,41 @@ class AddDepartmentScreen extends StatelessWidget {
               actions: [
                 ConditionalBuilder(
                     condition: state is! MedManageLoadingAddDepartmentState,
-                    builder: (context)=> defTextButton(
-                      text:'add' ,
-                      color: color4,
-                      function: ()
-                      {
-                        if(formKey.currentState!.validate())
-                        {
-                            MedManageCubit.get(context).postWithImage(
-                              body:
-                              {
-                                'name': nameController.text,
-                              } ,
-                              imagePath:'${departmentImage}' ,
-                              endPoint: ADD_DEPARTMENT,
-                              token:MedManageCubit.tokenOfAdmin,);
+                    builder: (context) => defTextButton(
+                      text: 'add',
+                      color: Colors.black,
+                      function: () {
+                        if (formKey.currentState!.validate()) {
+                          MedManageCubit.get(context).postWithImage(
+                            body: {
+                              'name': nameController.text,
+                            },
+                            imagePath:'$departmentImage' ,
+                            endPoint: ADD_DEPARTMENT,
+                            token: MedManageCubit.tokenOfAdmin,
+                          );
+                          //CustomeSnackBar.showSnackBar(context, msg: 'Please select an image.',color: Colors.black38);
 
                           MedManageCubit.get(context).getHomeDepData();
 
-                          navigateAndReplacement(context,MedManageLayout());
+                          navigateAndReplacement(
+                              context, const MedManageLayout());
                         }
                       },
                     ),
-                    fallback: (context)=> const Center(
-                      child:CircularProgressIndicator() ,
+                    fallback: (context) => const Center(
+                      child: CircularProgressIndicator(),
                     )),
-                const SizedBox(width: 10.0,),
+                const SizedBox(
+                  width: 10.0,
+                ),
               ],
             ),
-            body:Padding(
-              padding:const EdgeInsets.all(25.0),
-              child:SingleChildScrollView(
+            body: Padding(
+              padding: const EdgeInsets.all(25.0),
+              child: SingleChildScrollView(
                 child: Column(
-                  children:
-                  [
+                  children: [
                     Container(
                       color: Colors.white,
                       child: Form(
@@ -91,30 +80,39 @@ class AddDepartmentScreen extends StatelessWidget {
                         child: Column(
                           children: [
                             Align(
-                              child:Stack(
+                              child: Stack(
                                 alignment: AlignmentDirectional.topEnd,
-                                children:
-                                [
-                                  Container(
+                                children: [
+                                  SizedBox(
                                     width: double.infinity,
                                     height: 170.0,
-                                    child:departmentImage == null ? Image(
-                                      image: NetworkImage('http://192.168.1.10:8000/upload/${model!.Department![index].img}', scale: 10.0),
-                                    ) :  Image.file(File('${departmentImage}').absolute,
-                                        fit: BoxFit.cover,), ),
+                                    child: departmentImage == null
+                                        ?  Center(
+                                      child: Text('no image selected', style: TextStyle(color: Colors.grey, fontSize: 20.w),),
+                                    )
+                                        : Image.file(
+                                      File('$departmentImage').absolute,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  /* Image(
+                                            image: NetworkImage(
+                                                'http://$ipAddress:8000/upload/${model!.Department![index].img}',
+                                                scale: 10.0),
+                                          )*/
                                   CircleAvatar(
                                     backgroundColor: defaultColor,
                                     radius: 18.0,
-                                    child:IconButton(
-                                      onPressed: ()
-                                      {
+                                    child: IconButton(
+                                      onPressed: () {
                                         MedManageCubit.get(context).getImage();
                                       },
-                                      icon:const Icon(
+                                      icon: const Icon(
                                         Icons.camera_alt,
                                         color: Colors.white,
                                         size: 20.0,
-                                      ),),
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -138,12 +136,8 @@ class AddDepartmentScreen extends StatelessWidget {
                                   color: Colors.grey,
                                 ),
                               ),
-                              onFieldSubmitted: (String value)
-                              {
-
-                              },
-                              onChanged: (String value)
-                              {
+                              onFieldSubmitted: (String value) {},
+                              onChanged: (String value) {
                                 print(value);
                               },
                               validator: (value) {
@@ -163,7 +157,6 @@ class AddDepartmentScreen extends StatelessWidget {
             ),
           );
         },
-        listener: (context ,state){}
-    );
+        listener: (context, state) {});
   }
 }
