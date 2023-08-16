@@ -13,6 +13,7 @@ class RegisterTextField extends StatelessWidget {
   final IconData? suffixIcon;
   final bool? obscureText;
   final Function? onPressed;
+  final bool? enabled;
 
   const RegisterTextField({
     super.key,
@@ -24,6 +25,7 @@ class RegisterTextField extends StatelessWidget {
     this.suffixIcon,
     this.obscureText,
     this.onPressed,
+    this.enabled,
   });
 
   @override
@@ -36,6 +38,7 @@ class RegisterTextField extends StatelessWidget {
         ),
         Expanded(
           child: EditTextField(
+            enabled: enabled,
             lableText: lableText,
             controller: controller,
             keyboardType: keyboardType,

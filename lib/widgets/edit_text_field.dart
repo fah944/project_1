@@ -10,6 +10,7 @@ class EditTextField extends StatelessWidget {
   final IconData? suffixIcon;
   final bool? obscureText;
   final Function? onPressed;
+  final bool? enabled;
 
   const EditTextField({
     super.key,
@@ -21,6 +22,7 @@ class EditTextField extends StatelessWidget {
     this.suffixIcon,
     this.obscureText,
     this.onPressed,
+    this.enabled,
   });
 
   @override
@@ -31,6 +33,7 @@ class EditTextField extends StatelessWidget {
         end: 20.0,
       ),
       child: TextFormField(
+        enabled: enabled,
         textAlign: TextAlign.start,
         keyboardType: keyboardType,
         decoration: InputDecoration(

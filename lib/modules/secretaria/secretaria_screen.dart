@@ -39,7 +39,7 @@ class SecretariaScreen extends StatelessWidget {
             ),
           );
         }
-        if (state is MedManageLoadingSecretariaListState) {
+        if (state is IndexSecretariaListLoadingState) {
           return const Center(child: CircularProgressIndicator());
         } else {
           return SecretariaListViewItem(
