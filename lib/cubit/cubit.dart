@@ -17,6 +17,7 @@ import '../models/patient/delete_patient_model.dart';
 import '../models/patient/index_patient_model.dart';
 import '../models/patient/view_patient_model.dart';
 import '../models/secretaria/delete_secretaria_model.dart';
+import '../models/secretaria/index_departments_model.dart';
 import '../models/secretaria/index_secretaria_model.dart';
 import '../models/secretaria/register_secretaria_model.dart';
 import '../models/secretaria/update_secretaria_model.dart';
@@ -32,7 +33,7 @@ class MedManageCubit extends Cubit<MedManageStates>
   MedManageCubit() : super(MedManageInitialState());
 
  static MedManageCubit get(context) =>BlocProvider.of(context);
- static String tokenOfAdmin ='eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzIiwianRpIjoiZmY0ZWMxZThhZDljNmY4ZmVmYzNlYzgxOWIxZjQ2OTM3NWI4OWQ1ZTc1NmJlYjBlZTNlNmM1Zjg3OTQ5NjhhMjc5MDE0YzQ5MTY5ZjkxYjEiLCJpYXQiOjE2OTE0NzM1MzYuNTc0ODI1LCJuYmYiOjE2OTE0NzM1MzYuNTc0ODMsImV4cCI6MTcyMzA5NTkzNi41NTc4OTUsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.xoJ-WhdrIJVGrWYmU7PlHbuC6sGs59LWw3vuwD-ywlS-xX2U2pDV27zNy1bLinaAk771W9wFyKFG4fACmmdsXfr3oshVrdWI7Rs4tfpHmtR5lAQ6aohIQJg9qeeWEUOWzWcI9R9L2Kv_q6UWV_eGyne2_zJCy728rMP2k3Vw_UYdv4SgfJhErmfia9MNJzb3d48SZRYyqGFIB61uXLG33trOCYOvO_oKnyxpGls5mNZ0Ep6I-3yYPFwlM9YDcX4BTVWVvx1c8Tje6cbLBdXy_MaQAsf8SHdra7XEK6Zb8TJhLjnwuEwbQL8RBNtxi_PPIG0hYDaczUKZXaO3iDmvwQKTnqMZsYI9H1SddXuJOJgnc9Ppzl-4NXLxJTWjwYjVuQxne3t0DAqNaZoC_0E5ut8K5HZ0pd3A4UyOZL2E0gojkMQXaoY9YKfueCQlhTHZ3aYT7Gawgc_2_X9ujGNQNsDa-1rvQSJLE40-1xwITVTS5pq-Tm945rHZibhWxfq0Wt0sZ4kpmS9RULTt3hKpbgDfgQSqroXBMFkWINSQ1_FF4aLTjc1_mxADp1qOauYDPY34zdGB0UhCzatPdMNVWu7nG_paMcmQIKVMdg2JkKyH4jMVV40rAB9yqLjeyVKe9z3u0v58XxLJGg9uvk7bdB_XoFTz4JDp7gHBadJqLgA';
+ static String tokenOfAdmin ='eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiN2RjMzk3MTI1OWY5NTk0YWQ0NjdmZGQzZTc2YmE5YzM4ZmU1NDk4ZjQ5YTE5YjdmNzRlZWIxNjg3ZWUyOWVhNGY0NTdhZTA0YTYyNWEzNTMiLCJpYXQiOjE2OTIwOTc3MDcuNTEwMjUyLCJuYmYiOjE2OTIwOTc3MDcuNTEwMjY0LCJleHAiOjE3MjM3MjAxMDYuOTQxOTM4LCJzdWIiOiIxOCIsInNjb3BlcyI6W119.QwHrkUrOskvLfNW-x0D9y_suunsPYjsq6vIKz0ZikUyZvI_bGy1F-Ve341KgEig3m1z1yYaDnSYsdLZ2lendmIZFZMiNoFf31UqqUtYqMrPlNksVYKnQpSmCjbjUu-rH6sNYPuPHFzjLwrCBBKeMWcJFUABu5jLd7TLfjutsb_0gXg-uZzHTjtaXKJkf73Fe17frx72S8j3PHf4ip-tccegU28gIDuIzFM9ksXtnqd2nsgtnkZ75QzXZ8LZXBF65mEWnlzq02DbaPibGXZTqUfdTSWK8lnKN_aOcN9vwmUstyCST6DKltWclW09fVpIIoePN6WvVnjnX3K7urfvO6Dy8i4Bw8L9K1q1QCeLCBQ8QoVqdiIyxuhk7uKxEyTmRuzbdREQMfAk9yJBChLOZDCgB3BSsFIjAyYUHR8AqenKInvmTpGXBAsFcavv3WSFc3au7reOlE6ehKCFklfncfh1Io4l33cxbwig5WuYkCYPND0jSa2E0XuzcLwltuq8YBDRUTti0GlKUIQRp-oWa5judXD9Yq745n3lZPv4WRj_yawQJ50jDLy-zlPRxJAWEYT_1YD-SNfrMr4z1qG0F5jBGF1c2xFl-jzaJe9H_8bWDnti_GwGkzOYpbFP9glkwxIxqpDiy4sosuc9L6_E8-cJdUKbhlJNxrKG0yGmEYH0';
   static String baseUrl ='http://192.168.1.10:8000/api/';
 
  int currentIndex = 0;
@@ -249,11 +250,15 @@ class MedManageCubit extends Cubit<MedManageStates>
 
   //Secritary AND Patient*********************************************************************************************************************
 
+  List<String> consult = ['Medical', 'Psychological', 'Economic'];
+
+  String? selectedConsult = 'Medical';
+
   late IndexSecretariaModel indexSecretariaModel;
 
   void indexSecretariaList()
   {
-    emit(MedManageLoadingSecretariaListState());
+    emit(IndexSecretariaListLoadingState());
     DioHelperG.getDataG(
         url: 'indexSecretary',
         query: null,
@@ -263,10 +268,10 @@ class MedManageCubit extends Cubit<MedManageStates>
       print(value.toString());
       print(indexSecretariaModel.message);
       print(indexSecretariaModel.secretary[0].user.firstName);
-      emit(MedManageSuccssesSecretariaListState());
+      emit(IndexSecretariaListSuccssesState());
     }).catchError((error){
       print(error.toString());
-      emit(MedManageErrorSecretariaListState());
+      emit(IndexSecretariaListErrorState());
     });
   }
 
@@ -276,7 +281,7 @@ class MedManageCubit extends Cubit<MedManageStates>
     required int user_id,
   })
   {
-    emit(MedManageLoadingSecretariaProfDeleteState());
+    emit(SecretariaDeleteLoadingState());
     DioHelperG.postDataG(
       url: 'deleteSecretary',
       data: {
@@ -288,11 +293,11 @@ class MedManageCubit extends Cubit<MedManageStates>
       print(value.data);
       print(deleteSecretariaModel.success);
       print(deleteSecretariaModel.message);
-      emit(MedManageSuccssesSecretariaProfDeleteState());
+      emit(SecretariaDeleteSuccssesState());
       indexSecretariaList();
     }).catchError((error) {
       print(error.toString());
-      emit(MedManageErrorSecretariaProfDeleteState());
+      emit(SecretariaDeleteErrorState());
     });
   }
 
@@ -302,7 +307,7 @@ class MedManageCubit extends Cubit<MedManageStates>
     required int user_id,
   })
   {
-    emit(MedManageLoadingSecretariaProfState());
+    emit(SecretariaProfLoadingState());
     DioHelperG.postDataG(
         url: 'viewSecretary',
         data: {
@@ -314,10 +319,10 @@ class MedManageCubit extends Cubit<MedManageStates>
       viewSecretariaModel = ViewSecretariaModel.fromJson(value.data);
       //print(viewSecretariaModel.secretary?.departmentId);
       //print(viewSecretariaModel.secretary?.user.firstName);
-      emit(MedManageSuccssesSecretariaProfState());
+      emit(SecretariaProfSuccssesState());
     }).catchError((error) {
       print(error.toString());
-      emit(MedManageErrorSecretariaProfState());
+      emit(SecretariaProfErrorState());
     });
   }
 
@@ -331,7 +336,7 @@ class MedManageCubit extends Cubit<MedManageStates>
     required int user_id,
   })
   {
-    emit(MedManageLoadingSecretariaProfState());
+    emit(SecretariaProfLoadingState());
     DioHelperG.postDataG(
         url: 'updateSecretary',
         data: {
@@ -347,10 +352,10 @@ class MedManageCubit extends Cubit<MedManageStates>
      // print(value.data['message']);
       updateSecretariaModel = UpdateSecretariaModel.fromJson(value.data);
       print(updateSecretariaModel.success);
-      emit(MedManageSuccssesSecretariaProfEditState());
+      emit(SecretariaProfEditSuccssesState());
     }).catchError((error) {
       print(error.toString());
-      emit(MedManageErrorSecretariaProfEditState());
+      emit(SecretariaProfEditErrorState());
     });
   }
 
@@ -365,7 +370,7 @@ class MedManageCubit extends Cubit<MedManageStates>
     required String department_name,
   })
   {
-    emit(MedManageLoadingSecretariaRegisterState());
+    emit(SecretariaRegisterLoadingState());
     DioHelperG.postDataG(
         url: 'registerSecretary',
         data: {
@@ -383,10 +388,10 @@ class MedManageCubit extends Cubit<MedManageStates>
       // print(value.toString());
       // print(registerSecretariaModel.token);
      // print(registerSecretariaModel.role);
-      emit(MedManageSuccssesSecretariaRegisterState());
+      emit(SecretariaRegisterSuccssesState());
     }).catchError((error) {
       print(error.toString());
-      emit(MedManageErrorSecretariaRegisterState());
+      emit(SecretariaRegisterErrorState());
     });
   }
 
@@ -394,7 +399,7 @@ class MedManageCubit extends Cubit<MedManageStates>
 
   void indexPatientsList()
   {
-    emit(MedManageLoadingPatientsListState());
+    emit(IndexPatientListLoadingState());
     DioHelperG.getDataG(
         url: 'indexPatient',
         query: null,
@@ -403,10 +408,10 @@ class MedManageCubit extends Cubit<MedManageStates>
       indexPatientModel = IndexPatientModel.fromJson(value.data);
       //print(value.toString());
       //print(indexPatientModel.patient[0].user.firstName);
-      emit(MedManageSuccssesPatientsListState());
+      emit(IndexPatientListSuccssesState());
     }).catchError((error){
       print(error.toString());
-      emit(MedManageErrorPatientsListState());
+      emit(IndexPatientListErrorState());
     });
   }
 
@@ -416,7 +421,7 @@ class MedManageCubit extends Cubit<MedManageStates>
     required int user_id,
   })
   {
-    emit(MedManageLoadingPatientsDeleteState());
+    emit(PatientDeleteLoadingState());
     DioHelperG.postDataG(
       url: 'deletePatient',
       data: {
@@ -428,11 +433,11 @@ class MedManageCubit extends Cubit<MedManageStates>
      // print(value.data);
      // print(deletePatientModel.success);
       // print(deletePatientModel.message);
-      emit(MedManageSuccssesPatientsDeleteState());
+      emit(PatientDeleteSuccssesState());
       indexPatientsList();
     }).catchError((error) {
       print(error.toString());
-      emit(MedManageErrorPatientsDeleteState());
+      emit(PatientDeleteErrorState());
     });
   }
 
@@ -442,7 +447,7 @@ class MedManageCubit extends Cubit<MedManageStates>
     required int user_id,
   })
   {
-    emit(MedManageLoadingPatientsProfState());
+    emit(PatientProfLoadingState());
     DioHelperG.postDataG(
         url: 'viewPatient',
         data: {
@@ -454,10 +459,30 @@ class MedManageCubit extends Cubit<MedManageStates>
       viewPatientModel = ViewPatientModel.fromJson(value.data);
      // print(viewPatientModel.message);
      // print(viewPatientModel.patient.user.firstName);
-      emit(MedManageSuccssesPatientsProfState());
+      emit(PatientProfSuccssesState());
     }).catchError((error) {
       print(error.toString());
-      emit(MedManageErrorPatientsProfState());
+      emit(PatientProfErrorState());
+    });
+  }
+
+  late IndexDepartmentModel indexDepartmentModel;
+
+  void indexDepartment()
+  {
+    emit(IndexDepartmentListLoadingState());
+    DioHelperG.getDataG(
+        url: 'indexDepartment',
+        query: null,
+        token: tokenG
+    ).then((value) {
+      indexDepartmentModel = IndexDepartmentModel.fromJson(value.data);
+      print(value.toString());
+      print(indexDepartmentModel.department[0].name);
+      emit(IndexDepartmentListSuccssesState());
+    }).catchError((error){
+      print(error.toString());
+      emit(IndexDepartmentListErrorState());
     });
   }
 

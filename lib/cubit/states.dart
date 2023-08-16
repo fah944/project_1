@@ -37,34 +37,38 @@ class MedManageDepImagePickedErrorState extends MedManageStates{}
 
 //Secritary AND Patient*********************************************************************************************************************
 
-class MedManageLoadingSecretariaListState extends MedManageStates{}
-class MedManageSuccssesSecretariaListState extends MedManageStates{}
-class MedManageErrorSecretariaListState extends MedManageStates{}
+class IndexSecretariaListLoadingState extends MedManageStates{}
+class IndexSecretariaListSuccssesState extends MedManageStates{}
+class IndexSecretariaListErrorState extends MedManageStates{}
 
-class MedManageLoadingSecretariaProfState extends MedManageStates{}
-class MedManageSuccssesSecretariaProfState extends MedManageStates{}
-class MedManageErrorSecretariaProfState extends MedManageStates{}
+class SecretariaProfLoadingState extends MedManageStates{}
+class SecretariaProfSuccssesState extends MedManageStates{}
+class SecretariaProfErrorState extends MedManageStates{}
 
-class MedManageLoadingSecretariaProfEditState extends MedManageStates{}
-class MedManageSuccssesSecretariaProfEditState extends MedManageStates{}
-class MedManageErrorSecretariaProfEditState extends MedManageStates{}
+class SecretariaProfEditLoadingState extends MedManageStates{}
+class SecretariaProfEditSuccssesState extends MedManageStates{}
+class SecretariaProfEditErrorState extends MedManageStates{}
 
-class MedManageLoadingSecretariaProfDeleteState extends MedManageStates{}
-class MedManageSuccssesSecretariaProfDeleteState extends MedManageStates{}
-class MedManageErrorSecretariaProfDeleteState extends MedManageStates{}
+class SecretariaDeleteLoadingState extends MedManageStates{}
+class SecretariaDeleteSuccssesState extends MedManageStates{}
+class SecretariaDeleteErrorState extends MedManageStates{}
 
-class MedManageLoadingSecretariaRegisterState extends MedManageStates{}
-class MedManageSuccssesSecretariaRegisterState extends MedManageStates{}
-class MedManageErrorSecretariaRegisterState extends MedManageStates{}
+class SecretariaRegisterLoadingState extends MedManageStates{}
+class SecretariaRegisterSuccssesState extends MedManageStates{}
+class SecretariaRegisterErrorState extends MedManageStates{}
 
-class MedManageLoadingPatientsListState extends MedManageStates{}
-class MedManageSuccssesPatientsListState extends MedManageStates{}
-class MedManageErrorPatientsListState extends MedManageStates{}
+class IndexPatientListLoadingState extends MedManageStates{}
+class IndexPatientListSuccssesState extends MedManageStates{}
+class IndexPatientListErrorState extends MedManageStates{}
 
-class MedManageLoadingPatientsProfState extends MedManageStates{}
-class MedManageSuccssesPatientsProfState extends MedManageStates{}
-class MedManageErrorPatientsProfState extends MedManageStates{}
+class PatientProfLoadingState extends MedManageStates{}
+class PatientProfSuccssesState extends MedManageStates{}
+class PatientProfErrorState extends MedManageStates{}
 
-class MedManageLoadingPatientsDeleteState extends MedManageStates{}
-class MedManageSuccssesPatientsDeleteState extends MedManageStates{}
-class MedManageErrorPatientsDeleteState extends MedManageStates{}
+class PatientDeleteLoadingState extends MedManageStates{}
+class PatientDeleteSuccssesState extends MedManageStates{}
+class PatientDeleteErrorState extends MedManageStates{}
+
+class IndexDepartmentListLoadingState extends MedManageStates{}
+class IndexDepartmentListSuccssesState extends MedManageStates{}
+class IndexDepartmentListErrorState extends MedManageStates{}

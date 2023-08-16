@@ -18,7 +18,7 @@ class SecretariaScreen extends StatelessWidget {
 
       },
       builder: (context, state) {
-        if(state is MedManageErrorSecretariaListState)
+        if(state is IndexSecretariaListErrorState)
         {
           return Scaffold(
             floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
@@ -40,7 +40,7 @@ class SecretariaScreen extends StatelessWidget {
               ),
             ),
           );
-        }if(state is MedManageLoadingSecretariaListState)
+        }if(state is IndexSecretariaListLoadingState)
         {
           return const Center(child: CircularProgressIndicator());
         }else
@@ -50,7 +50,7 @@ class SecretariaScreen extends StatelessWidget {
             floatingActionButton: FloatingActionButton (
               onPressed: ()
               {
-                navigateAndReplacement(context, RegisterSecretaria());
+                navigateTo(context, RegisterSecretaria());
               },
               child:const Icon(
                 Icons.add,

@@ -60,7 +60,7 @@ class SecretariaProfile extends StatelessWidget {
                 ),
                 child: IconButton(
                   onPressed: (){
-                    if(state is! MedManageErrorSecretariaProfState){
+                    if(state is! SecretariaProfErrorState){
                       navigateTo(context, EditSecretariaProfScreen(index: index,));
                     }
                   },
@@ -74,9 +74,9 @@ class SecretariaProfile extends StatelessWidget {
             ],
           ),
           body: ConditionalBuilder(
-              condition: state is! MedManageLoadingSecretariaProfState,
+              condition: state is! SecretariaProfLoadingState,
               builder: (context) {
-                return state is MedManageErrorSecretariaProfState ? const Center(
+                return state is SecretariaProfErrorState ? const Center(
                   child: Text(
                     'There is some thing error',
                     style: TextStyle(
@@ -93,7 +93,7 @@ class SecretariaProfile extends StatelessWidget {
                   ),
                   width: double.infinity,
                   child: ConditionalBuilder(
-                      condition: state is! MedManageLoadingSecretariaProfState,
+                      condition: state is! SecretariaProfLoadingState,
                       builder: (context) => SecretariaProfileItem(model: MedManageCubit.get(context).viewSecretariaModel,),
                       fallback: (context) => const Center(child: CircularProgressIndicator(),)
                   ),
