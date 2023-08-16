@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:med_manage_app/constant.dart';
+import 'package:med_manage_app/core/functions/custome_snack_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:med_manage_app/cubit/cubit.dart';
 import 'package:med_manage_app/cubit/states.dart';
@@ -39,6 +41,33 @@ class AddDepartmentScreen extends StatelessWidget {
                 ConditionalBuilder(
                     condition: state is! MedManageLoadingAddDepartmentState,
                     builder: (context) => defTextButton(
+                          text: 'add',
+                          color: color4,
+                          function: () {
+                            if (formKey.currentState!.validate()) {
+                              if (departmentImage != null) {
+                                MedManageCubit.get(context).postWithImage(
+                                  body: {
+                                    'name': nameController.text,
+                                  },
+                                  imagePath: '$departmentImage',
+                                  endPoint: ADD_DEPARTMENT,
+                                  token: MedManageCubit.tokenOfAdmin,
+                                );
+                                MedManageCubit.get(context).getHomeDepData();
+
+                                navigateAndReplacement(
+                                    context, const MedManageLayout());
+                              } else {
+                                CustomeSnackBar.showSnackBar(
+                                  context,
+                                  msg: 'Please Select Image',
+                                  color: Colors.red,
+                                );
+                              }
+                            }
+                          },
+                        ),
                       text: 'add',
                       color: Colors.black,
                       function: () {
