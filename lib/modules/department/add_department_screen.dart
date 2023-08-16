@@ -1,16 +1,15 @@
 import 'dart:io';
-
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:med_manage_app/constant.dart';
+import 'package:med_manage_app/core/functions/custome_snack_bar.dart';
 import 'package:med_manage_app/cubit/cubit.dart';
 import 'package:med_manage_app/cubit/states.dart';
 import 'package:med_manage_app/layout/med_manage_layout.dart';
 import 'package:med_manage_app/models/department/index_department_model.dart';
 import 'package:med_manage_app/styles/colors/colors.dart';
 import 'package:med_manage_app/widgets/component.dart';
-
 import '../../helper/end_points.dart';
 
 class AddDepartmentScreen extends StatelessWidget {
@@ -51,19 +50,26 @@ class AddDepartmentScreen extends StatelessWidget {
                           color: color4,
                           function: () {
                             if (formKey.currentState!.validate()) {
-                              MedManageCubit.get(context).postWithImage(
-                                body: {
-                                  'name': nameController.text,
-                                },
-                                imagePath: '$departmentImage',
-                                endPoint: ADD_DEPARTMENT,
-                                token: MedManageCubit.tokenOfAdmin,
-                              );
+                              if (departmentImage != null) {
+                                MedManageCubit.get(context).postWithImage(
+                                  body: {
+                                    'name': nameController.text,
+                                  },
+                                  imagePath: '$departmentImage',
+                                  endPoint: ADD_DEPARTMENT,
+                                  token: MedManageCubit.tokenOfAdmin,
+                                );
+                                MedManageCubit.get(context).getHomeDepData();
 
-                              MedManageCubit.get(context).getHomeDepData();
-
-                              navigateAndReplacement(
-                                  context, const MedManageLayout());
+                                navigateAndReplacement(
+                                    context, const MedManageLayout());
+                              } else {
+                                CustomeSnackBar.showSnackBar(
+                                  context,
+                                  msg: 'Please Select Image',
+                                  color: Colors.red,
+                                );
+                              }
                             }
                           },
                         ),
