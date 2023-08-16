@@ -25,6 +25,7 @@ class MedManageLayout extends StatelessWidget {
                             context,
                             AddDepartmentScreen(
                               model: cubit.departmentHomeModel,
+                              index: 1,
                             ));
                       } else if (cubit.currentIndex == 2) {
                         navigateTo(context, RegisterSecretaria());

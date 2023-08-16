@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:med_manage_app/constant.dart';
 import 'package:med_manage_app/core/functions/custome_snack_bar.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:med_manage_app/cubit/cubit.dart';
 import 'package:med_manage_app/cubit/states.dart';
 import 'package:med_manage_app/layout/med_manage_layout.dart';
@@ -12,12 +11,17 @@ import 'package:med_manage_app/models/department/index_department_model.dart';
 import 'package:med_manage_app/styles/colors/colors.dart';
 import 'package:med_manage_app/widgets/component.dart';
 import '../../helper/end_points.dart';
+
 class AddDepartmentScreen extends StatelessWidget {
   var formKey = GlobalKey<FormState>();
+
   final DepartmentHomeModel? model;
+  final int index;
+
   AddDepartmentScreen({
     super.key,
     required this.model,
+    required this.index,
   });
   var nameController = TextEditingController();
 
@@ -25,6 +29,7 @@ class AddDepartmentScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<MedManageCubit, MedManageStates>(
         builder: (context, state) {
+          //nameController.text = model!.Department![index].name;
           MedManageCubit cubit = MedManageCubit.get(context);
           var departmentImage = MedManageCubit.get(context).departmentImage;
 
@@ -68,30 +73,9 @@ class AddDepartmentScreen extends StatelessWidget {
                             }
                           },
                         ),
-                      text: 'add',
-                      color: Colors.black,
-                      function: () {
-                        if (formKey.currentState!.validate()) {
-                          MedManageCubit.get(context).postWithImage(
-                            body: {
-                              'name': nameController.text,
-                            },
-                            imagePath:'$departmentImage' ,
-                            endPoint: ADD_DEPARTMENT,
-                            token: MedManageCubit.tokenOfAdmin,
-                          );
-                          //CustomeSnackBar.showSnackBar(context, msg: 'Please select an image.',color: Colors.black38);
-
-                          MedManageCubit.get(context).getHomeDepData();
-
-                          navigateAndReplacement(
-                              context, const MedManageLayout());
-                        }
-                      },
-                    ),
                     fallback: (context) => const Center(
-                      child: CircularProgressIndicator(),
-                    )),
+                          child: CircularProgressIndicator(),
+                        )),
                 const SizedBox(
                   width: 10.0,
                 ),
@@ -116,19 +100,16 @@ class AddDepartmentScreen extends StatelessWidget {
                                     width: double.infinity,
                                     height: 170.0,
                                     child: departmentImage == null
-                                        ?  Center(
-                                      child: Text('no image selected', style: TextStyle(color: Colors.grey, fontSize: 20.w),),
-                                    )
-                                        : Image.file(
-                                      File('$departmentImage').absolute,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                  /* Image(
+                                        ? Image(
                                             image: NetworkImage(
                                                 'http://$ipAddress:8000/upload/${model!.Department![index].img}',
                                                 scale: 10.0),
-                                          )*/
+                                          )
+                                        : Image.file(
+                                            File('$departmentImage').absolute,
+                                            fit: BoxFit.cover,
+                                          ),
+                                  ),
                                   CircleAvatar(
                                     backgroundColor: defaultColor,
                                     radius: 18.0,
