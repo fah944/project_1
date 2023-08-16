@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../cubit/cubit.dart';
 import '../../cubit/states.dart';
@@ -9,6 +10,7 @@ import '../../styles/colors/colors.dart';
 import '../../widgets/add_image.dart';
 import '../../widgets/component.dart';
 import '../../widgets/custome_button.dart';
+import '../../widgets/edit_text_field.dart';
 import '../../widgets/register_text_field.dart';
 
 class RegisterSecretaria extends StatelessWidget {
@@ -151,26 +153,17 @@ class RegisterSecretaria extends StatelessWidget {
                             SizedBox(
                               height: MediaQuery.of(context).size.height * .05,
                             ),
-                            RegisterTextField(
-                              lableText: 'Department',
-                              icon: Icons.business_rounded,
-                              controller: department,
-                              keyboardType: TextInputType.text,
-                            ),
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * .05,
-                            ),
                             GestureDetector(
                               onTap: (){
                                 showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
-                                      return SimpleDialog( // <-- SEE HERE
-                                        title: const Text('Select Department'),
+                                      return SimpleDialog(
                                         children: [
-                                          SizedBox(
+                                          Container(
                                             width: double.maxFinite,
                                             height: 200,
+                                            padding: EdgeInsetsDirectional.all(10.h),
                                             child: ListView.separated(
                                               //shrinkWrap: true,
                                               itemBuilder: (context, index) => SimpleDialogOption(
@@ -181,9 +174,8 @@ class RegisterSecretaria extends StatelessWidget {
                                                 child: Text(
                                                   cubit.indexDepartmentModel.department[index].name,
                                                   style: TextStyle(
-                                                    color: Colors.black,
+                                                    color: defaultColor,
                                                     fontSize: 17.0,
-                                                    //fontWeight: ,
                                                   ),
                                                   textAlign: TextAlign.center,
                                                 ),
@@ -191,7 +183,7 @@ class RegisterSecretaria extends StatelessWidget {
                                               separatorBuilder: (context, index) => SizedBox(
                                                 height: 1,
                                                 child: Container(
-                                                  color: Colors.grey.shade200,
+                                                  color: Colors.grey.shade400,
                                                 ),
                                               ),
                                               itemCount: cubit.indexDepartmentModel.department.length,
@@ -202,46 +194,12 @@ class RegisterSecretaria extends StatelessWidget {
                                     }
                                 );
                               },
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  defContainerWithIcon(
-                                    icon: Icons.business,
-                                  ),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsetsDirectional.only(
-                                        start: 20.0,
-                                        end: 20.0,
-                                      ),
-                                      child: Container(
-                                        width: 300.0,
-                                        height: 50.0,
-                                        padding: const EdgeInsetsDirectional.only(
-                                          start: 20.0,
-                                          end: 20.0,
-                                        ),
-                                        decoration: BoxDecoration(
-                                            border: BorderDirectional(
-                                              start: BorderSide.none,
-                                              end: BorderSide.none,
-                                              top: BorderSide.none,
-                                              bottom: BorderSide.merge(
-                                                BorderSide(
-                                                  width: .5,
-                                                  color: Colors.black26,
-                                                ),
-                                                BorderSide.none,
-                                              ),
-                                            ),
-                                        ),
-                                        child: Text(
-                                          department.text ?? cubit.indexDepartmentModel.department[0].name,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                              child: RegisterTextField(
+                                lableText: 'Department',
+                                icon: Icons.business_rounded,
+                                controller: department,
+                                keyboardType: TextInputType.text,
+                                enabled: false,
                               ),
                             ),
                             SizedBox(

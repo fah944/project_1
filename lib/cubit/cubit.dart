@@ -412,7 +412,7 @@ class MedManageCubit extends Cubit<MedManageStates> {
       indexPatientModel = IndexPatientModel.fromJson(value.data);
       //print(value.toString());
       //print(indexPatientModel.patient[0].user.firstName);
-      emit(MedManageSuccssesPatientsListState());
+      emit(IndexPatientListSuccssesState());
     }).catchError((error) {
       print(error.toString());
       emit(IndexPatientListErrorState());
