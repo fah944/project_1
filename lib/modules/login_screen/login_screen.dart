@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:med_manage_app/layout/med_manage_layout.dart';
 import '../../core/api/services/local/cache_helper.dart';
 import '../../core/styles/colors/colors.dart';
 import '../../core/styles/text_styles.dart';
@@ -47,7 +48,7 @@ class LoginViewBody extends StatelessWidget {
           return CustomeErrorWidget(errorMsg: state.failureMsg);
         } else if (state is LoginSuccess) {
           CacheHelper.saveData(key: 'Token', value: state.loginModel.token);
-          return DoctorsView(token: state.loginModel.token);
+          return const MedManageLayout();
         } else {
           return _body(context);
         }
