@@ -337,7 +337,7 @@ class MedManageCubit extends Cubit<MedManageStates> {
     required String? phone_num,
     required int user_id,
   }) {
-    emit(SecretariaProfLoadingState());
+    emit(SecretariaProfEditLoadingState());
     DioHelperG.postDataG(
             url: 'updateSecretary',
             data: {
@@ -354,6 +354,7 @@ class MedManageCubit extends Cubit<MedManageStates> {
       updateSecretariaModel = UpdateSecretariaModel.fromJson(value.data);
       print(updateSecretariaModel.success);
       emit(SecretariaProfEditSuccssesState());
+      viewSecretaria(user_id: user_id);
     }).catchError((error) {
       print(error.toString());
       emit(SecretariaProfEditErrorState());
@@ -389,6 +390,7 @@ class MedManageCubit extends Cubit<MedManageStates> {
       // print(registerSecretariaModel.token);
       // print(registerSecretariaModel.role);
       emit(SecretariaRegisterSuccssesState());
+      indexSecretariaList();
     }).catchError((error) {
       print(error.toString());
       emit(SecretariaRegisterErrorState());

@@ -1,15 +1,15 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../cubit/cubit.dart';
-import '../cubit/states.dart';
-import '../models/secretaria/index_secretaria_model.dart';
-import '../modules/register_secretaria/register_secretaria_screen.dart';
-import '../modules/secretaria_profile/secretaria_profile-screen.dart';
-import '../styles/colors/colors.dart';
-import 'component.dart';
-import 'custome_image.dart';
+import '../../../core/utils/app_assets.dart';
+import '../../../cubit/cubit.dart';
+import '../../../cubit/states.dart';
+import '../../../models/secretaria/index_secretaria_model.dart';
+import '../../secretaria_profile/secretaria_profile-screen.dart';
+import '../../../widgets/component.dart';
+import '../../../widgets/custome_image.dart';
 
 class SecretariaListViewItem extends StatelessWidget {
 
@@ -34,7 +34,107 @@ class SecretariaListViewItem extends StatelessWidget {
         return ConditionalBuilder(
           condition: state is! IndexSecretariaListLoadingState,
           builder: (context) => model.secretary.isNotEmpty ?
-          ListView.separated(
+          Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: GridView.builder(
+              physics: const BouncingScrollPhysics(),
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              itemBuilder: (context, index) => Padding(
+                padding: EdgeInsetsDirectional.only(
+                  start: 3.w,
+                  end: 3.w,
+                  top: 3.h,
+                  bottom: 3.h,
+                ),
+                child: GestureDetector(
+                  onTap: () {
+                    MedManageCubit.get(context).viewSecretaria(
+                      user_id: model.secretary[index < 0 ? 0 : index].userId,
+                    );
+                    navigateTo(context, SecretariaProfile(index: index < 0 ? 0 : index,),);
+                  },
+                  child: Material(
+                    shadowColor: Colors.grey.shade50,
+                    elevation: 5.0,
+                    borderRadius: BorderRadiusDirectional.all(Radius.circular(10.r)),
+                    color: Colors.white,
+                    child: Container(
+                      height: 60.h,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadiusDirectional.all(Radius.circular(10.r)),
+                        border: const Border.fromBorderSide(BorderSide.none),
+                      ),
+                      padding: EdgeInsetsDirectional.only(
+                        start: 6.h,
+                        end: 6.h,
+                        top: 5.h,
+                      ),
+                      child: Align(
+                        alignment: AlignmentDirectional.center,
+                        child: Column(
+                          children: [
+                            CustomeImage(
+                              image: 'assets/images/undraw_Male_avatar_g98d (1).png'/*AppAssets.defaultImage*/,
+                              width: 190.w,
+                              height: 160.h,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            SizedBox(
+                              height: 6.h,
+                            ),
+                            Container(
+                              height: .6.h,
+                              color: Colors.grey.shade500,
+                            ),
+                            SizedBox(
+                              height: 8.w,
+                            ),
+                            Expanded(
+                              child: Text(
+                                '${model.secretary[index].user.firstName} ${model.secretary[index].user.lastName}',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 14.w,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            /*SizedBox(
+                              height: 5.w,
+                            ),*/
+                            Expanded(
+                              child: Text(
+                                model.secretary[index].user.phoneNum,
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 12.w,
+                                    fontWeight: FontWeight.bold
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 5.w,
+                  mainAxisSpacing: 5.h,
+                  childAspectRatio: 3/2,
+                  mainAxisExtent: 230.h
+              ),
+              itemCount: model.secretary.length,
+            ),
+          )
+          /*ListView.separated(
             itemBuilder: (context, index) =>
               GestureDetector(
                 onTap: () {
@@ -120,7 +220,7 @@ class SecretariaListViewItem extends StatelessWidget {
               ),
             separatorBuilder: (context, index) => myDivider(),
             itemCount: model.secretary.length,
-          )
+          )*/
           : Container(
             width: double.infinity,
             padding: const EdgeInsetsDirectional.all(45.0),
@@ -143,37 +243,3 @@ class SecretariaListViewItem extends StatelessWidget {
     );
   }
 }
-
-
-/*Center(
-              child: Container(
-                width: MediaQuery.of(context).size.width * .23,
-                height: MediaQuery.of(context).size.height * .12,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.grey.shade700,
-                    //width: 2,
-                  ),
-                  borderRadius: BorderRadius.circular(350),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  //crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        //MedManageCubit.get(context).IndexPatientsList();
-                        navigateAndReplacement(context, RegisterSecretaria());
-                      },
-                      icon: const Icon(
-                        Icons.add,
-                        color: color5,
-                        size: 60.0,
-                      ),
-                      iconSize: MediaQuery.of(context).size.width * .13,
-                    ),
-                  ],
-                ),
-              ),
-            )*/

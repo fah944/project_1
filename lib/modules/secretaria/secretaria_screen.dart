@@ -5,7 +5,7 @@ import '../../cubit/cubit.dart';
 import '../../cubit/states.dart';
 import '../../styles/colors/colors.dart';
 import '../../widgets/component.dart';
-import '../../widgets/secretaria_list_view_item.dart';
+import 'widgets/secretaria_list_view_item.dart';
 import '../register_secretaria/register_secretaria_screen.dart';
 
 class SecretariaScreen extends StatelessWidget {
@@ -16,13 +16,22 @@ class SecretariaScreen extends StatelessWidget {
     return BlocConsumer<MedManageCubit, MedManageStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        if (state is IndexSecretariaListErrorState) {
+        if (state is IndexSecretariaListLoadingState) {
+          return const Center(child: CircularProgressIndicator());
+        }else if (state is IndexSecretariaListSuccssesState){
+          return SecretariaListViewItem(
+            context,
+            profImage: 'assets/images/default_photo.jpg',
+            model: MedManageCubit.get(context).indexSecretariaModel,
+          );
+        }else if (state is IndexSecretariaListErrorState)
+        {
           return Scaffold(
             // floatingActionButtonLocation:
             //     FloatingActionButtonLocation.miniEndFloat,
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                navigateAndReplacement(context, RegisterSecretaria());
+                navigateTo(context, RegisterSecretaria());
               },
               child: const Icon(
                 Icons.add,
@@ -38,15 +47,9 @@ class SecretariaScreen extends StatelessWidget {
               ),
             ),
           );
-        }
-        if (state is IndexSecretariaListLoadingState) {
-          return const Center(child: CircularProgressIndicator());
-        } else {
-          return SecretariaListViewItem(
-            context,
-            profImage: 'assets/images/default_photo.jpg',
-            model: MedManageCubit.get(context).indexSecretariaModel,
-          );
+        }else
+        {
+          return const Scaffold(body: Center(child: CircularProgressIndicator()));
         }
       },
     );

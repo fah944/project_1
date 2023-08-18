@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../core/widgets/custome_icon.dart';
 import 'component.dart';
 import 'edit_text_field.dart';
 
@@ -7,25 +8,27 @@ class RegisterTextField extends StatelessWidget {
 
   final IconData icon;
   final TextEditingController? controller;
-  final String lableText;
+  final String hintText;
   final TextInputType keyboardType;
   final String? Function(String?)? validator;
   final IconData? suffixIcon;
   final bool? obscureText;
   final Function? onPressed;
   final bool? enabled;
+  final double? suffixSize;
 
   const RegisterTextField({
     super.key,
     required this.icon,
     this.controller,
-    required this.lableText,
+    required this.hintText,
     required this.keyboardType,
     this.validator,
     this.suffixIcon,
     this.obscureText,
     this.onPressed,
     this.enabled,
+    this.suffixSize,
   });
 
   @override
@@ -33,13 +36,13 @@ class RegisterTextField extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        defContainerWithIcon(
+        CustomeIcon(
           icon: icon,
         ),
         Expanded(
           child: EditTextField(
             enabled: enabled,
-            lableText: lableText,
+            hintText: hintText,
             controller: controller,
             keyboardType: keyboardType,
             validator: validator,
@@ -48,6 +51,7 @@ class RegisterTextField extends StatelessWidget {
             onPressed: (){
               onPressed!();
             },
+            suffixSize: suffixSize,
           ),
         ),
       ],
