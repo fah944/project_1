@@ -5,7 +5,6 @@ import 'package:med_manage_app/core/utils/app_assets.dart';
 
 import '../../../cubit/cubit.dart';
 import '../../../cubit/states.dart';
-import '../../../layout/med_manage_layout.dart';
 import '../../../models/secretaria/view_secretaria_model.dart';
 import '../../edit_secretaria_prof/edit_secretaria_prof_screen.dart';
 import '../../../widgets/component.dart';
@@ -13,7 +12,6 @@ import '../../../widgets/custome_image.dart';
 import '../../../widgets/default_text_info.dart';
 
 class SecretariaProfileItem extends StatelessWidget {
-
   final ViewSecretariaModel model;
   final int index;
 
@@ -25,16 +23,15 @@ class SecretariaProfileItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<MedManageCubit,MedManageStates>(
-      listener: (context, state) {
-
-      },
+    return BlocConsumer<MedManageCubit, MedManageStates>(
+      listener: (context, state) {},
       builder: (context, state) {
         MedManageCubit cubit = MedManageCubit.get(context);
         return Scaffold(
           floatingActionButton: FloatingActionButton(
             onPressed: () {
-              navigateTo(context, EditSecretariaProfScreen(index: index, model: model));
+              navigateTo(context,
+                  EditSecretariaProfScreen(index: index, model: model));
             },
             child: const Icon(
               Icons.edit,
@@ -48,7 +45,7 @@ class SecretariaProfileItem extends StatelessWidget {
                 Icons.arrow_back_ios_new,
                 color: Colors.black,
               ),
-              onPressed: (){
+              onPressed: () {
                 cubit.indexSecretariaList();
                 Navigator.pop(context);
               },
@@ -76,14 +73,13 @@ class SecretariaProfileItem extends StatelessWidget {
                   style: TextStyle(
                       color: Colors.grey.shade800,
                       fontSize: 16.h,
-                      fontWeight: FontWeight.w500
-                  ),
+                      fontWeight: FontWeight.w500),
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.025,
                 ),
                 GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     cubit.deleteSecretaria(
                       user_id: model.secretary.userId,
                     );
@@ -91,11 +87,12 @@ class SecretariaProfileItem extends StatelessWidget {
                   },
                   child: Container(
                     width: 160.w,
-                    height: 46.h,
+                    height: 50.h,
                     decoration: BoxDecoration(
                       color: Colors.purple.withOpacity(0.02),
-                      borderRadius: BorderRadiusDirectional.all(Radius.circular(10.r)),
-                      border: Border.all(width: 1,color: Colors.grey.shade200),
+                      borderRadius:
+                          BorderRadiusDirectional.all(Radius.circular(10.r)),
+                      border: Border.all(width: 1, color: Colors.grey.shade200),
                     ),
                     child: Column(
                       children: [

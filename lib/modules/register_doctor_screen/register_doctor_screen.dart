@@ -1,10 +1,8 @@
 import 'dart:developer';
-import 'package:awesome_icons/awesome_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:med_manage_app/modules/register_doctor_screen/widgets/pick_image_widget.dart';
-import '../../core/functions/custome_dialogs.dart';
 import '../../core/functions/custome_snack_bar.dart';
 import '../../core/styles/colors/colors.dart';
 import '../../core/styles/text_styles.dart';
@@ -174,59 +172,59 @@ class RegisterDoctorViewBody extends StatelessWidget {
                       onChanged: (value) =>
                           cubit.registerModel.phoneNum = value,
                     ),
-                    SizedBox(height: screenSize.height * .02),
-                    CustomeTextField(
-                      disableFocusNode: true,
-                      hintText: cubit.specialty ?? 'Specialty ...',
-                      hintStyle: cubit.specialty != null
-                          ? const TextStyle(color: Colors.black)
-                          : null,
-                      iconData: FontAwesomeIcons.stethoscope,
-                      suffixIcon: const Icon(
-                        Icons.expand_more_sharp,
-                        size: 40,
-                        color: defaultColor2,
-                      ),
-                      validator: (value) {
-                        if (cubit.specialty == null) {
-                          return 'required';
-                        }
-                        return null;
-                      },
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10)),
-                              content: SizedBox(
-                                height: screenSize.height * .4,
-                                child: SingleChildScrollView(
-                                  physics: const BouncingScrollPhysics(),
-                                  child: Column(
-                                    children: List.generate(
-                                      cubit.specialties.length,
-                                      (index) => SpecialityDialogButton(
-                                        onTap: () {
-                                          cubit.registerModel.specialty =
-                                              cubit.specialties[index];
-                                          cubit.selectSpecialty(
-                                            specialty: cubit.specialties[index],
-                                          );
-                                          Navigator.pop(context);
-                                        },
-                                        specialty: cubit.specialties[index],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      },
-                    ),
+                    // SizedBox(height: screenSize.height * .02),
+                    // CustomeTextField(
+                    //   disableFocusNode: true,
+                    //   hintText: cubit.specialty ?? 'Specialty ...',
+                    //   hintStyle: cubit.specialty != null
+                    //       ? const TextStyle(color: Colors.black)
+                    //       : null,
+                    //   iconData: FontAwesomeIcons.stethoscope,
+                    //   suffixIcon: const Icon(
+                    //     Icons.expand_more_sharp,
+                    //     size: 40,
+                    //     color: defaultColor2,
+                    //   ),
+                    //   validator: (value) {
+                    //     if (cubit.specialty == null) {
+                    //       return 'required';
+                    //     }
+                    //     return null;
+                    //   },
+                    //   onTap: () {
+                    //     showDialog(
+                    //       context: context,
+                    //       builder: (context) {
+                    //         return AlertDialog(
+                    //           shape: RoundedRectangleBorder(
+                    //               borderRadius: BorderRadius.circular(10)),
+                    //           content: SizedBox(
+                    //             height: screenSize.height * .4,
+                    //             child: SingleChildScrollView(
+                    //               physics: const BouncingScrollPhysics(),
+                    //               child: Column(
+                    //                 children: List.generate(
+                    //                   cubit.specialties.length,
+                    //                   (index) => SpecialityDialogButton(
+                    //                     onTap: () {
+                    //                       cubit.registerModel.specialty =
+                    //                           cubit.specialties[index];
+                    //                       cubit.selectSpecialty(
+                    //                         specialty: cubit.specialties[index],
+                    //                       );
+                    //                       Navigator.pop(context);
+                    //                     },
+                    //                     specialty: cubit.specialties[index],
+                    //                   ),
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //           ),
+                    //         );
+                    //       },
+                    //     );
+                    //   },
+                    // ),
                     SizedBox(height: screenSize.height * .02),
                     CustomeTextField(
                       disableFocusNode: true,
@@ -244,7 +242,7 @@ class RegisterDoctorViewBody extends StatelessWidget {
                         color: defaultColor2,
                       ),
                       validator: (value) {
-                        if (cubit.specialty == null) {
+                        if (cubit.department == null) {
                           return 'required';
                         }
                         return null;

@@ -247,6 +247,7 @@ class RegisterDoctorCubit extends Cubit<RegisterDoctorStates> {
                         onTap: () {
                           registerModel.departmentName =
                               departments[index].name;
+                          registerModel.specialty = departments[index].name;
                           selectDepartment(
                             department: departments[index].name,
                           );

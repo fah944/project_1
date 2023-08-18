@@ -48,10 +48,11 @@ class MedManageApp extends StatelessWidget {
 
             themeMode: ThemeMode.light,
 
-            home: CacheHelper.getData(key: 'Token') == null
-                ? const LoginView()
-                : const MedManageLayout(),
-            // Do
+            home: const LoginView(),
+            // CacheHelper.getData(key: 'Token') == null
+            //     ? const LoginView()
+            //     : const MedManageLayout(),
+
             routes: AppRouter.router,
           );
         },
