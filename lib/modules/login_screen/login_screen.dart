@@ -11,7 +11,6 @@ import '../../core/widgets/custome_image.dart';
 import '../../core/widgets/custome_progress_indicator.dart';
 import '../../core/widgets/custome_text_field.dart';
 import '../../main.dart';
-import '../doctors_screen/doctors_screen.dart';
 import 'manager/login_cubit.dart';
 import 'manager/login_states.dart';
 
@@ -65,10 +64,13 @@ class LoginViewBody extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(width: screenSize.width),
             CustomeImage(
               image: AppAssets.adminImage,
-              width: screenSize.width,
+              fit: BoxFit.contain,
+              width: screenSize.width * .9,
               height: screenSize.height * .3,
+              color: Colors.transparent,
             ),
             SizedBox(height: screenSize.height * .02),
             Text(

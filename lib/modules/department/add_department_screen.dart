@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:med_manage_app/constant.dart';
 import 'package:med_manage_app/core/functions/custome_snack_bar.dart';
 import 'package:med_manage_app/cubit/cubit.dart';
 import 'package:med_manage_app/cubit/states.dart';
@@ -96,14 +95,34 @@ class AddDepartmentScreen extends StatelessWidget {
                               child: Stack(
                                 alignment: AlignmentDirectional.topEnd,
                                 children: [
+                                  // SizedBox(
+                                  //   width: double.infinity,
+                                  //   height: 170.0,
+                                  //   child: departmentImage == null
+                                  //       ? Image(
+                                  //           image: NetworkImage(
+                                  //               'http://$ipAddress:8000/upload/${model!.Department![index].img}',
+                                  //               scale: 10.0),
+                                  //         )
+                                  //       : Image.file(
+                                  //           File('$departmentImage').absolute,
+                                  //           fit: BoxFit.cover,
+                                  //         ),
+                                  // ),
                                   SizedBox(
                                     width: double.infinity,
                                     height: 170.0,
                                     child: departmentImage == null
-                                        ? Image(
-                                            image: NetworkImage(
-                                                'http://$ipAddress:8000/upload/${model!.Department![index].img}',
-                                                scale: 10.0),
+                                        ? const Center(
+                                            child: Text(
+                                              'Please Select Image',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 25,
+                                              ),
+                                            ),
                                           )
                                         : Image.file(
                                             File('$departmentImage').absolute,
