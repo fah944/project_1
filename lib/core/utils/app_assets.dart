@@ -5,4 +5,5 @@ abstract class AppAssets {
   static const cameraImage = 'assets/images/camera.png';
   static const galleryImage = 'assets/images/picture.png';
   static const stethoscope = 'assets/images/stethoscope_image2.png';
+  static const defaultImagePurple = 'assets/images/default_image_purple.jpg';
 }

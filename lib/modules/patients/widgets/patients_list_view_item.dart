@@ -1,14 +1,15 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../cubit/cubit.dart';
-import '../cubit/states.dart';
-import '../models/patient/index_patient_model.dart';
-import '../modules/patient_profile/patient_profile_screen.dart';
-import '../styles/colors/colors.dart';
-import 'component.dart';
-import 'custome_image.dart';
+import '../../../core/utils/app_assets.dart';
+import '../../../cubit/cubit.dart';
+import '../../../cubit/states.dart';
+import '../../../models/patient/index_patient_model.dart';
+import '../../patient_profile/patient_profile_screen.dart';
+import '../../../widgets/component.dart';
+import '../../../widgets/custome_image.dart';
 
 class PatientsListViewItem extends StatelessWidget {
   final String? profImage;
@@ -29,7 +30,107 @@ class PatientsListViewItem extends StatelessWidget {
         return ConditionalBuilder(
             condition: state is! IndexPatientListLoadingState,
             builder: (context) => model.patient.isNotEmpty
-                ? ListView.separated(
+            ? Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: GridView.builder(
+                physics: const BouncingScrollPhysics(),
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemBuilder: (context, index) => Padding(
+                  padding: EdgeInsetsDirectional.only(
+                    start: 3.w,
+                    end: 3.w,
+                    top: 3.h,
+                    bottom: 3.h,
+                  ),
+                  child: GestureDetector(
+                    onTap: () {
+                      MedManageCubit.get(context).viewPatient(
+                        user_id: model.patient[index].userId,
+                      );
+                      navigateTo(context, const PatientProfileScreen());
+                    },
+                    child: Material(
+                      shadowColor: Colors.grey.shade50,
+                      elevation: 5.0,
+                      borderRadius: BorderRadiusDirectional.all(Radius.circular(10.r)),
+                      color: Colors.white,
+                      child: Container(
+                        height: 60.h,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadiusDirectional.all(Radius.circular(10.r)),
+                          border: const Border.fromBorderSide(BorderSide.none),
+                        ),
+                        padding: EdgeInsetsDirectional.only(
+                          start: 6.h,
+                          end: 6.h,
+                          top: 5.h,
+                        ),
+                        child: Align(
+                          alignment: AlignmentDirectional.center,
+                          child: Column(
+                            children: [
+                              CustomeImage(
+                                image: 'assets/images/undraw_Female_avatar_efig (1).png'/*AppAssets.defaultImage*/,
+                                width: 190.w,
+                                height: 160.h,
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              SizedBox(
+                                height: 6.h,
+                              ),
+                              Container(
+                                height: .6.h,
+                                color: Colors.grey.shade500,
+                              ),
+                              SizedBox(
+                                height: 8.w,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  '${model.patient[index].user.firstName} ${model.patient[index].user.lastName}',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14.w,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              /*SizedBox(
+                              height: 5.w,
+                            ),*/
+                              Expanded(
+                                child: Text(
+                                  model.patient[index].user.phoneNum,
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 12.w,
+                                      fontWeight: FontWeight.bold
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 5.w,
+                    mainAxisSpacing: 5.h,
+                    childAspectRatio: 3/2,
+                    mainAxisExtent: 230.h
+                ),
+                itemCount: model.patient.length,
+              ),
+            )
+            /*ListView.separated(
                     itemBuilder: (context, index) => GestureDetector(
                       onTap: () {
                         MedManageCubit.get(context).viewPatient(
@@ -118,7 +219,7 @@ class PatientsListViewItem extends StatelessWidget {
                     ),
                     separatorBuilder: (context, index) => myDivider(),
                     itemCount: model.patient.length,
-                  )
+                  )*/
                 : Container(
                     width: double.infinity,
                     padding: const EdgeInsetsDirectional.all(45.0),

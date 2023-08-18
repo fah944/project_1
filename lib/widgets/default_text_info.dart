@@ -25,22 +25,24 @@ class DefaultTextInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        defContainerWithIcon(
-          icon: icon,
+        Icon(
+          icon,
+          color: defaultColor,
+          size: 30.0,
         ),
         Padding(
            padding: const EdgeInsetsDirectional.only(
              start: 14.0,
            ),
-           child: Column(
+           child: Row(
              crossAxisAlignment: CrossAxisAlignment.start,
             children: [
                Text(
                 caption,
                 style: const TextStyle(
-                  color: color5,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w500,
+                  color: Colors.black,
+                  fontSize: 16.0,
+                  //fontWeight: FontWeight.w500,
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -51,9 +53,9 @@ class DefaultTextInfo extends StatelessWidget {
               Text(
                 text,
                 style: TextStyle(
-                  color: Colors.grey[600],
-                  fontSize: 15.0,
-                  fontWeight: FontWeight.w400,
+                  color: Colors.black,
+                  fontSize: 16.0,
+                  //fontWeight: FontWeight.w400,
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
