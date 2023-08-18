@@ -55,7 +55,7 @@ class RegisterDoctorResponse {
     return RegisterDoctorResponse(
       token: jsonData['token'],
       role: jsonData['role'],
-      userID: jsonData['doctor']['user_id'],
+      userID: jsonData['user']['id'],
       doctorID: jsonData['doctor']['id'],
     );
   }
