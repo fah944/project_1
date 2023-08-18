@@ -13,10 +13,9 @@ import '../../../widgets/custome_image.dart';
 import '../../../widgets/default_text_info.dart';
 
 class PatientProfileItem extends StatelessWidget {
-
   final ViewPatientModel? model;
   final int? index;
-  PatientProfileItem({
+  const PatientProfileItem({
     super.key,
     required this.model,
     this.index,
@@ -24,10 +23,8 @@ class PatientProfileItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<MedManageCubit,MedManageStates>(
-      listener: (context, state) {
-
-      },
+    return BlocConsumer<MedManageCubit, MedManageStates>(
+      listener: (context, state) {},
       builder: (context, state) {
         MedManageCubit cubit = MedManageCubit.get(context);
         return Scaffold(
@@ -37,7 +34,7 @@ class PatientProfileItem extends StatelessWidget {
                 Icons.arrow_back_ios_new,
                 color: Colors.black,
               ),
-              onPressed: (){
+              onPressed: () {
                 cubit.indexPatientsList();
                 navigateAndReplacement(context, const MedManageLayout());
               },
@@ -65,14 +62,13 @@ class PatientProfileItem extends StatelessWidget {
                   style: TextStyle(
                       color: Colors.grey.shade800,
                       fontSize: 16.h,
-                      fontWeight: FontWeight.w500
-                  ),
+                      fontWeight: FontWeight.w500),
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.025,
                 ),
                 GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     cubit.deleteSecretaria(
                       user_id: model!.patient.userId,
                     );
@@ -80,11 +76,12 @@ class PatientProfileItem extends StatelessWidget {
                   },
                   child: Container(
                     width: 160.w,
-                    height: 46.h,
+                    height: 50.h,
                     decoration: BoxDecoration(
                       color: Colors.purple.withOpacity(0.02),
-                      borderRadius: BorderRadiusDirectional.all(Radius.circular(10.r)),
-                      border: Border.all(width: 1,color: Colors.grey.shade200),
+                      borderRadius:
+                          BorderRadiusDirectional.all(Radius.circular(10.r)),
+                      border: Border.all(width: 1, color: Colors.grey.shade200),
                     ),
                     child: Column(
                       children: [
