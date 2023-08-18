@@ -163,6 +163,14 @@ class RegisterDoctorViewBody extends StatelessWidget {
                       keyboardType: TextInputType.phone,
                       hintText: 'Phone ...',
                       iconData: Icons.phone,
+                      validator: (value) {
+                        if (value?.isEmpty ?? true) {
+                          return 'required';
+                        } else if (value!.length < 10) {
+                          return 'At least 10 characters';
+                        }
+                        return null;
+                      },
                       onChanged: (value) =>
                           cubit.registerModel.phoneNum = value,
                     ),
