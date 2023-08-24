@@ -21,7 +21,7 @@ class SecretariaScreen extends StatelessWidget {
         }else if (state is IndexSecretariaListSuccssesState){
           return SecretariaListViewItem(
             context,
-            profImage: 'assets/images/default_photo.jpg',
+            profImage: 'assets/images/undraw_Female_avatar_efig.png',
             model: MedManageCubit.get(context).indexSecretariaModel,
           );
         }else if (state is IndexSecretariaListErrorState)

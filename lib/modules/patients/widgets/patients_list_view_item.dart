@@ -71,7 +71,7 @@ class PatientsListViewItem extends StatelessWidget {
                           child: Column(
                             children: [
                               CustomeImage(
-                                image: 'assets/images/undraw_Female_avatar_efig (1).png'/*AppAssets.defaultImage*/,
+                                image: 'assets/images/undraw_Male_avatar_g98d.png'/*AppAssets.defaultImage*/,
                                 width: 190.w,
                                 height: 160.h,
                                 borderRadius: BorderRadius.circular(15),
@@ -103,7 +103,7 @@ class PatientsListViewItem extends StatelessWidget {
                             ),*/
                               Expanded(
                                 child: Text(
-                                  model.patient[index].user.phoneNum,
+                                   model.patient[index].user.phoneNum,
                                   style: TextStyle(
                                       color: Colors.grey,
                                       fontSize: 12.w,
