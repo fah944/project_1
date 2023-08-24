@@ -18,7 +18,7 @@ class PatientsScreen extends StatelessWidget {
         }else if (state is IndexPatientListSuccssesState) {
           return PatientsListViewItem(
             context,
-            profImage: 'assets/images/default_photo.jpg',
+            profImage: 'assets/images/undraw_Male_avatar_g98d.png',
             model: MedManageCubit.get(context).indexPatientModel,
           );
         }else  if (state is IndexPatientListErrorState)
