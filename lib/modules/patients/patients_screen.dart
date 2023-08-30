@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:med_manage_app/core/utils/app_assets.dart';
 
 import '../../cubit/cubit.dart';
 import '../../cubit/states.dart';
@@ -18,7 +19,7 @@ class PatientsScreen extends StatelessWidget {
         }else if (state is IndexPatientListSuccssesState) {
           return PatientsListViewItem(
             context,
-            profImage: 'assets/images/undraw_Male_avatar_g98d.png',
+            profImage: AppAssets.paMa,
             model: MedManageCubit.get(context).indexPatientModel,
           );
         }else  if (state is IndexPatientListErrorState)

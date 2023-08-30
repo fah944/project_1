@@ -75,7 +75,7 @@ class SecretariaListViewItem extends StatelessWidget {
                         child: Column(
                           children: [
                             CustomeImage(
-                              image: 'assets/images/undraw_Female_avatar_efig.png'/*AppAssets.defaultImage*/,
+                              image: AppAssets.sec,
                               width: 190.w,
                               height: 160.h,
                               borderRadius: BorderRadius.circular(15),

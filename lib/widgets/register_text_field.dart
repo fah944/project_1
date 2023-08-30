@@ -16,6 +16,7 @@ class RegisterTextField extends StatelessWidget {
   final Function? onPressed;
   final bool? enabled;
   final double? suffixSize;
+  final TextCapitalization? textCapitalization;
 
   const RegisterTextField({
     super.key,
@@ -29,6 +30,7 @@ class RegisterTextField extends StatelessWidget {
     this.onPressed,
     this.enabled,
     this.suffixSize,
+    this.textCapitalization,
   });
 
   @override
@@ -52,6 +54,7 @@ class RegisterTextField extends StatelessWidget {
               onPressed!();
             },
             suffixSize: suffixSize,
+            textCapitalization: textCapitalization ?? TextCapitalization.none,
           ),
         ),
       ],

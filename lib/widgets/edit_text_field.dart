@@ -13,6 +13,7 @@ class EditTextField extends StatelessWidget {
   final Function? onPressed;
   final bool? enabled;
   final double? suffixSize;
+  final TextCapitalization? textCapitalization;
 
   const EditTextField({
     super.key,
@@ -26,6 +27,7 @@ class EditTextField extends StatelessWidget {
     this.onPressed,
     this.enabled,
     this.suffixSize,
+    this.textCapitalization,
   });
 
   @override
@@ -36,6 +38,7 @@ class EditTextField extends StatelessWidget {
         end: 20.0,
       ),
       child: TextFormField(
+        textCapitalization: textCapitalization  ?? TextCapitalization.none,
         enabled: enabled,
         textAlign: TextAlign.start,
         keyboardType: keyboardType,

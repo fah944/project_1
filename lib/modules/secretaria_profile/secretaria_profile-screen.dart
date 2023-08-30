@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:med_manage_app/layout/med_manage_layout.dart';
 
 import '../../cubit/cubit.dart';
 import '../../cubit/states.dart';
 import '../../models/secretaria/index_secretaria_model.dart';
 import '../../styles/colors/colors.dart';
+import '../../widgets/component.dart';
 import 'widgets/secretaria_profile_item.dart';
 
 class SecretariaProfile extends StatelessWidget {
@@ -43,7 +45,8 @@ class SecretariaProfile extends StatelessWidget {
                 ),
                 onPressed: (){
                   cubit.indexSecretariaList();
-                  Navigator.pop(context);
+                  //Navigator.pop(context);
+                  navigateTo(context, MedManageLayout(),);
                 },
               ),
             ),

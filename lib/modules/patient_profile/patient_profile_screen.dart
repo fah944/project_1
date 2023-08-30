@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../core/utils/app_assets.dart';
 import '../../cubit/cubit.dart';
 import '../../cubit/states.dart';
 import '../../models/patient/index_patient_model.dart';
@@ -13,11 +14,13 @@ class PatientProfileScreen extends StatelessWidget {
 
   final IndexPatientModel? model;
   final int? index;
+  final String? profImage;
 
   const PatientProfileScreen({
     super.key,
     this.model,
     this.index,
+    this.profImage,
   });
 
   @override
@@ -33,7 +36,10 @@ class PatientProfileScreen extends StatelessWidget {
           return const Scaffold(body: Center(child: CircularProgressIndicator()));
         }else if(state is PatientProfSuccssesState)
         {
-          return PatientProfileItem(model: cubit.viewPatientModel, index: index);
+          return PatientProfileItem(
+            model: cubit.viewPatientModel,
+            index: index,
+            profImage: profImage!,);
         }else if(state is PatientProfErrorState)
         {
           return Scaffold(

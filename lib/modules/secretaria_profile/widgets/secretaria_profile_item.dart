@@ -63,7 +63,7 @@ class SecretariaProfileItem extends StatelessWidget {
                   borderRadius: BorderRadius.circular(50.h),
                   height: 100.h,
                   width: 100.h,
-                  image: AppAssets.defaultImagePurple,
+                  image: AppAssets.sec,
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.035,
@@ -135,7 +135,7 @@ class SecretariaProfileItem extends StatelessWidget {
                 DefaultTextInfo(
                   caption: 'Department name: ',
                   text: model.department.name,
-                  icon: Icons.business_sharp,
+                  icon: Icons.account_tree_rounded,
                 ),
               ],
             ),

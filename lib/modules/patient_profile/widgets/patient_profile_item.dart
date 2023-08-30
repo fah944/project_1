@@ -15,10 +15,13 @@ import '../../../widgets/default_text_info.dart';
 class PatientProfileItem extends StatelessWidget {
   final ViewPatientModel? model;
   final int? index;
+  final String? profImage;
+
   const PatientProfileItem({
     super.key,
     required this.model,
     this.index,
+    this.profImage,
   });
 
   @override
@@ -52,7 +55,7 @@ class PatientProfileItem extends StatelessWidget {
                   borderRadius: BorderRadius.circular(50.h),
                   height: 100.h,
                   width: 100.h,
-                  image: AppAssets.defaultImagePurple,
+                  image: profImage!,
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.035,
@@ -106,7 +109,7 @@ class PatientProfileItem extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.05,
                 ),
                 DefaultTextInfo(
-                  caption: 'Address',
+                  caption: 'Address: ',
                   text: model!.patient.address,
                   icon: Icons.location_on,
                 ),
@@ -114,7 +117,7 @@ class PatientProfileItem extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.025,
                 ),
                 DefaultTextInfo(
-                  caption: 'Email',
+                  caption: 'Email: ',
                   text: model!.patient.user.email,
                   icon: Icons.mail,
                 ),
@@ -122,7 +125,7 @@ class PatientProfileItem extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.025,
                 ),
                 DefaultTextInfo(
-                  caption: 'Phone number',
+                  caption: 'Phone number: ',
                   text: model!.patient.user.phoneNum,
                   icon: Icons.call,
                 ),
@@ -130,7 +133,7 @@ class PatientProfileItem extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.025,
                 ),
                 DefaultTextInfo(
-                  caption: 'Date of birth',
+                  caption: 'Date of birth: ',
                   text: model!.patient.birthDate,
                   icon: Icons.cake,
                 ),
@@ -138,7 +141,7 @@ class PatientProfileItem extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.025,
                 ),
                 DefaultTextInfo(
-                  caption: 'Gender',
+                  caption: 'Gender: ',
                   text: model!.patient.gender,
                   icon: CupertinoIcons.person_2_fill,
                 ),
