@@ -111,7 +111,7 @@ class PatientsListViewItem extends StatelessWidget {
                             ),*/
                               Expanded(
                                 child: Text(
-                                  model.patient[index].user.phoneNum,
+                                   model.patient[index].user.phoneNum,
                                   style: TextStyle(
                                       color: Colors.grey,
                                       fontSize: 12.w,
