@@ -48,7 +48,12 @@ class PatientsListViewItem extends StatelessWidget {
                       MedManageCubit.get(context).viewPatient(
                         user_id: model.patient[index].userId,
                       );
-                      navigateTo(context, const PatientProfileScreen());
+                      navigateTo(context, PatientProfileScreen(
+                        profImage: model.patient[index].gender == 'Male' ? AppAssets.paMa
+                            : model.patient[index].gender == 'male' ? AppAssets.paMa
+                            : model.patient[index].gender == 'Female' ? AppAssets.paFe
+                            : model.patient[index].gender == 'female' ? AppAssets.paFe : profImage!,
+                      ));
                     },
                     child: Material(
                       shadowColor: Colors.grey.shade50,
@@ -71,7 +76,10 @@ class PatientsListViewItem extends StatelessWidget {
                           child: Column(
                             children: [
                               CustomeImage(
-                                image: 'assets/images/undraw_Female_avatar_efig (1).png'/*AppAssets.defaultImage*/,
+                                image: model.patient[index].gender == 'Male' ? AppAssets.paMa
+                                    : model.patient[index].gender == 'male' ? AppAssets.paMa
+                                    : model.patient[index].gender == 'Female' ? AppAssets.paFe
+                                    : model.patient[index].gender == 'female' ? AppAssets.paFe : profImage!,
                                 width: 190.w,
                                 height: 160.h,
                                 borderRadius: BorderRadius.circular(15),

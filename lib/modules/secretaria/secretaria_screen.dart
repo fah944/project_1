@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../cubit/cubit.dart';
 import '../../cubit/states.dart';
-import '../../styles/colors/colors.dart';
 import '../../widgets/component.dart';
 import 'widgets/secretaria_list_view_item.dart';
 import '../register_secretaria/register_secretaria_screen.dart';
@@ -40,7 +39,7 @@ class SecretariaScreen extends StatelessWidget {
             ),
             body: const Center(
               child: Text(
-                'There is some thing error',
+                'No secretary to show',
                 style: TextStyle(
                   fontWeight: FontWeight.w400,
                 ),

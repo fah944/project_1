@@ -6,4 +6,7 @@ abstract class AppAssets {
   static const galleryImage = 'assets/images/picture.png';
   static const stethoscope = 'assets/images/stethoscope_image2.png';
   static const defaultImagePurple = 'assets/images/default_image_purple.jpg';
+  static const sec = 'assets/images/sec1.png';
+  static const paMa = 'assets/images/pama.png';
+  static const paFe = 'assets/images/pafe.png';
 }

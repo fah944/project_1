@@ -91,8 +91,8 @@ class MedManageCubit extends Cubit<MedManageStates> {
     }
   }
 
-  IconData suffixIcon = Icons.visibility;
-  bool isPassShow = false;
+  IconData suffixIcon = Icons.visibility_off;
+  bool isPassShow = true;
 
   void changePassVisibility() {
     isPassShow = !isPassShow;

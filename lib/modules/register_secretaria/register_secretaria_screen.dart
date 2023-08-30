@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../core/functions/custome_snack_bar.dart';
+import '../../core/utils/app_assets.dart';
 import '../../cubit/cubit.dart';
 import '../../cubit/states.dart';
 import '../../layout/med_manage_layout.dart';
@@ -73,17 +74,17 @@ class RegisterSecretaria extends StatelessWidget {
               body: ConditionalBuilder(
                   condition: state is! SecretariaRegisterLoadingState,
                   builder: (context) => Padding(
-                    padding: const EdgeInsetsDirectional.all(10.0),
+                    padding: EdgeInsetsDirectional.all(10.h),
                     child: SingleChildScrollView(
                       child: Form(
                         key: formKey,
                         child: Padding(
-                          padding: const EdgeInsetsDirectional.only(top: 10.0),
+                          padding: EdgeInsetsDirectional.only(top: 30.h),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               AddImage(
-                                image: 'assets/images/undraw_Male_avatar_g98d (1).png',
+                                image: AppAssets.sec,
                                 width: MediaQuery.of(context).size.height * .2,
                                 height: MediaQuery.of(context).size.height * .2,
                                 borderRadius: BorderRadius.circular(40),
@@ -96,6 +97,7 @@ class RegisterSecretaria extends StatelessWidget {
                                 icon: Icons.person,
                                 controller: firstName,
                                 keyboardType: TextInputType.text,
+                                textCapitalization: TextCapitalization.sentences,
                               ),
                               SizedBox(
                                 height: MediaQuery.of(context).size.height * .03,
@@ -105,6 +107,7 @@ class RegisterSecretaria extends StatelessWidget {
                                 icon: Icons.person,
                                 controller: lastName,
                                 keyboardType: TextInputType.name,
+                                textCapitalization: TextCapitalization.sentences,
                               ),
                               SizedBox(
                                 height: MediaQuery.of(context).size.height * .03,
@@ -192,7 +195,7 @@ class RegisterSecretaria extends StatelessWidget {
                                 },
                                 child: RegisterTextField(
                                   hintText: 'Department...',
-                                  icon: Icons.business_rounded,
+                                  icon: Icons.account_tree_rounded,
                                   controller: department,
                                   keyboardType: TextInputType.text,
                                   enabled: false,

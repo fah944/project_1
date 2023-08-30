@@ -1,157 +1,11 @@
-/*import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../core/functions/custome_snack_bar.dart';
-import '../../../cubit/cubit.dart';
-import '../../../cubit/states.dart';
-import '../../../models/secretaria/index_secretaria_model.dart';
-import '../../../models/secretaria/view_secretaria_model.dart';
-import '../../../styles/colors/colors.dart';
-import '../../../widgets/add_image.dart';
-import '../../../widgets/component.dart';
-import '../../../widgets/edit_text_field.dart';
-import '../../secretaria_profile/secretaria_profile-screen.dart';
-
-class EditSecretariaProfItem extends StatelessWidget {
-
-  final ViewSecretariaModel model;
-  //final IndexSecretariaModel? modelIn;
-  final int index;
-  var formKey = GlobalKey<FormState>();
-
-  EditSecretariaProfItem({
-    super.key,
-    required this.model,
-    //required this.modelIn,
-    required this.index,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    var firstName = TextEditingController(text: model.secretary.user.firstName);
-    var lastName = TextEditingController(text: model.secretary.user.lastName);
-    var phoneNum = TextEditingController(text: model.secretary.user.phoneNum);
-    var dep = TextEditingController(text: 'bone');
-    return BlocConsumer<MedManageCubit,MedManageStates>(
-      listener: (context, state)
-      {
-
-      },
-      builder: (context, state)
-      {
-
-        return Scaffold(
-          backgroundColor: Colors.white,
-          appBar: AppBar(
-            leadingWidth: 100.0,
-            leading: TextButton(
-              child: const Text(
-                'Cancel',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              onPressed: (){
-                navigateAndReplacement(context, SecretariaProfile(index: index,));
-              },
-            ),
-            actions: [
-              TextButton(
-                child: const Text(
-                  'Save',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                onPressed: (){
-                  if(formKey.currentState!.validate()){
-                    MedManageCubit.get(context).updateSecretaria(
-                      first_name: firstName.text,
-                      last_name: lastName.text,
-                      department_name: dep.text,
-                      phone_num: phoneNum.text,
-                      user_id: model.secretary.userId,
-                    );
-                  }
-                },
-              ),
-            ],
-          ),
-          body: SingleChildScrollView(
-            child: Container(
-              padding: const EdgeInsetsDirectional.only(
-                start: 25.0,
-                end: 25.0,
-                top: 20.0,
-                bottom: 10.0,
-              ),
-              width: double.infinity,
-              child: Form(
-                key: formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    AddImage(
-                      image: 'assets/images/undraw_Male_avatar_g98d (1).png',
-                      width: MediaQuery.of(context).size.height * .2,
-                      height: MediaQuery.of(context).size.height * .2,
-                      borderRadius: BorderRadius.circular(40),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * .05,
-                    ),
-                    EditTextField(
-                      hintText: 'First Name',
-                      controller: firstName,
-                      keyboardType: TextInputType.name,
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * .05,
-                    ),
-                    EditTextField(
-                      hintText: 'Last Name',
-                      controller: lastName,
-                      keyboardType: TextInputType.name,
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * .05,
-                    ),
-                    EditTextField(
-                      hintText: 'Phone Number',
-                      controller: phoneNum,
-                      keyboardType: TextInputType.number,
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * .05,
-                    ),
-                    EditTextField(
-                      hintText: 'Department',
-                      //initialValue: 'Dental',
-                      keyboardType: TextInputType.text,
-                      controller: dep,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-}*/
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/functions/custome_snack_bar.dart';
+import '../../../core/utils/app_assets.dart';
 import '../../../cubit/cubit.dart';
 import '../../../cubit/states.dart';
-import '../../../models/secretaria/index_secretaria_model.dart';
 import '../../../models/secretaria/view_secretaria_model.dart';
 import '../../secretaria_profile/secretaria_profile-screen.dart';
 import '../../../styles/colors/colors.dart';
@@ -279,7 +133,7 @@ class EditSecretariaProfItem extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         AddImage(
-                          image: 'assets/images/undraw_Male_avatar_g98d (1).png',
+                          image: AppAssets.sec,
                           width: MediaQuery.of(context).size.height * .2,
                           height: MediaQuery.of(context).size.height * .2,
                           borderRadius: BorderRadius.circular(40),
@@ -291,6 +145,7 @@ class EditSecretariaProfItem extends StatelessWidget {
                           hintText: 'First Name...',
                           controller: firstName,
                           keyboardType: TextInputType.name,
+                          textCapitalization: TextCapitalization.sentences,
                         ),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * .05,
@@ -299,6 +154,7 @@ class EditSecretariaProfItem extends StatelessWidget {
                           hintText: 'Last Name...',
                           controller: lastName,
                           keyboardType: TextInputType.name,
+                          textCapitalization: TextCapitalization.sentences,
                         ),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * .05,
